@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: cardano-metabus-txsubmitter
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}

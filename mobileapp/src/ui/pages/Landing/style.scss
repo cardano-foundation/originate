@@ -1,0 +1,53 @@
+.header {
+  --background: #fff;
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1D439B;
+  color: #fff;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 28px;
+  color: #030321;
+}
+
+.main-content {
+  --padding-top: 10px;
+  .wrap-list {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  ion-grid {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.hideBg {
+  display: none;
+}
+
+.hide {
+  display: none;
+}
+.wrap-button {
+  padding: 15px 30px 30px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}

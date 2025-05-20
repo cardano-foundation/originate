@@ -1,0 +1,68 @@
+# custom configs
+metabus:
+  jobDefaultRetryCount: 5
+  security:
+    endpointAuthorizations:
+      - { urlPattern: "/api/v1/jobs/**", roles: [ "BOLNISI_APPLICATION", "ADMIN" ] }
+    jobTypeAuthorizations:
+      - { roles: [ "BOLNISI_APPLICATION" ], allowedJobTypes: ["scm:georgianWine", "conformityCert:georgianWine", "conformityCertRevoke:georgianWine"] }
+  webclients:
+    - { beanName: "jobProducerWebClient", baseUrl: "http://localhost:8099/api/v1", headers: { } }
+
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_HOST:http://localhost:8881}/realms/Metabus/protocol/openid-connect/certs
+          issuer-uri: ${KEYCLOAK_HOST:http://localhost:8881}/realms/Metabus
+          jws-algorithms: RS256
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:54324/state_storage?reWriteBatchedInserts=true&currentSchema=public
+    username: proofoforiginadmin
+    password: bolnisiDoNotUseInProduction
+    driver-class-name: org.postgresql.Driver
+  # JPA specific configs
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.batch_size: 1000
+        default_schema: public
+        show_sql: true
+        format_sql: true
+        order_inserts: true
+        order_updates: true
+        hbm2ddl:
+          auto: update
+  ## Flyway config
+  flyway:
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    group: true
+    sql-migration-prefix: V
+    sql-migration-separator: __
+    sql-migration-suffixes: .sql
+    locations: db/migration
+
+# monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+    enabled-by-default: true
+  endpoint:
+    health:
+      show-details: always
+
+
+server:
+  port: 8082

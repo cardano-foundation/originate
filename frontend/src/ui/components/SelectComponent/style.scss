@@ -1,0 +1,48 @@
+
+.MuiBox-root {
+  color: #030321;
+  font-size: 16px;
+  line-height: 35px;
+}
+.menu-content {
+  height: 150px;
+}
+#lable-select-winery {
+  font-size: 12px;
+  font-weight: 500;
+  color: #363C4A;
+  padding-right: 5px;
+  background-color: #F6F6F6;
+}
+.MuiMenu-list {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.Mui-selected {
+  background-color: #DDE3F0 !important;
+}
+.MuiMenuItem-root {
+  border-bottom: 1px solid #CCCCCC !important;
+  &:last-child {
+    border-bottom: none !important;
+  }
+}
+.MuiInputLabel-root {
+  transform: translate(16px, -9px) scale(0.95) !important;
+}
+
+.MuiMenu-paper {
+  box-shadow: 0px 0px 10px 0px #03032133;
+  border: 1px solid #CCCCCC;
+  margin-top: 10px !important;
+}
+.MuiOutlinedInput-root {
+  font-weight: 500 !important;
+}
+
+@media screen and (max-width: 650px) {
+  .select-container {
+    width: 100%;
+    min-width: unset !important;
+  }
+}

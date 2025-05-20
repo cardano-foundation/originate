@@ -1,0 +1,67 @@
+
+.box-select-language {
+    position: relative;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 2px 6px;
+    width: 58px;
+    height: 32px;
+    display: flex;
+  }
+
+.select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .language {
+    display: flex;
+    margin-right: 5px;
+  }
+
+  .selected {
+    margin-left: 10px;
+    color: #030321;
+    font-weight: 500;
+    font-size: 16px;
+  }
+}
+
+.modal-select {
+  --width: 90%;
+  --height: fit-content;
+  --border-radius: 6px;
+  --box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
+  --backdrop-opacity: var(--ion-backdrop-opacity, 0);
+  top: -56vh;
+}
+
+.list-item {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.item-lang {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  --inner-padding-end: 0px;
+  --padding-start: 0px;
+  padding: 10px 20px;
+  width: 100%;
+  border-bottom: 1px solid #cccccc;
+
+  .flag {
+    display: flex;
+    align-items: center;
+    flex: 1;
+
+    .label {
+      margin-left: 10px;
+    }
+  }
+
+  .checkbox {
+    --checkmark-color: #fff !important;
+  }
+}

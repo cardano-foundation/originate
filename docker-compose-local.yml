@@ -1,0 +1,357 @@
+# This needs to be updated to get integration tests running again
+
+version: "3.9"
+
+services:
+  metabus-cardano-node:
+    image: "${CARDANO_NODE_IMAGE_NAME}:${CARDANO_NODE_IMAGE_TAG}"
+    container_name: metabus-cardano-node
+    environment:
+      - NETWORK=${CARDANO_NODE_NETWORK}
+      - CARDANO_NODE_SOCKET_PATH=/ipc/node.socket
+      - RESTORE_SNAPSHOT=false
+    volumes:
+      - metabus-cardano-node-db:/data/db
+      - metabus-cardano-node-ipc:/ipc
+    networks:
+      - metabus-network
+    restart: always
+    ports:
+      - "${CARDANO_NODE_LOCAL_BIND_PORT}:${CARDANO_NODE_EXPOSED_PORT}"
+
+  state-storage:
+    image: "${STATE_DB_IMAGE_NAME}:${STATE_DB_IMAGE_TAG}"
+    container_name: state-storage
+    ports:
+      - "${STATE_DB_LOCAL_BIND_PORT}:${STATE_DB_EXPOSED_PORT}"
+    environment:
+      POSTGRES_PASSWORD: "${STATE_DB_USER_SECRET}"
+      POSTGRES_USER: "${STATE_DB_USER_NAME}"
+      POSTGRES_DB: "${STATE_DB_NAME}"
+    volumes:
+      - statestoragedata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d 'user=${STATE_DB_USER_NAME} dbname=${STATE_DB_NAME}'" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - metabus-network
+
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:5.1.2
+    restart: always
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: "2181"
+      ZOOKEEPER_TICK_TIME: "2000"
+      ZOOKEEPER_SERVERS: "zookeeper:22888:23888"
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_log:/var/lib/zookeeper/log
+    ports:
+      - "2181:2181"
+    networks:
+      - metabus-network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.0.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_BROKER_ID: 1
+      KAFKA_BROKER_RACK: "r1"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_SCHEMA_REGISTRY_URL: "schemaregistry:8085"
+      KAFKA_JMX_PORT: 9991
+    networks:
+      - metabus-network
+
+  init-kafka:
+    image: confluentinc/cp-kafka:7.0.0
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic ${TOPIC_RETRY_JOB} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic ${TOPIC_SCHEDULE_JOB} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic ${TOPIC_DEAD_LETTER} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic ${TOPIC_CONFIRMING_TRANSACTION} --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic ${TOPIC_CONFIRMING_TRANSACTION_DLQ} --replication-factor 1 --partitions 1 --config cleanup.policy=compact --config min.cleanable.dirty.ratio=0.001 --config segment.ms=5000
+      "
+    networks:
+      - metabus-network
+
+  schemaregistry:
+    container_name: schemaregistry
+    image: confluentinc/cp-schema-registry:5.1.2
+    restart: always
+    depends_on:
+      - zookeeper
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zookeeper:2181"
+      SCHEMA_REGISTRY_HOST_NAME: schemaregistry
+      SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8085"
+    ports:
+      - "8085:8085"
+    networks:
+      - metabus-network
+
+  kafdrop:
+    container_name: kafdrop
+    image: obsidiandynamics/kafdrop
+    restart: "no"
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka:9092"
+    depends_on:
+      - kafka
+    networks:
+      - metabus-network
+
+  metabus-jobproducer:
+    build:
+      context: ../
+      dockerfile: metabus/cardano-metabus-jobproducer/Dockerfile
+    container_name: metabus-jobproducer
+    networks:
+      - metabus-network
+    environment:
+      - STATE_DB_HOST=state-storage
+      - STATE_DB_EXPOSED_PORT=5432
+      - JOB_PRODUCER_SERVER_PORT=8081
+      - KAFKA_BOOTSTRAP_SERVER=kafka:9092
+      - JOB_PRODUCER_LOG=TRACE
+      - SPRING_PROFILES_ACTIVE=dev
+      - TOPIC_CONFIRMING_DELAY_DURATIONS=10000
+      - METABUS_RETRY_CONFIRMING_TRANSACTION_DELAY_TIME=5000
+    ports:
+      - "8071:8071"
+    links:
+      - kafka
+
+  metabus-txsubmitter:
+    build:
+      context: ../
+      dockerfile: metabus/cardano-metabus-txsubmitter/Dockerfile
+    container_name: metabus-txsubmitter
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: "kafka:9092"
+      CARDANO_NODE_SOCKET_PATH: "./ipc/node.socket"
+      SPRING_PROFILES_ACTIVE: "dev"
+      STATE_DB_HOST: "state-storage"
+      STATE_DB_EXPOSED_PORT: "5432"
+      METABUS_TXSUBMITTER_PORT: "8088"
+      METABUS_TXSUBMITTER_LOG: "TRACE"
+      METABUS_TXSUBMITTER_WALLET_MNEMONIC: "kit color frog trick speak employ suit sort bomb goddess jewel primary spoil fade person useless measure manage warfare reduce few scrub beyond era"
+      METABUS_TXSUBMITTER_METADATUM_LABEL: "1904"
+      METABUS_TXSUBMITTER_FIXED_TX_OUT: "1000000"
+      METABUS_TXSUBMITTER_PENDING_JOB_BOUNDARY_TIME: "6000"
+      METABUS_TXSUBMITTER_CONSUME_BASE_ON_TIME_INTERVAL: "6000"
+      TASK_SCHEDULER_POOL_SIZE: "1"
+      TASK_SCHEDULER_THREAD_POOL_NAME: "txSubmitterPool"
+      TASK_SCHEDULER_THREAD_PREFIX_NAME: "txSubmitterThread-"
+      METABUS_TXSUBMITTER_NUMBER_OF_ADDRESSES: "10"
+      METABUS_TXSUBMITTER_WAITING_TIME_TO_RECONSUME: "30000"
+      METABUS_TXSUBMITTER_OFFCHAIN_HOST: "http://metabus-offchain-storage:8080"
+      METABUS_TXSUBMITTER_OFFCHAIN_BUCKET: "georgian-wine"
+      METABUS_TXSUBMITTER_TX_SUBMISSION_RETRY_DELAY_DURATION: 500
+      TOPIC_CONFIRMING_TRANSACTION_RETRY_COUNT_FOR_UNEXPECTED_ERROR: -1
+    networks:
+      - metabus-network
+    links:
+      - metabus-cardano-node
+      - state-storage
+    volumes:
+      - metabus-cardano-node-ipc:/ipc
+#      - ./cardano-metabus-txsubmitter/ipc/:/ipc
+
+  pg4keycloak:
+    container_name: "${PG4KEYCLOAK_CONTAINER_NAME}"
+    image: "${PG4KEYCLOAK_IMAGE_NAME}:${PG4KEYCLOAK_IMAGE_TAG}"
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "${PG4KEYCLOAK_USER}"
+      POSTGRES_PASSWORD: "${PG4KEYCLOAK_PASSWORD}"
+      POSTGRES_DB: "${PG4KEYCLOAK_DATABASE}"
+    ports:
+      - "${PG4KEYCLOAK_LOCAL_BIND_PORT}:${PG4KEYCLOAK_EXPOSED_PORT}"
+    volumes:
+      - pg4keycloak-data:/var/lib/postgresql/data
+    networks:
+      - metabus-network
+
+  keycloak:
+    container_name: "${KEYCLOAK_CONTAINER_NAME}"
+    image: "${KEYCLOAK_IMAGE_NAME}:${KEYCLOAK_IMAGE_TAG}"
+    environment:
+
+      KC_DB: "${KEYCLOAK_DB_VENDOR}"
+      KC_DB_URL: "jdbc:postgresql://${PG4KEYCLOAK_CONTAINER_NAME}:${PG4KEYCLOAK_EXPOSED_PORT}/${PG4KEYCLOAK_DATABASE}"
+      KC_DB_USERNAME: "${PG4KEYCLOAK_USER}"
+      KC_DB_PASSWORD: "${PG4KEYCLOAK_PASSWORD}"
+
+      KEYCLOAK_ADMIN: "${KEYCLOAK_KEYCLOAK_USER}"
+      KEYCLOAK_ADMIN_PASSWORD: "${KEYCLOAK_KEYCLOAK_PASSWORD}"
+      MOBILE_APP_KEYCLOAK_REDIRECT_URI: "${MOBILE_APP_KEYCLOAK_REDIRECT_URI}"
+
+      FRONTEND_DOMAIN_PUBLIC_URL: "${FRONTEND_DOMAIN_PUBLIC_URL}"
+      FRONTEND_LOGIN_PATH: "${FRONTEND_LOGIN_PATH}"
+
+    ports:
+      - "${KEYCLOAK_EXPOSED_PORT}:${KEYCLOAK_EXPOSED_PORT}"
+      - "${KEYCLOAK_LOCAL_BIND_PORT}:${KEYCLOAK_EXPOSED_PORT}"
+      - "${KEYCLOAK_LOCAL_BIND_DEBUG_PORT}:${KEYCLOAK_EXPOSED_DEBUG_PORT}"
+    command:
+      - "${KEYCLOAK_START_TYPE}"
+      - --import-realm
+    volumes:
+      - ./keycloak-setup/imports/bolnisi-realm-export.json:/opt/keycloak/data/import/bolnisi-realm-export.json
+      - ./keycloak-setup/imports/metabus-realm-export.json:/opt/keycloak/data/import/metabus-realm-export.json
+      - ./keycloak-setup/themes:/opt/keycloak/themes
+    depends_on:
+      - pg4keycloak
+    networks:
+      - metabus-network
+    restart: unless-stopped
+
+  metabus-api:
+    container_name: metabus-api
+    build:
+      context: ../
+      dockerfile: metabus/cardano-metabus-api/Dockerfile
+      args:
+        progress: plain
+    ports:
+      - "8084:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: "dev"
+      STATE_DB_HOST: "state-storage"
+      STATE_DB_EXPOSED_PORT: "5432"
+      STATE_DB_USER_NAME: "proofoforiginadmin"
+      STATE_DB_USER_SECRET: "bolnisiDoNotUseInProduction"
+      STATE_DB_NAME: "state_storage"
+      KEYCLOAK_HOST: "https://poo-keycloak-dev.sotatek.works"
+      METABUS_API_EXPOSED_PORT: "8080"
+      METABUS_API_JOB_PRODUCER_HOST: "http://metabus-jobproducer:8071"
+      METABUS_JOB_DEFAULT_RETRY_COUNT: 5
+    depends_on:
+      state-storage:
+        condition: service_healthy
+    restart: always
+    networks:
+      - metabus-network
+
+  metabus-offchain-storage:
+    container_name: "metabus-offchain-storage"
+    build:
+      context: ../
+      dockerfile: metabus/cardano-metabus-offchain-storage/Dockerfile
+      args:
+        progress: plain
+    ports:
+      - "8061:8080"
+    environment:
+      METABUS_OFFCHAIN_EXPOSED_PORT: "8080"
+      METABUS_OFFCHAIN_MINIO_ENDPOINT: "http://minio"
+      METABUS_OFFCHAIN_MINIO_ENDPOINT_PORT: "9000"
+      METABUS_OFFCHAIN_MINIO_PUBLIC_ENDPOINT: "http://127.0.0.1"
+      MINIO_ACCESS_KEY: "cardano-admin"
+      MINIO_SECRET_KEY: "Cardano@12345"
+      METABUS_OFFCHAIN_MINIO_SECURE: "false"
+      METABUS_OFFCHAIN_MINIO_BUCKET_NAME: "commons"
+      METABUS_OFFCHAIN_MINIO_IMAGE_SIZE: "10485760"
+      METABUS_OFFCHAIN_MINIO_FILE_SIZE: "1073741824"
+      METABUS_OFFCHAIN_OBJECT_URL_EXPIRY: "2"
+    depends_on:
+      - minio
+    restart: always
+    networks:
+      - metabus-network
+
+  minio:
+    image: "minio/minio"
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: "cardano-admin"
+      MINIO_ROOT_PASSWORD: "Cardano@12345"
+    volumes:
+      - minio_storage:/data
+    ports:
+      - "9300:9000"
+      - "9310:9001"
+    command: server --console-address ":9001" /data
+    networks:
+      - metabus-network
+
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: "rabbitmq:3.12.0-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - ./rabbitmq-setup/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbitmq-setup/definitions.json:/etc/rabbitmq/definitions.json:ro
+    networks:
+      - metabus-network
+
+  metabus-txwatcher:
+    build:
+      context: ../
+      dockerfile: metabus/cardano-metabus-txwatcher/Dockerfile
+    container_name: metabus-txwatcher
+    environment:
+      SPRING_PROFILES_ACTIVE: "dev"
+      STATE_DB_HOST: "state-storage"
+      STATE_DB_EXPOSED_PORT: "5432"
+      STATE_DB_NAME: "state_storage"
+      STATE_DB_USER_NAME: "proofoforiginadmin"
+      STATE_DB_USER_SECRET: "bolnisiDoNotUseInProduction"
+      RABBITMQ_IMAGE_NAME: "rabbitmq"
+      RABBITMQ_USER_NAME: "guest"
+      RABBITMQ_PASSWORD: "guest"
+      RABBITMQ_LOCAL_EXPOSE_PORT: "5672"
+      KAFKA_BOOTSTRAP_SERVER: "kafka:9092"
+      LEDGERSYNC_CRAWLER_BLOCKS_TOPIC: "local.crawler.blocks"
+      TX_WATCHER_ROLLBACK_THRESHOLD: "1"
+      TX_WATCHER_SERVER_PORT: "8089"
+      TX_WATCHER_DELAY_RECONSUME_DURATION: 3000
+    depends_on:
+      state-storage:
+        condition: service_healthy
+    #    restart: always
+    networks:
+      - metabus-network
+
+networks:
+  metabus-network:
+    name: metabus
+
+volumes:
+  metabus-cardano-node-db:
+  metabus-cardano-node-ipc:
+  pg4keycloak-data:
+  statestoragedata:
+  kafka-data:
+  minio_storage:
+  zookeeper_data:
+  zookeeper_log:
+  rabbitmq_data:

@@ -1,0 +1,28 @@
+{
+  "business_data": {
+    "type": "conformityCert:georgianWine",
+    "data": {
+      "date": "1",
+      "company_name": "4",
+      "country": "1",
+      "address": "1",
+      "certificate_type": "1",
+      "lot_entries": [
+        {
+          "laboratory": "77",
+          "wine_name": "1",
+          "wine_type": "fewew",
+          "nominate": "1",
+          "type": "1",
+          "quantity": "string",
+          "bottle_volume": "1",
+          "total_volume": "300",
+          "price_per_bottle": "null"
+        }
+      ]
+    },
+    "signature": "eyJraWQiOiI3MmNjNGY2NC1iMjgxLTQwOGItODQwNC05OWY5YmRkZTg5MTkiLCJhbGciOiJFZERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9.J-AzQJmYmaoycSY5yolWVsOdUFJDFti3qKvSYA-6JwtYPDHEogUnicexG0weEf_Q1dijAeU1kNaC6PW_VDSbDAERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9",
+    "pub_key": "string"
+  },
+  "group_type": "SINGLE_GROUP"
+}

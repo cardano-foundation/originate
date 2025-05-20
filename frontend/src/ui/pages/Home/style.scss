@@ -1,0 +1,119 @@
+.box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.box-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-left: 10px;
+  .btn-view-bottle {
+    background-color: #FFFFFF;
+    height: 52px;
+    border-radius: 30px;
+    color: #030321;
+    padding: 5px 25px;
+    border: 1px solid #cccccc;
+    font-size: 16px;
+    text-transform: none;
+  }
+  .btn-view-bottle:hover {
+    border: 1px solid #cccccc;
+    background-color: #fafafa;
+    opacity: 0.8;
+  }
+  .btn-upload-csv {
+    height: 52px;
+    border-radius: 30px;
+    padding: 5px 25px;
+    background-color: #1d439b;
+    color: #fff;
+    font-size: 16px;
+    text-transform: none;
+  }
+
+  .btn-view-bottle-mobile {
+    background-color: #FFFFFF;
+    height: 52px;
+    width: 52px;
+    min-width: unset !important;
+    border-radius: 30px;
+    color: #030321;
+    border: 1px solid #cccccc;
+    .MuiButton-endIcon {
+      margin: unset !important;
+    }
+  }
+
+  .btn-upload-csv-mobile {
+    background-color: #1d439b;
+    height: 52px;
+    width: 52px;
+    min-width: unset !important;
+    border-radius: 30px;
+    color: #030321;
+    border: 1px solid #cccccc;
+    .MuiButton-endIcon {
+      margin: unset !important;
+    }
+  }
+  .box-avatar {
+    margin-left: 25px;
+    width: 52px;
+    height: 52px;
+    background-color: #999999;
+    &:hover {
+        cursor: pointer;
+    }
+  }
+}
+
+.box-select-acion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.winery-content-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-bottom: 20px;
+  .box-avatar {
+    margin-left: 25px;
+    width: 52px;
+    height: 52px;
+    background-color: #999999;
+    &:hover {
+        cursor: pointer;
+    }
+  }
+}
+
+.winery-action-bulk-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  .winery-content-avatar {
+    margin-bottom: unset;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .box-select-acion {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .box-right {
+    margin-left: unset;
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "code": "500",
+    "message": "Error when creating job",
+    "internal_message": "Error when pushing job to kafka"
+  }
+}

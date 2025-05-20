@@ -1,0 +1,14 @@
+# custom configs
+metabus:
+  webclients:
+    - { beanName: "jobProducerWebClient", baseUrl: "http://localhost:8081/api/v1", headers: { } }
+
+  security:
+    endpointAuthorizations:
+      - { urlPattern: "/api/v1/jobs/**", roles: [ "BOLNISI_APPLICATION", "ADMIN" ] }
+    jobTypeAuthorizations:
+      - { roles: [ "BOLNISI_APPLICATION", "ADMIN" ], allowedJobTypes: [ "bolnisi_cert", "bolnisi_lot" ] }
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration

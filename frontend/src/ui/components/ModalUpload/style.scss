@@ -1,0 +1,21 @@
+.input-upload {
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.drag-drop-container {
+    padding: 15px 0;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 346px;
+    border-radius: 8px;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' opacity='0.5' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%231D439B' stroke-width='3' stroke-dasharray='10' stroke-dashoffset='55' stroke-linecap='square'/%3e%3c/svg%3e");
+}
+
+.btn-close :hover {
+    cursor: pointer;
+}

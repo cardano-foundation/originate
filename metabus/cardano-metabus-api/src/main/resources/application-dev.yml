@@ -1,0 +1,62 @@
+# custom configs
+metabus:
+  jobDefaultRetryCount: ${METABUS_JOB_DEFAULT_RETRY_COUNT:5}
+  webclients:
+    - { beanName: "jobProducerWebClient", baseUrl: "${METABUS_API_JOB_PRODUCER_HOST:http://localhost:8071}/api/v1", headers: { } }
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}/realms/Metabus/protocol/openid-connect/certs
+          issuer-uri: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}/realms/Metabus
+          jws-algorithms: RS256
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://${STATE_DB_HOST:localhost}:${STATE_DB_EXPOSED_PORT:54324}/${STATE_DB_NAME:state_storage}?reWriteBatchedInserts=true&currentSchema=public
+    username: ${STATE_DB_USER_NAME:proofoforiginadmin}
+    password: ${STATE_DB_USER_SECRET:bolnisiDoNotUseInProduction}
+    driver-class-name: org.postgresql.Driver
+  # JPA specific configs
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.batch_size: 1000
+        default_schema: public
+        show_sql: true
+        format_sql: true
+        order_inserts: true
+        order_updates: true
+        hbm2ddl:
+          auto: update
+  ## Flyway config
+  flyway:
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    group: true
+    sql-migration-prefix: V
+    sql-migration-separator: __
+    sql-migration-suffixes: .sql
+    locations: db/migration
+    mixed: true
+
+# monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+    enabled-by-default: true
+  endpoint:
+    health:
+      show-details: always
+
+
+server:
+  port: ${METABUS_API_EXPOSED_PORT:8080}

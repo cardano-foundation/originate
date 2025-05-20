@@ -1,0 +1,18 @@
+.button-back {
+  ion-button {
+    width: 45px;
+    height: 45px;
+    --background: #e1e1e1;
+    --background-hover: #bdbdbd;
+    --background-activated: #bdbdbd;
+    --background-focused: #bdbdbd;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    --padding-down: 0;
+  }
+
+  ion-thumbnail {
+    --size: 21px;
+  }
+}

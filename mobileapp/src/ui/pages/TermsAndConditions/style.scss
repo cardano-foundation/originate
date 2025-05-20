@@ -1,0 +1,165 @@
+.page {
+  overflow: auto;
+  background: #F6F6F6;
+  .wrap-content {
+    border-radius: 8px;
+    border: 1px solid rgba(187, 187, 187, 0.73);
+    background: #FFF;
+    width: 90%;
+    top: 20px;
+    align-self: center;
+    &::part(background) {
+      border-radius: 8px;
+    }
+  }
+
+  .header {
+    padding: 0 0px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+    margin-top: 78px;
+    background: #F6F6F6;
+  }
+
+  ion-header {
+    margin-top: 60px;
+  }
+
+  ion-button {
+    font-weight: 500;
+  }
+
+  ion-page {
+    padding: 0px 20px 20px 0px;
+  } 
+
+  ion-content {
+    scrollbar-width: 10px;
+    border-radius: 8px;
+  }
+
+  .content {
+    padding: 0px 12px 0px 12px;
+    box-shadow: 4px 50px 50px 50px rgba(194, 194, 194, 0) inset;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      background-color: red;
+      width: 100px;
+    }
+  }
+
+  .wrap-checkbox {
+    margin-bottom: 20px;
+
+    .text-agree {
+      font-weight: 500;
+      font-size: 16px;
+      color: #363C4A;
+    }
+  }
+
+  ion-checkbox {
+    --size: 25px;
+    --checkbox-background-checked: #1D439B;
+    --background-checked: #DDE3F0;
+    --checkmark-color: #1D439B;
+    --border-color: #ccc;
+    --border-color-checked: #1D439B;
+    margin-right: 10px;
+    margin-top: 15px;
+  }
+
+  ion-checkbox::part(container) {
+    border-radius: 6px;
+    margin-top: 7px;
+  }
+
+  .button-continue {
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    width: 90%;
+    margin-top: 20px;
+    height: 52px;
+    font-weight: 700;
+  }
+
+  .button-continue-outline {
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    width: 90%;
+    margin-top: 20px;
+    height: 52px;
+    font-weight: 600;
+    background-color: #D9D9D9;
+    border-radius: 30px;
+    color: #363C4A;
+    --border-color: #D9D9D9;
+  }
+
+  .footer {
+    width: 100vw;
+    text-align: center;
+    padding: 0px 0px 20px;
+    z-index: 10;
+    padding: 30px 0px 20px;
+
+  }
+
+  .shadow {
+    box-shadow: 0px -48px 60px 18px rgba(255, 255, 255, 0.75);
+    -webkit-box-shadow: 0px -48px 60px 18px rgba(255, 255, 255, 0.75);
+    -moz-box-shadow: 0px -48px 60px 18px rgba(255, 255, 255, 0.75);
+    width: 100vw;
+    text-align: center;
+    padding: 30px 0px 20px;
+    z-index: 10;
+  }
+
+  .button-signout {
+    width: 80%;
+    align-self: center;
+    text-decoration: underline;
+    color: #363C4A;
+    margin-bottom: 6%;
+    font-weight: 500;
+  }
+
+  .title {
+    font-weight: 500;
+    font-size: auto ;
+    --padding-right: 10px;
+    font-style: normal;
+  }
+
+
+  .button-language {
+    margin-right: 15px;
+    margin-left: 77vw;
+    margin-bottom: 4px;
+  }
+
+  p {
+    font-size: 18px;
+    color: #363C4A;
+    font-style: normal;
+  }
+
+  .number-term {
+    font-weight: 700;
+  }
+
+  .txt-link-privacy {
+    color: #1D439B;
+    text-decoration: underline;
+  }
+
+  li {
+    margin: 5px 0;
+  }
+
+  .header-text-terms {
+    margin-top: 10px;
+  }
+}

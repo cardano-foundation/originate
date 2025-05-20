@@ -1,0 +1,111 @@
+# custom configs:
+cardano-metabus-txsubmitter:
+  connection:
+    socket:
+      path: ${user.dir}/ipc/node.socket
+  network: preprod
+  wallet:
+    mnemonic: kit color frog trick speak employ suit sort bomb goddess jewel primary spoil fade person useless measure manage warfare reduce few scrub beyond era
+  metadatumLabel: 1904
+  metadataVersion: v1
+  txOut: 1000000 #lovelace
+  batchConsumptionBoundaryTime: 6000 # milliseconds
+  consumeBaseOnTimeInterval: 6000 # milliseconds
+  numberOfDerivedAddresses: 10
+  waitingTimeToReConsume: 30000
+  numberOfRetryPullingUtxo: 1
+  offchainBucket: georgian-wine
+  txSubmissionRetryDelayDuration: 500 # milliseconds
+  webclients:
+    - { beanName: "offchainStorageWebClient", baseUrl: "http://localhost:8061", headers: { } }
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:54324/state_storage?reWriteBatchedInserts=true&currentSchema=public
+    username: proofoforiginadmin
+    password: bolnisiDoNotUseInProduction
+    driver-class-name: org.postgresql.Driver
+  # JPA specific configs
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.batch_size: 1000
+        default_schema: public
+        show_sql: false
+        format_sql: true
+        order_inserts: true
+        order_updates: true
+  task:
+    scheduling:
+      pool:
+        size: 1
+        threadGroupName: txSubmitterPool
+        threadPrefixName: txSubmitterThread-
+
+kafka:
+  auto-create-topics: false
+  admin:
+    bootstrapServers: localhost:9093
+  topics:
+    jobRetry:
+      name: test.job.retry
+      partitions: 1
+      replicationFactor: 1
+
+    jobSchedule:
+      name: test.job.schedule
+      partitions: 1
+      replicationFactor: 1
+
+    confirmingTransaction:
+      name: test.transaction.confirming
+      partitions: 1
+      replicationFactor: 1
+      configs:
+        retryCountForUnexpectedError: -1 # -1 is mean Long.maxValue for infinite retry.
+
+    deadLetter:
+      name: test.job.dead.letter
+      partitions: 1
+      replicationFactor: 1
+
+  producers:
+    json-producer:
+      clientId: json-producer
+      retries: 3
+      bootstrapServers: localhost:9093
+      maxInFlightRequestsPerConnection: 1
+      requestTimeoutMs: 30000
+      batchSize: 16384
+      lingerMs: 5
+      bufferMemory: 33554432
+      acks: all
+      enableIdempotence: true
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: org.springframework.kafka.support.serializer.JsonSerializer
+  consumers:
+    json-consumer:
+      clientId: json-consumer
+      bootstrapServers: localhost:9093
+      keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+      valueDeserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      autoOffsetReset: earliest
+      enableAutoCommit: false
+      autoCommitIntervalMs: 1000
+      sessionTimeoutMs: 30000
+      trustedPackages: "*"
+      allowAutoCreateTopics: false
+      groupId: txsubmitter
+      concurrency: 1
+      pollTimeout: 3600000
+
+logging:
+  level:
+    com.sotatek: ${LOG:TRACE}
+
+server:
+  port: ${METABUS_TXSUBMITTER_PORT:8088}

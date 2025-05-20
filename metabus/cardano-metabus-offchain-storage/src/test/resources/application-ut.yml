@@ -1,0 +1,14 @@
+server:
+  port: ${METABUS_OFFCHAIN_EXPOSED_PORT:8061}
+
+minio:
+  endpoint: http://127.0.0.1
+  port: ${METABUS_OFFCHAIN_MINIO_ENDPOINT_PORT:9300}
+  publicEndpoint: ${METABUS_OFFCHAIN_MINIO_PUBLIC_ENDPOINT:http://127.0.0.1}
+  accessKey: ${MINIO_ACCESS_KEY:cardano-admin}
+  secretKey: ${MINIO_SECRET_KEY:Cardano@12345}
+  secure: ${METABUS_OFFCHAIN_MINIO_SECURE:false}
+  bucket-name: ${METABUS_OFFCHAIN_MINIO_BUCKET_NAME:commons}
+  image-size: ${METABUS_OFFCHAIN_MINIO_IMAGE_SIZE:10485760} # Maximum size of picture files
+  file-size: ${METABUS_OFFCHAIN_MINIO_FILE_SIZE:1073741824} # Maximum size of other files
+  object-url-expiry: ${METABUS_OFFCHAIN_OBJECT_URL_EXPIRY:2} # In minutes

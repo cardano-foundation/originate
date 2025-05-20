@@ -1,0 +1,13 @@
+# custom configs
+metabus:
+  security:
+    endpointAuthorizations:
+      - { urlPattern: "/api/v1/jobs/**", roles: [ "BOLNISI_APPLICATION", "ADMIN" ] }
+    jobTypeAuthorizations:
+      - { roles: [ "BOLNISI_APPLICATION", "ADMIN" ], allowedJobTypes: ["scm:georgianWine", "conformityCert:georgianWine", "conformityCertRevoke:georgianWine"] }
+
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}

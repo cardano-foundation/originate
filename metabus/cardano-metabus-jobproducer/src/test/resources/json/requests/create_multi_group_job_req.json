@@ -1,0 +1,32 @@
+{
+  "id": 1,
+  "state": "PENDING",
+  "businessData": {
+    "type": "scm:georgianWine",
+    "subType": "georgianWine",
+    "data": {
+      "total_bottle": 1000,
+      "harvest_date": "21/10/2022",
+      "harvest_location": "bolnisi",
+      "laboratory": "string",
+      "wineName": "string",
+      "wineType": "string",
+      "nominate": "string",
+      "type": "string",
+      "quantity": "string",
+      "bottleVolume": "string",
+      "totalVolume": "string",
+      "pricePerBottle": "string"
+    },
+    "signature": [39, -32, 51, 64, -103, -104, -103, -86, 50, 113, 38, 57, -54, -119, 86,
+    86, -61, -99, 80, 82, 67, 22, -40, -73, -88, -85, -46, 96, 15, -70, 39, 11, 88, 60, 49, -60, -94, 5, 39,
+    -119, -57, -79, 27, 76, 30, 17, -1, -48, -43, -40, -93, 1, -27, 53, -112, -42, -126, -24, -11, -65, 84, 52,
+    -101, 12],
+    "jwsHeader": [123, 34, 107, 105, 100, 34, 58, 34, 55, 50, 99, 99, 52, 102, 54,
+      52, 45, 98, 50, 56, 49, 45, 52, 48, 56, 98, 45, 56, 52, 48, 52, 45, 57, 57, 102, 57, 98, 100, 100, 101, 56,
+      57, 49, 57, 34, 44, 34, 97, 108, 103, 34, 58, 34, 69, 100, 68, 83, 65, 34, 125],
+    "pubKey": "https://wine.gov.ge/.well-known/4527/publickey"
+  },
+  "groupType": "MULTI_GROUP",
+  "group": "3"
+}

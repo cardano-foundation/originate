@@ -1,0 +1,23 @@
+{
+  "business_data": {
+    "type": "scm:georgianWine",
+    "data": {
+      "total_bottle": 1000,
+      "harvest_date": "21/10/2022",
+      "harvest_location": "bolnisi",
+      "laboratory": "string",
+      "wineName": "string",
+      "wineType": "string",
+      "nominate": "string",
+      "type": "string",
+      "quantity": "string",
+      "bottleVolume": "string",
+      "totalVolume": "string",
+      "pricePerBottle": "string"
+    },
+    "signature": "eyJraWQiOiI3MmNjNGY2NC1iMjgxLTQwOGItODQwNC05OWY5YmRkZTg5MTkiLCJhbGciOiJFZERTQSJ9.J-AzQJmYmaoycSY5yolWVsOdUFJDFti3qKvSYA-6JwtYPDHEogUnicexG0weEf_Q1dijAeU1kNaC6PW_VDSbDA",
+    "pub_key": "https://wine.gov.ge/.well-known/4527/publickey"
+  },
+  "group_type": "MULTI_GROUP",
+  "group": "3"
+}

@@ -1,0 +1,1049 @@
+{
+	"info": {
+		"_postman_id": "3c9e830c-6296-4a0b-97a4-9f9266bd2997",
+		"name": "Bolnisi API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "21501013"
+	},
+	"item": [
+		{
+			"name": "Get Access token",
+			"item": [
+				{
+					"name": "Get winery token: Mobile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"// pm.collectionVariables.set (\"access_token\", jsonData.access_token);\r",
+									"pm.environment.set(\"access_token_winery_role_mobile\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "fergal@winery.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Password1!",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "mobile-scan-app",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{url_keycloak}}realms/BolnisiPilotApplication/protocol/openid-connect/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Get winery token: Frontend",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"// pm.collectionVariables.set (\"access_token\", jsonData.access_token);\r",
+									"pm.environment.set(\"access_token_winery_role_fe\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "fergal@winery.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Password1!",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "frontend_dashboard",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{url_keycloak}}realms/BolnisiPilotApplication/protocol/openid-connect/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Get NWA token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"// pm.collectionVariables.set (\"access_token\", jsonData.access_token);\r",
+									"pm.environment.set(\"access_token_nwa_role\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "nwa_certificate",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "Fxq87CtrsAzAjFbagV0WZfskibkufkPz",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile address",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{url_keycloak}}realms/BolnisiPilotApplication/protocol/openid-connect/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Get admin token: Frontend",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"// pm.collectionVariables.set (\"access_token\", jsonData.access_token);\r",
+									"pm.environment.set(\"access_token_Admin_role\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "root@admin.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Password1!",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "frontend_dashboard",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{url_keycloak}}realms/BolnisiPilotApplication/protocol/openid-connect/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Get data provider token: Frontend",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"// pm.collectionVariables.set (\"access_token\", jsonData.access_token);\r",
+									"pm.environment.set(\"access_token_DP_role\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "root@dp.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Password1!",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "frontend_dashboard",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{url_keycloak}}realms/BolnisiPilotApplication/protocol/openid-connect/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Bolnisi application token (for Metabus)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"// pm.collectionVariables.set (\"access_token\", jsonData.access_token);",
+									"pm.environment.set(\"access_token_Bolnisi_backend\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "BOLNISI_PILOT_APPLICATION",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "Zm5GjDk2lApJnnCWtVX2zQ8sZ6d3h1Fv",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{url_keycloak}}/realms/Metabus/protocol/openid-connect/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Accept terms of use",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_winery_role_mobile}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "{{bolnisi-api}}/user/terms/accept"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create winery (NWA)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_nwa_role}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"b\",\n    \"email\": \"b@winery.com\",\n    \"rsCode\": \"code-in0nwa\"\n}"
+						},
+						"url": "{{bolnisi-api}}/user/winery"
+					},
+					"response": []
+				},
+				{
+					"name": "Create data provider",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_Admin_role}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2OTA4NTgxMTksImlhdCI6MTY5MDg1NjMxOSwianRpIjoiMTEyY2I0MTUtNGVlOS00Yjc4LWFhMDQtOWIzZGJkZDY5M2EzIiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiMTUwZTA5NzgtZjM3My00OGU2LWE4ZTktNDUzMDZhZGYyYmFiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibW9iaWxlLXNjYW4tYXBwIiwic2Vzc2lvbl9zdGF0ZSI6Ijc4YTlmMTI2LWZmNzQtNDBkOS05NjMwLTQyNDgyMGY4NTFjNCIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJBRE1JTiJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiNzhhOWYxMjYtZmY3NC00MGQ5LTk2MzAtNDI0ODIwZjg1MWM0IiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImxvY2FsZSI6ImVuIiwiZ2l2ZW5fbmFtZSI6IiIsImZhbWlseV9uYW1lIjoiIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.nwJRNCEHWBxTontggJGPbBBa8nIoop8-nCXUc-gJenpvu6wXG_ZsjHrB_V6W1y4WbWoP1Mf5AGVG2JKwl-FoV3bp5VHUf-NPUHclSeFv_iBHhFKab_jBDNRNFCbGp0q_iRjiekh2LWIdkRu1apX-YNlIC8e3w8QZYLi6HoAo8vhv4ayg0snORWed8-iTb8K7tO9xPHAbN1u7PC2rYF_H1VbtQgQKSjeZGdlwNP5P9J9LgjIGBoS9bM2VvZIysWHdLi_aAKxSbD3NBsc3-4vezfD-X1aE6w3hrcLt7D4GfqbM0mxf-YyJIB3l_BxA3A1f1VdShubTvj7C6KCVxkyORA"
+							},
+							{
+								"key": "Cookie",
+								"value": "XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"dp2\",\n    \"email\": \"root@dp2.com\"\n}"
+						},
+						"url": "{{bolnisi-api}}/user/dataprovider"
+					},
+					"response": []
+				},
+				{
+					"name": "Create admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_Admin_role}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2OTA4NTgxMTksImlhdCI6MTY5MDg1NjMxOSwianRpIjoiMTEyY2I0MTUtNGVlOS00Yjc4LWFhMDQtOWIzZGJkZDY5M2EzIiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiMTUwZTA5NzgtZjM3My00OGU2LWE4ZTktNDUzMDZhZGYyYmFiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibW9iaWxlLXNjYW4tYXBwIiwic2Vzc2lvbl9zdGF0ZSI6Ijc4YTlmMTI2LWZmNzQtNDBkOS05NjMwLTQyNDgyMGY4NTFjNCIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJBRE1JTiJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiNzhhOWYxMjYtZmY3NC00MGQ5LTk2MzAtNDI0ODIwZjg1MWM0IiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImxvY2FsZSI6ImVuIiwiZ2l2ZW5fbmFtZSI6IiIsImZhbWlseV9uYW1lIjoiIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.nwJRNCEHWBxTontggJGPbBBa8nIoop8-nCXUc-gJenpvu6wXG_ZsjHrB_V6W1y4WbWoP1Mf5AGVG2JKwl-FoV3bp5VHUf-NPUHclSeFv_iBHhFKab_jBDNRNFCbGp0q_iRjiekh2LWIdkRu1apX-YNlIC8e3w8QZYLi6HoAo8vhv4ayg0snORWed8-iTb8K7tO9xPHAbN1u7PC2rYF_H1VbtQgQKSjeZGdlwNP5P9J9LgjIGBoS9bM2VvZIysWHdLi_aAKxSbD3NBsc3-4vezfD-X1aE6w3hrcLt7D4GfqbM0mxf-YyJIB3l_BxA3A1f1VdShubTvj7C6KCVxkyORA"
+							},
+							{
+								"key": "Cookie",
+								"value": "XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"admin 2\",\n    \"email\": \"root@admin2.com\"\n}"
+						},
+						"url": "{{bolnisi-api}}/user/admin"
+					},
+					"response": []
+				},
+				{
+					"name": "Update winery (NWA)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_nwa_role}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2ODg3MDMwNzksImlhdCI6MTY4ODcwMTI3OSwianRpIjoiNzMzNGNiMTAtYTk3NS00NGFkLTliODMtYTI1YjVjNzdjMTM2IiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiYWNkZjg2MjAtOTM4NC00NzMyLWIwOGYtOTIwNDY0NjRkNzQ4IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZnJvbnRlbmRfZGFzaGJvYXJkIiwic2Vzc2lvbl9zdGF0ZSI6Ijg4OGU2MGU2LTQzODktNGQxZC1hZGMzLTkzZjk2OGNhMWVhZCIsImFsbG93ZWQtb3JpZ2lucyI6WyIiLCIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJBRE1JTiJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiODg4ZTYwZTYtNDM4OS00ZDFkLWFkYzMtOTNmOTY4Y2ExZWFkIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3RAeW9wbWFpbC5jb20iLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InRlc3RAeW9wbWFpbC5jb20ifQ.hNO3osfnR-b3lOW9CrPlqpdx-kRB2p48jVzgO97-2LjoG_Q9tnk282h8oKhVBFuoKaBBEo8NJ5rIdWoAlQMx5ow4202yEMikcHXaUcW_93zrH4pWx4mDsfKkZxuHW8I0Rxpm47gDM1k-1hhT1CWzFf3S7MuksofJUN6H8Brbs8LV5UgnqeeJk0l79WVWeL9wR12YlOtu6jsykFiCiAdjO5f2M9Cj-KgOMdHRo9P8TGMOFlqFF-B_KF0fbuyVVj_4c-0_GFiZY6qQFPMOampFX-lEY6IQURlB-a5ocdoDec7u9L6qeRletTxVWYkzaxgG5ChpX2yCqFDEI7wx6U-Nww"
+							},
+							{
+								"key": "Cookie",
+								"value": "XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rsCode\": \"xyz\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{bolnisi-api}}/user/winery/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all wineries (admin/DP)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_Admin_role}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2ODg3MDMwNzksImlhdCI6MTY4ODcwMTI3OSwianRpIjoiNzMzNGNiMTAtYTk3NS00NGFkLTliODMtYTI1YjVjNzdjMTM2IiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiYWNkZjg2MjAtOTM4NC00NzMyLWIwOGYtOTIwNDY0NjRkNzQ4IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZnJvbnRlbmRfZGFzaGJvYXJkIiwic2Vzc2lvbl9zdGF0ZSI6Ijg4OGU2MGU2LTQzODktNGQxZC1hZGMzLTkzZjk2OGNhMWVhZCIsImFsbG93ZWQtb3JpZ2lucyI6WyIiLCIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJBRE1JTiJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiODg4ZTYwZTYtNDM4OS00ZDFkLWFkYzMtOTNmOTY4Y2ExZWFkIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3RAeW9wbWFpbC5jb20iLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InRlc3RAeW9wbWFpbC5jb20ifQ.hNO3osfnR-b3lOW9CrPlqpdx-kRB2p48jVzgO97-2LjoG_Q9tnk282h8oKhVBFuoKaBBEo8NJ5rIdWoAlQMx5ow4202yEMikcHXaUcW_93zrH4pWx4mDsfKkZxuHW8I0Rxpm47gDM1k-1hhT1CWzFf3S7MuksofJUN6H8Brbs8LV5UgnqeeJk0l79WVWeL9wR12YlOtu6jsykFiCiAdjO5f2M9Cj-KgOMdHRo9P8TGMOFlqFF-B_KF0fbuyVVj_4c-0_GFiZY6qQFPMOampFX-lEY6IQURlB-a5ocdoDec7u9L6qeRletTxVWYkzaxgG5ChpX2yCqFDEI7wx6U-Nww"
+							},
+							{
+								"key": "Cookie",
+								"value": "XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
+							}
+						],
+						"url": "{{bolnisi-api}}/user/winery"
+					},
+					"response": []
+				},
+				{
+					"name": "Get winery (winery)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_winery_role_fe}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2ODg3MDMwNzksImlhdCI6MTY4ODcwMTI3OSwianRpIjoiNzMzNGNiMTAtYTk3NS00NGFkLTliODMtYTI1YjVjNzdjMTM2IiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiYWNkZjg2MjAtOTM4NC00NzMyLWIwOGYtOTIwNDY0NjRkNzQ4IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZnJvbnRlbmRfZGFzaGJvYXJkIiwic2Vzc2lvbl9zdGF0ZSI6Ijg4OGU2MGU2LTQzODktNGQxZC1hZGMzLTkzZjk2OGNhMWVhZCIsImFsbG93ZWQtb3JpZ2lucyI6WyIiLCIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJBRE1JTiJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiODg4ZTYwZTYtNDM4OS00ZDFkLWFkYzMtOTNmOTY4Y2ExZWFkIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3RAeW9wbWFpbC5jb20iLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InRlc3RAeW9wbWFpbC5jb20ifQ.hNO3osfnR-b3lOW9CrPlqpdx-kRB2p48jVzgO97-2LjoG_Q9tnk282h8oKhVBFuoKaBBEo8NJ5rIdWoAlQMx5ow4202yEMikcHXaUcW_93zrH4pWx4mDsfKkZxuHW8I0Rxpm47gDM1k-1hhT1CWzFf3S7MuksofJUN6H8Brbs8LV5UgnqeeJk0l79WVWeL9wR12YlOtu6jsykFiCiAdjO5f2M9Cj-KgOMdHRo9P8TGMOFlqFF-B_KF0fbuyVVj_4c-0_GFiZY6qQFPMOampFX-lEY6IQURlB-a5ocdoDec7u9L6qeRletTxVWYkzaxgG5ChpX2yCqFDEI7wx6U-Nww"
+							},
+							{
+								"key": "Cookie",
+								"value": "XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
+							}
+						],
+						"url": "{{bolnisi-api}}/user/winery"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cert",
+			"item": [
+				{
+					"name": "Issue cert",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_nwa_role}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "JSESSIONID=A2FF600F529816E4C6CAAFAD3488BF09"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlLU5rQlZaRU54VU1YcWVnUkdqTHd4WmF5WEMxS2N4QllFV21ZMzVTOTRnIn0.eyJleHAiOjE2OTIzMzQ0MzgsImlhdCI6MTY5MjMzMjYzOCwianRpIjoiMTQ5MzNjYjYtYWUxNS00NTY3LTk0MzktMTM3YzU3NDNmNzA1IiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiMTBkMTgxNGQtNzkyNC00YjNjLWIxN2UtN2U3MmY4MTg0NGNiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibndhX2NlcnRpZmljYXRlIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTldBIl19LCJzY29wZSI6Im9wZW5pZCByb2xlX2N1c3RvbSBwcm9maWxlIGFkZHJlc3MgZW1haWwiLCJjbGllbnRIb3N0IjoiMTQuMjI0LjEzMC4yNTAiLCJhZGRyZXNzIjp7fSwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtbndhX2NlcnRpZmljYXRlIiwiY2xpZW50QWRkcmVzcyI6IjE0LjIyNC4xMzAuMjUwIiwiY2xpZW50X2lkIjoibndhX2NlcnRpZmljYXRlIn0.EkPA19F90PaWM2O0SyaKvDZK5Xsc00WzfC3ogx67mt48QQlIn8xny22rns6tpp8PLA2qeL3UqEI74df7CYKKvzlL2FTau1hcb1PifnKB-ut8E6HXoo7hTyRW962CxuAiM9nS-gJ85TgcIZokWhDapTlbp4jGZ2A2uqa9SR6RMlk47u4zJo8pB5_hCp2hC6KV3jLbZBxfQ6QNtcgDxYUDFh1PcaIi5ppZIhTVG3NkIYz96KIKzd2bQt8oIt-rJhybbU-u56A6dkCrtjwVdzpuwH2_8-oE1DU1zIZ3Y9tldcL2IEjCYZ16CTSIuknSp4rwOaiMHKShY6iWyIcBZoKvLQ"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cert\": {\n        \"certificateNumber\": \"GE-12345\",\n        \"certificateType\": \"TYPE-001\",\n        \"exportCountry\": \"USA\",\n        \"examProtocolNumber\": \"Analysis 2a\",\n        \"tastingProtocolNumber\": \"Tasting 5p\",\n        \"products\": [\n            {\n                \"lotNumber\": \"12345678920\",\n                \"wineName\": \"Wine Name\",\n                \"wineDescription\": \"Description of this wine\",\n                \"serialName\": \"Wine Serial No\",\n                \"origin\": \"Product origin\",\n                \"viticultureArea\": \"Bolnisi area\",\n                \"type\": \"TYPE-001\",\n                \"color\": \"WHITE\",\n                \"sugarContentCategory\": \"Dry\",\n                \"grapeVariety\": \"GrapeA\",\n                \"harvestYear\": 2022,\n                \"delayedOnChacha\": false,\n                \"bottleType\": \"Ceramic\",\n                \"bottlingDate\": \"2022-01-22\",\n                \"bottleVolume\": 5.5,\n                \"bottleCountInLot\": 1000\n            }\n        ]\n    },\n    \"signature\": \"eyJhbGciOiJFZERTQSJ9.WABEvEKpH8vocYEKRxzZYCowrmr99Bc57DpQhiqTcWKYfxbspKS7qoNbAbTUUli2pigxPUwVUNKh_n9IVRyCDw\",\n    \"publicKeyBase64Url\": \"CV-aGlld3nVdgnhoZK0D36Wk-9aIMlZjZOK2XhPMnkQ\"\n}"
+						},
+						"url": "{{bolnisi-api}}/certs/winery/1/GE-90025"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke cert",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_nwa_role}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlLU5rQlZaRU54VU1YcWVnUkdqTHd4WmF5WEMxS2N4QllFV21ZMzVTOTRnIn0.eyJleHAiOjE2OTIwODc5MTUsImlhdCI6MTY5MjA4NjExNSwianRpIjoiMWVlMGZmMGYtYTFlYS00YzViLThjNmYtOGQ2NjFjODg2YzYzIiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiMTBkMTgxNGQtNzkyNC00YjNjLWIxN2UtN2U3MmY4MTg0NGNiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibndhX2NlcnRpZmljYXRlIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTldBIl19LCJzY29wZSI6Im9wZW5pZCByb2xlX2N1c3RvbSBwcm9maWxlIGFkZHJlc3MgZW1haWwiLCJjbGllbnRIb3N0IjoiMTQuMjI0LjEzMC4yNTAiLCJhZGRyZXNzIjp7fSwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtbndhX2NlcnRpZmljYXRlIiwiY2xpZW50QWRkcmVzcyI6IjE0LjIyNC4xMzAuMjUwIiwiY2xpZW50X2lkIjoibndhX2NlcnRpZmljYXRlIn0.pBFUeBoUOBiro2DUMwvTs1svpuYDDh9R3VnnguJ9OwfKt0CKs63_OwcAdgCFdYGlp_dg2y83TOfK7W7JiMvaFSOTrsIATwB2agK0Lh5Cj35txG9lEmj08_y6UDDu6G9AU9uUPye9CujAedAcllFTvaCQ7b6HUyHcyYtlJ13lxH39lehp3trT-H6HvrZT8m99x1DBbc8h5NNsI-uNx900qcEah95ONTo2js9a_sC5quL1wEs2ziKBfmtv8WKD7LlQ4acB0-8uL4mQfwNZCjti_W6hKqJs9zal39z1M8exd5MQOaR0xd95ISHsoyl4PxNMI8wcMI5D2DwQHaTI0GXG9A"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"signature\": \"eyJhbGciOiJFZERTQSJ9.-h8ljGMaO6aq5ha5raG3Ms2RFFNoLkcPqiB3cNhwFutNrwXk9uia3TPgh2-02TvypRLdjjtETphQIrV-PjuPDw\",\n    \"publicKeyBase64Url\": \"CV-aGlld3nVdgnhoZK0D36Wk-9aIMlZjZOK2XhPMnkQ\"\n}"
+						},
+						"url": "{{bolnisi-api}}/certs/GE-90025/revoke"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all certs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_Admin_role}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
+							}
+						],
+						"url": "{{bolnisi-api}}/certs"
+					},
+					"response": []
+				},
+				{
+					"name": "Get certs for winery",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_winery_role_mobile}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "JSESSIONID=A2FF600F529816E4C6CAAFAD3488BF09; XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
+							}
+						],
+						"url": "{{bolnisi-api}}/certs/winery/1235"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bottles",
+			"item": [
+				{
+					"name": "Upload bottle CSV",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_DP_role}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"type": "file",
+									"src": "/C:/Users/Welcome/Downloads/upload_bottle.csv"
+								}
+							]
+						},
+						"url": "{{bolnisi-api}}/bottles/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all bottles by winery ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_DP_role}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2ODg3MTg4MzQsImlhdCI6MTY4ODcxNzAzNCwianRpIjoiN2Y4NWQ4ZGUtMTM5OS00MjE1LWI3ZjUtNGFiMTY1N2Y2NDI5IiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiMTUwZTA5NzgtZjM3My00OGU2LWE4ZTktNDUzMDZhZGYyYmFiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoidGVzdF9yb2xlIiwic2Vzc2lvbl9zdGF0ZSI6IjkxZmJhODVkLTIxZWYtNDlmNC04YzZjLTYxODgzMjg5ZDc0YiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIldJTkVSWSJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiOTFmYmE4NWQtMjFlZi00OWY0LThjNmMtNjE4ODMyODlkNzRiIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIn0.h1FtJBThVUIJKqkHLU1VEc4Ub28-fHk0yzrOPyyPnou6lndDLAT_ZP7Hch7WQ39-yKihgDSvXT6GDFb6PBRsAiCesWjlTRFq3G-nnroHGcwMR9vQdBnf5y3TAmOHj6xe4cn9BoWrTIFpQCokKEvcykVMqIuGqdZ6zSIWSw6oWDJEVVr05tAkKMCqxDEDzrI_5C0RvgvHXDJ1Bwvz4fGgDBROMaSvVfsDp5poTBtRIdhHI65eIb54mv276-ZpLtCELoDxq5EBW0e5oNCjzJ14-mInvULyUDGvy3GHGtAbSmdJ-YzK0r_HxljRMFWLzKaSgqqc5K5yFKNOrfbBpmfILQ"
+							}
+						],
+						"url": "{{bolnisi-api}}/bottles/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all bottles in a lot",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_winery_role_mobile}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token_user}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{bolnisi-api}}/bottles/1/lots/12355678918"
+					},
+					"response": []
+				},
+				{
+					"name": "Scan bottle by bottle for (wineryId, certId, lotId)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_winery_role_mobile}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"add\": [],\n    \"remove\": [\"PF0ZrHOIHRJW\"],\n    \"finalise\": true\n}"
+						},
+						"url": "{{bolnisi-api}}/bottles/1/certs/GE-333334/12355678903"
+					},
+					"response": []
+				},
+				{
+					"name": "Range scan for (wineryId, certId, lotId)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_winery_role_mobile}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"startRange\": 202021,\n    \"endRange\": 202023,\n    \"finalise\": true,\n    \"isSequentialNumber\": true\n}"
+						},
+						"url": "{{bolnisi-api}}/bottles/range-scan/1/certs/GE-12345/12345678920"
+					},
+					"response": []
+				},
+				{
+					"name": "Get bottle by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_winery_role_mobile}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2ODkwNDEyNTcsImlhdCI6MTY4OTA0MTE5NywianRpIjoiN2JiMWMyNjAtMGJhZS00ZDBhLTlkMmMtN2UyNzIyYjAyZDJkIiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiM2NkYjVmOTUtOTViZC00M2VlLWFlY2EtZjVhNzc3N2EwYzY2IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZnJvbnRlbmRfZGFzaGJvYXJkIiwic2Vzc2lvbl9zdGF0ZSI6IjlkZWUwMzIxLWFmNTktNDFiMC04YWFhLTQ5YWE0ZmVmOWE4YSIsImFsbG93ZWQtb3JpZ2lucyI6WyIiLCIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJXSU5FUlkiXX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6IjlkZWUwMzIxLWFmNTktNDFiMC04YWFhLTQ5YWE0ZmVmOWE4YSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoibWlhIG5ndXllbiIsInByZWZlcnJlZF91c2VybmFtZSI6Imh1b25nLm5ndXllbjdAc290YXRlay5jb20iLCJnaXZlbl9uYW1lIjoibWlhIiwiZmFtaWx5X25hbWUiOiJuZ3V5ZW4iLCJlbWFpbCI6Imh1b25nLm5ndXllbjdAc290YXRlay5jb20ifQ.mlCC2Jq3j_2YkwJemGzJ9p5ql-9kYYCjFPoUTnAmhl_uRGOzS3a8sxGBoXZsL9YClQbYpM-5K2IEEkHqY_PRoCE39zggcj3kWvW9RW-zdWXZSP1lgPykRVj-60pqo4neufiT2iOqMFk_HeoLBHSETJBjdXB3XzKB_DdxPxRl83qYWTT9G62Br1AUboyz9HyzlbsSm8UuEhwe86TAfTHn3ILhxnn3Zcd4rOnACtmzPmhu1s5vsbJKs8RRQrapucPiQCxL18uNLcJs9qayY7GguTN5pHfN4rJKqor2rlhk2sbVtrVbnXM0adEpmafoxgxK_lJYEJWXIJmfUXDz6UlC6w"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{bolnisi-api}}/bottles/1/bottle/Im8wGuZLLcWBdf"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SCM",
+			"item": [
+				{
+					"name": "Get lots by wineryId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_winery_role_fe}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2OTA4NjY0MDgsImlhdCI6MTY5MDg2NDYwOCwianRpIjoiMzBjNzBkMmItZTQxZi00MmVhLWJlODItMDQ5Nzg2NjFkOTc0IiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiODdhMmMwMjgtNzZmZS00ZTQwLTk5MTgtNDZjMDJjZWI2NTA0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibW9iaWxlLXNjYW4tYXBwIiwic2Vzc2lvbl9zdGF0ZSI6IjZlNmFlZTFkLWU4OGEtNDliNC1iYWRmLTNmMDdjNzUyNTdjMCIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJXSU5FUlkiXX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6IjZlNmFlZTFkLWU4OGEtNDliNC1iYWRmLTNmMDdjNzUyNTdjMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoidGhhbmguaG9hbmdAc290YXRlay5jb20iLCJsb2NhbGUiOiJrYSIsImdpdmVuX25hbWUiOiIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoidGhhbmguaG9hbmdAc290YXRlay5jb20ifQ.dUtFOhctcWnmAI02hGD54B2jUqVtnG_A5W-NC-KFiMF0LQu6V3laqtBT9xGtoteyYofD12Zywr4hyuuzL4BRhtOEdmZreKRL49R6SfOo_Kou3sbTSsYFcjExYEFn-lFwT9lOgHHMWR1eiyzmnH2RUokG9FE8l7kDZA-UXtYaba2Vq98NTgr1ND351fVcfeR4mhrl63HfzWNE4hlrIkUYnISyTU1JmNSZ0wr3RANulDQdltSSZA1ncGFS42yuD3TV90FBUy_M5SQHz3VSLpAUbNOr7UNJL5qkT6jfNvxM9J9_Qp4N1_B2pB0vkReuEp8KzZCu_KmeOHrVoKSTRfYWCA"
+							}
+						],
+						"url": "{{bolnisi-api}}/scm/lot/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Upload lots by CSV (data provider)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_DP_role}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2ODg5NzgwMzgsImlhdCI6MTY4ODk3Nzk3OCwianRpIjoiZTVjZjQxNGQtZDlkMC00NGVmLTgzNDEtNWNjMjJmOTE3OTgzIiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiM2NkYjVmOTUtOTViZC00M2VlLWFlY2EtZjVhNzc3N2EwYzY2IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZnJvbnRlbmRfZGFzaGJvYXJkIiwic2Vzc2lvbl9zdGF0ZSI6IjViOTBjZDBmLWY1M2ItNDhiMC05YjY2LWI1OTZhMWZiNWM5MiIsImFsbG93ZWQtb3JpZ2lucyI6WyIiLCIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJXSU5FUlkiXX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6IjViOTBjZDBmLWY1M2ItNDhiMC05YjY2LWI1OTZhMWZiNWM5MiIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoibWlhIG5ndXllbiIsInByZWZlcnJlZF91c2VybmFtZSI6Imh1b25nLm5ndXllbjdAc290YXRlay5jb20iLCJnaXZlbl9uYW1lIjoibWlhIiwiZmFtaWx5X25hbWUiOiJuZ3V5ZW4iLCJlbWFpbCI6Imh1b25nLm5ndXllbjdAc290YXRlay5jb20ifQ.IwuDhfdqsf7N3tH0gizp5ftkEEeDYRw4orAM0thw9pnPYozutcaY3NbJ2p56EuTDcYFDixUrXnzlqv7qtS9Eo625rOiAIPDj0k81CLVpL6FI-oOauyry_aM8XD-DL1VbWq6rY1DHuh3NuugNEgBl-d_4IWnd8qeuEYKV1LnMVmifNcrO3CNv6itif5lxuV6tjhI7bJsV-7fFdTrkMLRE0dVAxWQHYU6txaIyrtspzx95uFUiux7FvCbiBwpA040ywIcfBGOqQieD8xxtKReL7Y1qeeqqe9m8KiMyw9oqGm62zU11R3gvDz4Kc_-3A5adLCD7BY2unxdli4By7ee5pA"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"type": "file",
+									"src": "/C:/Users/Welcome/Downloads/scm_data (2).csv"
+								}
+							]
+						},
+						"url": "{{bolnisi-api}}/scm/lot/1235"
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk finalise lots (data provider)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_DP_role}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2ODg3MTg4MzQsImlhdCI6MTY4ODcxNzAzNCwianRpIjoiN2Y4NWQ4ZGUtMTM5OS00MjE1LWI3ZjUtNGFiMTY1N2Y2NDI5IiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiMTUwZTA5NzgtZjM3My00OGU2LWE4ZTktNDUzMDZhZGYyYmFiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoidGVzdF9yb2xlIiwic2Vzc2lvbl9zdGF0ZSI6IjkxZmJhODVkLTIxZWYtNDlmNC04YzZjLTYxODgzMjg5ZDc0YiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIldJTkVSWSJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiOTFmYmE4NWQtMjFlZi00OWY0LThjNmMtNjE4ODMyODlkNzRiIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIn0.h1FtJBThVUIJKqkHLU1VEc4Ub28-fHk0yzrOPyyPnou6lndDLAT_ZP7Hch7WQ39-yKihgDSvXT6GDFb6PBRsAiCesWjlTRFq3G-nnroHGcwMR9vQdBnf5y3TAmOHj6xe4cn9BoWrTIFpQCokKEvcykVMqIuGqdZ6zSIWSw6oWDJEVVr05tAkKMCqxDEDzrI_5C0RvgvHXDJ1Bwvz4fGgDBROMaSvVfsDp5poTBtRIdhHI65eIb54mv276-ZpLtCELoDxq5EBW0e5oNCjzJ14-mInvULyUDGvy3GHGtAbSmdJ-YzK0r_HxljRMFWLzKaSgqqc5K5yFKNOrfbBpmfILQ"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    \"12355678947\"   \n]"
+						},
+						"url": "{{bolnisi-api}}/scm/lot/1/finalise"
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk delete lots (data provider)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_DP_role}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2ODg5NzM5OTksImlhdCI6MTY4ODk3MjI1OSwianRpIjoiMWUxOTliYzItN2EwOC00MDlkLThkZDAtMGI4ZGY4MWI5YTUxIiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiYWNkZjg2MjAtOTM4NC00NzMyLWIwOGYtOTIwNDY0NjRkNzQ4IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZnJvbnRlbmRfZGFzaGJvYXJkIiwic2Vzc2lvbl9zdGF0ZSI6ImJiNjgyNDg3LTNkNTAtNDk5Yy05MWQ1LWNkMzQ1MThkOThiMiIsImFsbG93ZWQtb3JpZ2lucyI6WyIiLCIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJBRE1JTiJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiYmI2ODI0ODctM2Q1MC00OTljLTkxZDUtY2QzNDUxOGQ5OGIyIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3RAeW9wbWFpbC5jb20iLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6InRlc3RAeW9wbWFpbC5jb20ifQ.BXU4kxn8uVODm6xbh3I5YhjDuw37r-hm9hnmOvkUQWnopjsh_pAkuCIETiipy5jZ_n2X6pzH-AiJURFwR2aq218V1GsNxHG2QMyF60ql-sjmG03stTev33TinS-tlUjRORhmzrqtjIzzvGZUkswt-_-IEYe4VB2TkbWjMz8CwO_j-qsn-G9AvTwo9jU1eh1FDlda5qwU58kP0AU3IzPro-ZkMismzbwjYoFQBp7oGvKWPqb_UzmINyg_HCTnfv4lByoHzy_DbDelqvaFwHON5vxICvrbplR72_poOEeTWbcY2lo-g8nwM1M1-SZjhznEwBK4eaydnG7PRaOTDIrcfQ"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    \"12355678942\"\n]"
+						},
+						"url": "{{bolnisi-api}}/scm/lot/1235/delete"
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk approve lots (winery)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_winery_role_fe}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2ODg3MjMzNjIsImlhdCI6MTY4ODcyMTU2MiwianRpIjoiNDYzZDA5NjQtODg5OC00ODgyLThmNjMtNTI4NmVhNWFkMDEzIiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiMTUwZTA5NzgtZjM3My00OGU2LWE4ZTktNDUzMDZhZGYyYmFiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoidGVzdF9yb2xlIiwic2Vzc2lvbl9zdGF0ZSI6ImFlZTIzNzA1LWVlMGYtNGE2OS04M2Q4LWY3ZWJlYWVhZTQ1ZCIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIldJTkVSWSJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiYWVlMjM3MDUtZWUwZi00YTY5LTgzZDgtZjdlYmVhZWFlNDVkIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIn0.moCkguLCPN38EMRkrBUhdgh6_BxCrV7RmE7lpXiZeNr3hh-3AtZ_Hoe7Q3zP-XNPMUYiuUkLFlw5dyUZlCoDYMwKlEQnudAW8micCymMuUqMYjsKYF1k9rsTPDeMLQ3eWJFSLKvrst9xAuXHH_f64Zxc9_AQzyRE06EfZ5Lf3UdhRghMlPTnCh0r85MNPIEp7oi-X8J47TApD2xVcBBOZWCZ2NXHIJy2ntu8sy03f87rcZBItIy2V79KcUR2y0-siWuXC5kfOAlSIxe_VV8z1p_VCNtRmOkqBL7mgdTVQIAVYsOuwEpRS54kikBU2jZv9xkaR7rKUyx-mFy3kMVNZg"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  \"12355678947\"\n]"
+						},
+						"url": "{{bolnisi-api}}/scm/lot/1/approve"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Metabus API (internal)",
+			"item": [
+				{
+					"name": "Get job",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_Bolnisi_backend}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": "{{metabus-api}}/jobs/637643"
+					},
+					"response": []
+				},
+				{
+					"name": "Create cert job",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_Bolnisi_backend}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"business_data\": {\n        \"type\": \"conformityCert:georgianWine\",\n        \"data\": {\n            \"date\": \"1\",\n            \"company_name\": \"4\",\n            \"country\": \"1\",\n            \"address\": \"1\",\n            \"certificate_type\": \"1\",\n            \"lot_entries\": [\n                {\n                    \"laboratory\": \"77\",\n                    \"wine_name\": \"1\",\n                    \"wine_type\": \"fewew\",\n                    \"nominate\": \"1\",\n                    \"type\": \"1\",\n                    \"quantity\": \"string\",\n                    \"bottle_volume\": \"1\",\n                    \"total_volume\": \"300\",\n                    \"price_per_bottle\": \"null\"\n                }\n            ]\n        },\n        \"signature\": \"eyJraWQiOiI3MmNjNGY2NC1iMjgxLTQwOGItODQwNC05OWY5YmRkZTg5MTkiLCJhbGciOiJFZERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9.J-AzQJmYmaoycSY5yolWVsOdUFJDFti3qKvSYA-6JwtYPDHEogUnicexG0weEf_Q1dijAeU1kNaC6PW_VDSbDAERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9\",\n        \"pub_key\": \"string\"\n    },\n    \"group_type\": \"SINGLE_GROUP\"\n}"
+						},
+						"url": "{{metabus-api}}/jobs"
+					},
+					"response": []
+				},
+				{
+					"name": "Create revoke cert job",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_Bolnisi_backend}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"business_data\": {\n        \"type\": \"conformityCertRevoke:georgianWine\",\n        \"data\": {\n            \"date\": \"1\",\n            \"company_name\": \"4\",\n            \"country\": \"1\",\n            \"address\": \"1\",\n            \"certificate_type\": \"1\",\n            \"lot_entries\": [\n                {\n                    \"laboratory\": \"77\",\n                    \"wine_name\": \"1\",\n                    \"wine_type\": \"fewew\",\n                    \"nominate\": \"1\",\n                    \"type\": \"1\",\n                    \"quantity\": \"string\",\n                    \"bottle_volume\": \"1\",\n                    \"total_volume\": \"300\",\n                    \"price_per_bottle\": \"null\"\n                }\n            ]\n        },\n        \"signature\": \"eyJraWQiOiI3MmNjNGY2NC1iMjgxLTQwOGItODQwNC05OWY5YmRkZTg5MTkiLCJhbGciOiJFZERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9.J-AzQJmYmaoycSY5yolWVsOdUFJDFti3qKvSYA-6JwtYPDHEogUnicexG0weEf_Q1dijAeU1kNaC6PW_VDSbDAERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9\",\n        \"pub_key\": \"string\"\n    },\n    \"group_type\": \"SINGLE_GROUP\"\n}"
+						},
+						"url": "{{metabus-api}}/jobs"
+					},
+					"response": []
+				},
+				{
+					"name": "Create SCM job",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token_Bolnisi_backend}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"business_data\": {\n        \"type\": \"scm:georgianWine\",\n        \"data\": {\n            \"total_bottle\": 1000,\n            \"harvest_date\": \"21/10/2022\",\n            \"harvest_location\": \"bolnisi\",\n            \"laboratory\": \"string\",\n            \"wineName\": \"string\",\n            \"wineType\": \"string\",\n            \"nominate\": \"string\",\n            \"type\": \"string\",\n            \"quantity\": \"string\",\n            \"bottleVolume\": \"string\",\n            \"totalVolume\": \"string\",\n            \"pricePerBottle\": \"string\"\n        },\n        \"signature\": \"eyJraWQiOiI3MmNjNGY2NC1iMjgxLTQwOGItODQwNC05OWY5YmRkZTg5MTkiLCJhbGciOiJFZERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9.J-AzQJmYmaoycSY5yolWVsOdUFJDFti3qKvSYA-6JwtYPDHEogUnicexG0weEf_Q1dijAeU1kNaC6PW_VDSbDAERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9\",\n        \"pub_key\": \"https://wine.gov.ge/.well-known/4527/publickey\"\n    },\n    \"group_type\": \"MULTI_GROUP\",\n    \"group\": \"3\"\n}"
+						},
+						"url": "{{metabus-api}}/jobs"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "access_token",
+			"value": ""
+		}
+	]
+}

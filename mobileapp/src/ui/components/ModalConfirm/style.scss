@@ -1,0 +1,27 @@
+.modal-confirm {
+  --width: 90%;
+  --height: fit-content;
+  --border-radius: 16px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4) !important;
+  z-index: 10;
+  .ion-delegate-host {
+    padding: 25px 20px;
+  }
+  .modal-title {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    color: #030321;
+    margin-bottom: 25px;
+  }
+  .button-outline {
+    --border-color: #cccccc;
+    --color: #030321;
+  }
+}
+
+.modal-confirm::part(backdrop) {
+  background: rgba(209, 213, 219);
+  opacity: 1;
+}

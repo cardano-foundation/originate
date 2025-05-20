@@ -1,0 +1,105 @@
+# custom config
+cardano-metabus-txwatcher:
+  rabbitmq: # All the queue, exchange, stats,...etc... of this config must be the same value with the rabbitmq-setup/definitions.json file
+    exchange: job
+    bindings:
+      - routingKey: bolnisi
+        queue: bolnisi
+        messageTTL: 345600000
+        hasDLQ: true
+    subTypeRoutingKeyMapping:
+      georgianWine: bolnisi
+    deadLetterQueue: bolnisi-dead-letter-queue
+    deadLetterRoutingKey: bolnisi-dead
+    deadLetterExchange: bolnisi-dead-letter-exchange
+
+  # delay reconsume duration in milliseconds if business exception occurs
+  delayReconsumeDuration: 3000
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://${STATE_DB_HOST:localhost}:${STATE_DB_EXPOSED_PORT:54324}/${STATE_DB_NAME:state_storage}?reWriteBatchedInserts=true&currentSchema=public
+    username: ${STATE_DB_USER_NAME:proofoforiginadmin}
+    password: ${STATE_DB_USER_SECRET:bolnisiDoNotUseInProduction}
+    driver-class-name: org.postgresql.Driver
+  # JPA specific configs
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.batch_size: 1000
+        default_schema: public
+        show_sql: false
+        format_sql: true
+        order_inserts: true
+        order_updates: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  ## Flyway config
+  flyway:
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    group: true
+    sql-migration-prefix: V
+    sql-migration-separator: __
+    sql-migration-suffixes: .sql
+    locations: db/migration
+
+kafka:
+  auto-create-topics: false
+  admin:
+    bootstrapServers: localhost:9093
+  topics:
+    block:
+      name: block
+      partitions: 1
+      replicationFactor: 1
+  consumers:
+    json-consumer:
+      clientId: json-consumer
+      bootstrapServers: localhost:9093
+      keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+      valueDeserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      autoOffsetReset: earliest
+      enableAutoCommit: false
+      autoCommitIntervalMs: 1000
+      sessionTimeoutMs: 30000
+      trustedPackages: "*"
+      allowAutoCreateTopics: false
+      concurrency: 10
+      pollTimeout: 360000000
+      groupId: preprod
+  producers:
+    json-producer:
+      clientId: json-producer
+      retries: 3
+      bootstrapServers: localhost:9093
+      maxInFlightRequestsPerConnection: 1
+      requestTimeoutMs: 30000
+      batchSize: 16384
+      lingerMs: 5
+      bufferMemory: 33554432
+      acks: all
+      enableIdempotence: true
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: org.springframework.kafka.support.serializer.JsonSerializer
+  listeners:
+    block:
+      topics: local.crawler.blocks
+logging:
+  level:
+    com.sotatek: TRACE
+
+rollback:
+  threshold: 8
+
+server:
+  port: 8089

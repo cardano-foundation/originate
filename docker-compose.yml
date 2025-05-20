@@ -1,0 +1,112 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: ${BOLNISI_DB_CONTAINER_NAME}
+    image: "${DB_IMAGE_NAME}:${DB_IMAGE_TAG}"
+    ports:
+      - "${DB_LOCAL_BIND_PORT}:${DB_EXPOSED_PORT}"
+    environment:
+      POSTGRES_PASSWORD: "${DB_USER_SECRET}"
+      POSTGRES_USER: "${DB_USER_NAME}"
+      POSTGRES_DB: "${API_DB_NAME}"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d 'user=${DB_USER_NAME} dbname=${API_DB_NAME}'"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+  api:
+    container_name: api
+    build:
+      context: ./
+      dockerfile: ./api/Dockerfile
+      args:
+        progress: plain
+    ports:
+      - "${API_LOCAL_BIND_PORT}:${API_EXPOSED_PORT}"
+    environment:
+
+      LOGGING_LEVEL_ROOT: DEBUG
+
+      SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE}"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://${BOLNISI_DB_CONTAINER_NAME}:${DB_EXPOSED_PORT}/${API_DB_NAME}"
+      SPRING_DATASOURCE_USERNAME: "${DB_USER_NAME}"
+      SPRING_DATASOURCE_PASSWORD: "${DB_USER_SECRET}"
+
+      SCANTRUST_DOMAIN: "${SCANTRUST_DOMAIN}"
+      SCANTRUST_SCM_DATA_ASYNC: "${SCANTRUST_SCM_DATA_ASYNC}"
+      SCANTRUST_SCM_DATA_SYNC: "${SCANTRUST_SCM_DATA_SYNC}"
+      SCANTRUST_SCM_TASK_STATE: "${SCANTRUST_SCM_TASK_STATE}"
+      SCANTRUST_UAT_TOKEN: "${SCANTRUST_UAT_TOKEN}"
+      SCANTRUST_REPEAT_TIMES: "${SCANTRUST_REPEAT_TIMES}"
+      SCANTRUST_REPEAT_INTERVAL: "${SCANTRUST_REPEAT_INTERVAL}"
+      SCANTRUST_MIN_BACKOFF: "${SCANTRUST_MIN_BACKOFF}"
+      SCANTRUST_MAX_BACKOFF: "${SCANTRUST_MAX_BACKOFF}"
+
+      BOLNISI_KEYCLOAK_API_SECRET: "${BOLNISI_KEYCLOAK_API_SECRET}"
+
+      METABUS_KEYCLOAK_CLIENT_SECRET: "${METABUS_KEYCLOAK_CLIENT_SECRET}"
+      ENCRYPT_PASSWORD: "${ENCRYPT_PASSWORD}"
+      KEYCLOAK_HOST: "${KEYCLOAK_HOST}"
+
+      METABUS_API_HOST: "${METABUS_API_HOST}"
+      METABUS_API_EXPOSED_PORT: "${METABUS_API_EXPOSED_PORT}"
+
+      API_RABBITMQ_HOST: "${RABBITMQ_CONTAINER_NAME}"
+      API_RABBITMQ_PORT: "${RABBITMQ_LOCAL_EXPOSE_PORT}"
+      API_RABBITMQ_USERNAME: "${RABBITMQ_USER_NAME}"
+      API_RABBITMQ_PASSWORD: "${RABBITMQ_PASSWORD}"
+      API_RABBITMQ_EXCHANGE: "${RABBITMQ_EXCHANGE}"
+
+      FRONTEND_DOMAIN_PUBLIC_URL: "${FRONTEND_DOMAIN_PUBLIC_URL}"
+
+      MOBILE_IOS_SCANNINGAPP_DOMAIN: "${MOBILE_IOS_SCANNINGAPP_DOMAIN}"
+      MOBILE_ANDROID_SCANNINGAPP_DOMAIN: "${MOBILE_ANDROID_SCANNINGAPP_DOMAIN}"
+
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      #- "traefik.http.routers.api.rule=Host(`${BOLNISI_BACKEND_HOST:-dev.api.cf-bolnisi-wine-preprod.originate.company.com}`)"
+      - "traefik.http.routers.api.rule=Host(`${BOLNISI_BACKEND_HOST:-localhost}`)"
+      # HACK: this is a workaround to make letsencrypt work with FQDNs >=64
+      - "traefik.http.routers.api.tls.domains[0].main=${INSTANCE_ID_HOSTNAME:-i-0872852d61ec68d6f.originate.company.com}"
+      - "traefik.http.routers.api.tls.domains[0].sans=${BOLNISI_BACKEND_HOST:-dev.api.cf-bolnisi-wine-preprod.originate.company.com}"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls.certresolver=myresolver"
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./
+      dockerfile: ./frontend/Dockerfile
+      args:
+        progress: plain
+        ENV_FILE: "${ENV_FILE}"
+    ports:
+      - "${FRONTEND_LOCAL_BIND_PORT}:${FRONTEND_EXPOSED_PORT}"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`${FRONTEND_DOMAIN_HOST:-dev.cf-bolnisi-wine-preprod.originate.company.com}`)"
+      # HACK: this is a workaround to make letsencrypt work with FQDNs >=64
+      - "traefik.http.routers.frontend.tls.domains[0].main=${INSTANCE_ID_HOSTNAME:-i-0872852d61ec68d6f.originate.company.com}"
+      - "traefik.http.routers.frontend.tls.domains[0].sans=${FRONTEND_DOMAIN_HOST:-dev.cf-bolnisi-wine-preprod.originate.company.com}"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls.certresolver=myresolver"
+
+volumes:
+  postgres-data:
+
+networks:
+  default:
+    name: metabus
+    external: true

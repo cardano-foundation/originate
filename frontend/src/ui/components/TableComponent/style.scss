@@ -1,0 +1,79 @@
+.header {
+  .fix-header {
+    position: "sticky";
+    right: 0;
+  }
+  .item-header {
+    background: #dde3f0;
+    .header-names {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+}
+
+.MuiTableCell-root {
+  border-bottom: 1px solid #CCCCCC !important
+}
+
+.text-finalised {
+  border: 1px solid #20C198;
+  border-radius: 8px;
+  padding: 10px 15px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 90%;
+
+  p {
+    color: #030321;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.MuiTableCell-head{
+  &:last-child {
+    border-left: 1px solid #CCCCCC !important;
+  }
+}
+
+.disable-checkbox {
+  div {
+    border: 2px solid #999999 !important;
+    background-color: #CCCCCC !important;
+  }
+}
+.disable-box {
+  background-color: #D6EEE8 !important;
+}
+
+.btn-group {
+  .btn-finalise {
+    height: 44px;
+    min-width: 44px;
+    border-radius: 5px;
+    padding: 0;
+    background: #20c198;
+  }
+  .btn-finalise:hover {
+    background-color: #20c198 !important;
+    opacity: 0.7;
+  }
+
+  .btn-delete {
+    height: 44px;
+    min-width: 44px;
+    border-radius: 5px;
+    padding: 0;
+    background: #eeeeee;
+    margin-left: 18px;
+  }
+  .btn-delete:hover {
+    background-color: #eeeeee !important;
+    opacity: 0.7;
+  }
+}

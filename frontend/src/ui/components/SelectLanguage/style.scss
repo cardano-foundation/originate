@@ -1,0 +1,68 @@
+
+.MuiBox-root {
+  color: #030321;
+  font-size: 16px;
+  line-height: 35px;
+}
+.menu-content {
+  height: 150px;
+}
+
+.select-language-container {
+  min-width: 350px !important;
+}
+
+#lable-select-language {
+  font-size: 12px;
+  font-weight: 500;
+  color: #363C4A;
+  background: #FFFFFF;
+  padding-inline: 5px;
+  margin-left: 10px;
+}
+.MuiMenu-list {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.Mui-selected {
+  background-color: #DDE3F0 !important;
+}
+.MuiMenuItem-root {
+  border-bottom: 1px solid #CCCCCC !important;
+  &:last-child {
+    border-bottom: none !important;
+  }
+}
+.MuiInputLabel-root {
+  transform: translate(16px, -9px) scale(0.95) !important;
+}
+
+.language-selected {
+  margin-left: 10px;
+}
+
+.select-content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  margin-inline: 16px;
+  justify-content: space-between;
+  .select-label {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+}
+
+.select-icon {
+  height: 52px;
+  .MuiSelect-select {
+    padding: 10px 14px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .select-language-container {
+    min-width: 310px !important;
+  }
+}

@@ -1,0 +1,94 @@
+# custom config
+cardano-metabus-txwatcher:
+  rabbitmq: # All the queue, exchange, stats,...etc... of this config must be the same value with the rabbitmq-setup/definitions.json file
+    exchange: ${RABBITMQ_EXCHANGE:job}
+    bindings:
+      - routingKey: ${RABBITMQ_ROUTING_KEY_BOLNISI:bolnisi}
+        queue: ${RABBITMQ_QUEUE_BOLNISI:bolnisi}
+        messageTTL: ${RABBITMQ_MESSAGE_TTL_BOLNISI:345600000}
+        hasDLQ: ${RABBITMQ_HAS_DLQ_BOLNISI:true}
+    subTypeRoutingKeyMapping:
+      georgianWine: bolnisi
+    deadLetterQueue: ${DEAD_LETTER_QUEUE:bolnisi-dead-letter-queue}
+    deadLetterRoutingKey: ${DEAD_LETTER_ROUTING_KEY:bolnisi-dead}
+    deadLetterExchange: ${DEAD_LETTER_EXCHANGE:bolnisi-dead-letter-exchange}
+
+  # delay reconsume duration in milliseconds if business exception occurs
+  delayReconsumeDuration: ${TX_WATCHER_DELAY_RECONSUME_DURATION:3000}
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://${STATE_DB_HOST:localhost}:${STATE_DB_EXPOSED_PORT:54324}/${STATE_DB_NAME:state_storage}?reWriteBatchedInserts=true&currentSchema=public
+    username: ${STATE_DB_USER_NAME:proofoforiginadmin}
+    password: ${STATE_DB_USER_SECRET:bolnisiDoNotUseInProduction}
+    driver-class-name: org.postgresql.Driver
+
+  # JPA specific configs
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.batch_size: 1000
+        default_schema: public
+        show_sql: false
+        format_sql: true
+        order_inserts: true
+        order_updates: true
+    hibernate:
+      ddl-auto: update
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER_NAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  ## Flyway config
+  flyway:
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    group: true
+    sql-migration-prefix: V
+    sql-migration-separator: __
+    sql-migration-suffixes: .sql
+    locations: db/migration
+
+kafka:
+  auto-create-topics: false
+  admin:
+    bootstrapServers: ${KAFKA_BOOTSTRAP_SERVER:localhost:29092}
+  topics:
+    block:
+      name: block
+      partitions: 1
+      replicationFactor: 1
+  consumers:
+    json-consumer:
+      clientId: json-consumer
+      bootstrapServers: ${KAFKA_BOOTSTRAP_SERVER:localhost:29092}
+      keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+      valueDeserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      autoOffsetReset: earliest
+      enableAutoCommit: false
+      autoCommitIntervalMs: 1000
+      sessionTimeoutMs: 30000
+      trustedPackages: "*"
+      allowAutoCreateTopics: false
+      concurrency: 10
+      pollTimeout: 360000000
+      groupId: ${SCHEMA:preprod}
+  listeners:
+    block:
+      topics: ${LEDGERSYNC_CRAWLER_BLOCKS_TOPIC:local.crawler.blocks}
+logging:
+  level:
+    com.sotatek: ${LOG:TRACE}
+
+rollback:
+  threshold: ${TX_WATCHER_ROLLBACK_THRESHOLD:1}
+
+server:
+  port: ${TX_WATCHER_SERVER_PORT:8089}

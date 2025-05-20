@@ -1,0 +1,82 @@
+.popup-container {
+  --border-radius: 16px 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  --height: auto;
+  a {text-decoration: none}
+  .box {
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 0px 10px;
+    align-self: 'center';
+    margin: 0px 5px 5px 5px;
+    margin-top: 10px;
+    min-height: 52px;
+  }
+  
+  .select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    .selected {
+      margin-left: 10px;
+      color: #030321;
+      font-weight: 500;
+      font-size: 16px;
+      text-decoration: none 
+    }
+  }
+
+  ion-toolbar {
+    --background: #fff;
+    --border-color: #fff;
+    --min-height: 74px;
+    --padding-top: 0;
+  }
+
+  .icon-drop {
+    width: 16px;
+    margin-left: 16px;
+  }
+
+  .title-toolbar {
+    padding-top: 0;
+  }
+
+  .ion-padding {
+    padding-top: 0;
+    padding-bottom: 30px;
+  }
+  
+  .title {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    color: #030321;
+    margin-bottom: 25px;
+    padding-inline: unset;
+  }
+
+  @media (max-width: 370px) {
+    .title {
+      font-size: 22px;
+    }
+  }
+
+  @media (max-width: 300px) {
+    .title {
+      font-size: 20px;
+    }
+  }
+}
+
+.btn-sign-out {
+  margin-top: 25px;
+  --background: var(--primary-color);
+}
+.icon-chevronright{
+  padding: 4px;
+  size: 52px;
+}

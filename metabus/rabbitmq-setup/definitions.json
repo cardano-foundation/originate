@@ -1,0 +1,85 @@
+{
+  "users": [
+    {
+      "name": "guest",
+      "password_hash": "2rm9+p0fPv3HLBKpcC4IOnR97h//+Eh6uVLgyoo5kpjUXGb/",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "guest",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "queues": [
+    {
+      "name": "bolnisi",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "classic",
+        "x-dead-letter-exchange": "bolnisi-dead-letter-exchange",
+        "x-dead-letter-routing-key": "bolnisi-dead",
+        "x-message-ttl": 345600000
+      }
+    },
+    {
+      "name": "bolnisi-dead-letter-queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "classic"
+      }
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "job",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "bolnisi-dead-letter-exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "job",
+      "vhost": "/",
+      "destination": "bolnisi",
+      "destination_type": "queue",
+      "routing_key": "bolnisi",
+      "arguments": {}
+    },
+    {
+      "source": "bolnisi-dead-letter-exchange",
+      "vhost": "/",
+      "destination": "bolnisi-dead-letter-queue",
+      "destination_type": "queue",
+      "routing_key": "bolnisi-dead",
+      "arguments": {}
+    }
+  ]
+}

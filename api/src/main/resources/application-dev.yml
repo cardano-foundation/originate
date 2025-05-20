@@ -1,0 +1,96 @@
+# custom configs
+cardano-bolnisipilot-api:
+  security:
+    cors:
+      allowedOrigins: 
+        - ${FRONTEND_DOMAIN_PUBLIC_URL}
+        - ${MOBILE_IOS_SCANNINGAPP_DOMAIN}
+        - ${MOBILE_ANDROID_SCANNINGAPP_DOMAIN}
+      allowedMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      allowedHeaders: ["Authorization", "Content-Type"]
+  encrypt-password: ${ENCRYPT_PASSWORD:thisisarandompassword}
+springdoc:
+  api-docs:
+    path: /apidocs
+  show-actuator: true
+  swagger-ui:
+    enabled: false
+
+spring:
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}/realms/BolnisiPilotApplication/protocol/openid-connect/certs
+          issuer-uri: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}/realms/BolnisiPilotApplication
+          # http://localhost:8881/realms/BolnisiPilotApplication/.well-known/openid-configuration
+          jws-algorithms: RS256
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  task:
+    execution:
+      pool:
+        core-size: ${SPRING_EXECUTION_POOL_CORE_SIZE:5}
+        max-size: ${SPRING_EXECUTION_POOL_MAX_SIZE:10}
+      thread-name-prefix: ${SPRING_EXECUTION_THREAD_NAME_PREFIX:Async-}
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:54321/cf_proof_of_origin}
+    username: ${SPRING_DATASOURCE_USERNAME:proofoforiginadmin}
+    password: ${SPRING_DATASOURCE_PASSWORD:bolnisiDoNotUseInProduction}
+
+  flyway:
+    enabled: true
+
+  rabbitmq:
+    host: ${API_RABBITMQ_HOST:localhost}
+    port: ${API_RABBITMQ_PORT:5672}
+    username: ${API_RABBITMQ_USERNAME:guest}
+    password: ${API_RABBITMQ_PASSWORD:guest}
+    exchange: ${API_RABBITMQ_EXCHANGE:job}
+    listener:
+      simple:
+        acknowledge-mode: manual
+    bindings:
+      - { routingKey: "bolnisi", queue: "bolnisi" }
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+    properties:
+      org:
+        quartz:
+          jobStore:
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+
+key-cloak-config:
+  metabusKeyCloakConfig:
+    clientId: BOLNISI_PILOT_APPLICATION
+    clientSecret: ${METABUS_KEYCLOAK_CLIENT_SECRET:**********}
+    scope: openid email profile address
+    grantYype: client_credentials
+    url: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}/realms/Metabus/protocol/openid-connect/token
+  apiMetabus: ${METABUS_API_HOST:http://localhost}:${METABUS_API_EXPOSED_PORT:8084}/api/v1/jobs
+  bolnisiKeyCloakConfig:
+    clientId: manage_bolnisi_users
+    secret: ${BOLNISI_KEYCLOAK_API_SECRET:**********}
+    url: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}
+    realm: BolnisiPilotApplication
+  clientIdFontEnd: frontend_dashboard
+  frontendUrl: ${FRONTEND_DOMAIN_PUBLIC_URL:https://poo-frontend-dev.sotatek.works}${FRONTEND_LOGIN_PATH:/login}
+  clientIdApp: mobile-scan-app
+scan-trust:
+  domain: ${SCANTRUST_DOMAIN:http://10.4.10.184:8980}
+  scmDataAsync: ${SCANTRUST_SCM_DATA_ASYNC:/api/v2/scm/upload/async/}
+  scmDataSync: ${SCANTRUST_SCM_DATA_SYNC:/api/v2/scm/upload/}
+  scmTaskState: ${SCANTRUST_SCM_TASK_STATE:/api/v2/scm/tasks/}
+  uatToken: ${SCANTRUST_UAT_TOKEN:4ZbhPGGWchZkXwAfE6ghcda2VTvNZtGr390wHDeM}
+  repeatTimes: ${SCANTRUST_REPEAT_TIMES:5}
+  repeatInterval: ${SCANTRUST_REPEAT_INTERVAL:10} # in seconds
+  minBackoff: ${SCANTRUST_MIN_BACKOFF:2}
+  maxBackoff: ${SCANTRUST_MAX_BACKOFF:30}
+

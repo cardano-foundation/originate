@@ -1,0 +1,64 @@
+.card-item {
+  ion-card {
+    margin: 0;
+    border-radius: 16px;
+    box-shadow: 2px 2px 10px rgba(3, 3, 33, 0.2);
+  }
+  .card-icon {
+    position: relative;
+
+    .dot-active {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      top: -5px;
+      left: 30px;
+      background-color: #20C198;
+    }
+  }
+  ion-card-title {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 21px;
+  }
+
+  ion-card-content {
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 19px;
+  }
+
+  ion-chip {
+    width: 45px;
+    height: 45px;
+    padding-inline: 6px;
+    text-align: center;
+    margin: 0;
+    background-color: var(--primary-color);
+    margin-bottom: 16px;
+    border-radius: 50%;
+  }
+
+  ion-thumbnail {
+    --size: 31px;
+    border-radius: 50%;
+  }
+
+  ion-chip.one-lot {
+    background-color: #ce4d59;
+  }
+
+  ion-chip.completed {
+    background-color: #20c198;
+  }
+  
+  .cert-type {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: block;
+  }
+}

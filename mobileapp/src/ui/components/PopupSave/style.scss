@@ -1,0 +1,38 @@
+.modal-save {
+  border-radius: 16px 16px 0 0;
+  .title {
+    font-size: 24px;
+    margin-bottom: 0;
+  }
+  .subtitle {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 5px 0 10px;
+  }
+  .group-button {
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .button-save-later {
+    --border-width: 1px;
+  }
+  ion-button {
+    height: 52px;
+  }
+  .button-save-later {
+    --border-color: #cccccc;
+    --color: #030321;
+  }
+}
+ion-modal {
+  &::part(handle) {
+    width: 150px;
+    top: 10px;
+  }
+}
+
+.modal-save.modal-save-range-scan {
+  --height: auto;
+}

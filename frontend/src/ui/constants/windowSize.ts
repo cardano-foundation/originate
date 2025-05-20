@@ -1,0 +1,13 @@
+export const WINDOW_SIZE_WIDTH = {
+  TABLET: 990,
+  MOBILE: 650,
+  SMALL_MOBILE: 410,
+};
+
+export const HEIGHT_FOOTER = {
+  NORMAL: 80,
+  RESPONSIVE: 160,
+  RESPONSIVE_SMALL_MOBILE: 180,
+};
+
+export const BREAKPOINT_FOOTER = 790;

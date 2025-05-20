@@ -1,0 +1,49 @@
+{
+	"txHash": "e92ab9908f4045df369a2a0b593f446b4631d3ac2a7969f5fa39941e82e5429d",
+	"jobBatch": {
+		"jobType": "scm:georgianWine",
+		"jobSubType": "georgianWine",
+		"groupType": "SINGLE_GROUP",
+		"jobs": [
+			{
+				"id": 567861,
+				"state": "SUBMITTED",
+				"businessData": {
+					"type": "scm:georgianWine",
+					"subType": "georgianWine",
+					"data": {
+						"date": "string",
+						"company_name": "string",
+						"country": "string",
+						"address": "string",
+						"certificate_type": "string",
+						"lot_entries": [
+							{
+								"laboratory": "string",
+								"wine_name": "string",
+								"wine_type": "string",
+								"nominate": "string",
+								"type": "string",
+								"quantity": "string",
+								"bottle_volume": "string",
+								"total_volume": "string",
+								"price_per_bottle": "string"
+							}
+						]
+					},
+					"signature": [73,74,72,69,6,66,67,34],
+					"pubKey": "https://wine.gov.ge/.well-known/4527/publickey"
+				},
+				"txHash": null,
+				"groupType": "SINGLE_GROUP",
+				"group": null,
+				"jobIndex": "0",
+				"retryCount": 5
+			}
+		],
+		"cid": "CT5htkeEhPuyxuGExQSo32ZRPU6jNtywJZS1Zh95Xd7RVEPSuk3",
+		"hashAlgo": "blake2b-256"
+	},
+	"submittedDate": 1692171433.0758111,
+	"retryCountsForUnexpectedError": -1
+}

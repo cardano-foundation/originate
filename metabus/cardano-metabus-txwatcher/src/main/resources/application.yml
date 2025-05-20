@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: cardano-metabus-txwatcher
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev,yaci}
+
+
+store:
+  cardano:
+    sync-start-slot: ${SYNC_START_SLOT:61519498}
+    sync-start-blockhash: ${SYNC_START_HASH:138845b80f2e09f6f8c522ca3efe740fdb801df20829d2e309b34c3b6d3ea61c}
+    protocol-magic: ${PROTOCOL_MAGIC:1}
+    port: ${CARDANO_NODE_PORT:3011}
+    host: ${CARDANO_NODE_HOST:preprod-node.world.dev.cardano.org}

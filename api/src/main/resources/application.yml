@@ -1,0 +1,47 @@
+# custom configs
+cardano-bolnisipilot-api:
+  security:
+    endpointAuthorizations:
+      - { urlPattern: "/api/v1/certs/**", method: "POST", roles: [ "ADMIN", "NWA" ], device: [ ] }
+      - { urlPattern: "/api/v1/certs", method: "GET", roles: [ "ADMIN", "NWA" ],device: [ ] }
+      - { urlPattern: "/api/v1/certs/winery/**", method: "GET", roles: [ "ADMIN", "WINERY", "NWA" ], device: [ "APP" ] }
+      - { urlPattern: "/api/v1/scm/lot/*/approve", method: "PUT", roles: [ "WINERY" ] ,device: [ "WEB" ] }
+      - { urlPattern: "/api/v1/scm/lot/**", method: "POST", roles: [ "ADMIN", "DATA_PROVIDER" ] ,device: [ "WEB" ] }
+      - { urlPattern: "/api/v1/scm/lot/**", method: "GET", roles: [ "ADMIN", "DATA_PROVIDER", "WINERY" ] ,device: [ "WEB" ] }
+      - { urlPattern: "/api/v1/scm/lot/**", method: "PUT", roles: [ "ADMIN", "DATA_PROVIDER" ] ,device: [ "WEB" ] }
+      - { urlPattern: "/api/v1/bottles/**", method: "POST", roles: [ "ADMIN", "DATA_PROVIDER" ] ,device: [ "WEB" ] }
+      - { urlPattern: "/api/v1/bottles/*", method: "GET", roles: [ "ADMIN", "DATA_PROVIDER", "WINERY" ] ,device: [ "WEB" ] }
+      - { urlPattern: "/api/v1/bottles/range-scan/*/certs/**", method: "PUT", roles: [ "ADMIN", "WINERY", "DATA_PROVIDER" ] ,device: [ "APP" ] }
+      - { urlPattern: "/api/v1/bottles/*/certs/**", method: "PUT", roles: [ "ADMIN", "WINERY" ] ,device: [ "APP" ] }
+      - { urlPattern: "/api/v1/bottles/*/lots/**", method: "GET", roles: [ "ADMIN", "DATA_PROVIDER", "WINERY" ] ,device: [ "APP" ] }
+      - { urlPattern: "/api/v1/bottles/*/bottle/**", method: "GET", roles: [ "ADMIN", "DATA_PROVIDER", "WINERY" ] ,device: [ "APP" ] }
+      - { urlPattern: "/api/v1/user/winery", method: "POST", roles: [ "NWA" ] ,device: [ ] }
+      - { urlPattern: "/api/v1/user/winery/**", method: "PUT", roles: [ "NWA" ] ,device: [ ] }
+      - { urlPattern: "/api/v1/user/admin", method: "POST", roles: [ "ADMIN" ] ,device: [ ] }
+      - { urlPattern: "/api/v1/user/dataprovider", method: "POST", roles: [ "ADMIN" ],device: [ ] }
+      - { urlPattern: "/api/v1/user/*", method: "GET", roles: [ "ADMIN" , "DATA_PROVIDER", "WINERY", "NWA" ] ,device: [ "APP","WEB" ] }
+      - { urlPattern: "/api/v1/certs/*/revoke", method: "PUT", roles: [ "NWA" ], device: [ ] }
+      - { urlPattern: "/api/v1/user/terms/accept", method: "POST", roles: [ "ADMIN" , "DATA_PROVIDER", "WINERY" ], device: [ ] }
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/plain,text/css,application/javascript,application/json
+    min-response-size: 1024
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+
+certificate:
+  signature:
+    verification:
+      disabled: false

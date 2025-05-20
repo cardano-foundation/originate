@@ -1,0 +1,137 @@
+.bottle-list-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  --height: auto;
+  &::part(content) {
+    position: relative;
+    border-radius: 16px 16px 0 0;
+    --max-height: 85vh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+  }
+
+  .content {
+    height: 100%;
+    overflow: auto;
+    padding: 0px 20px;
+  }
+
+  .approve-container {
+    padding: 20px 20px 30px 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
+    background: #fff;
+    z-index: 10;
+  }
+
+  .list-item-container {
+    height: 100%;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .list-item-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: 500;
+    padding-inline: unset;
+  }
+
+  @media (max-width: 400px) {
+    .title {
+      font-size: 22px;
+    }
+  }
+
+  @media (max-width: 370px) {
+    .title {
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 340px) {
+    .title {
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 290px) {
+    .title {
+      font-size: 15px;
+    }
+  }
+
+  .sub-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 25px;
+  }
+
+  .button-outline {
+    --border-color: #cccccc;
+    --color: #030321;
+    margin-top: 10px;
+  }
+
+  ion-toolbar {
+    --background: #fff;
+    --border-color: #fff;
+    --min-height: 74px;
+    --padding-top: 0;
+  }
+
+  .icon-drop {
+    width: 16px;
+    margin-left: 16px;
+  }
+
+  .title-toolbar {
+    padding-top: 0;
+  }
+}
+
+.bottle-item {
+  border-bottom: 1px solid #ccc;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:last-child {
+    border-bottom: unset;
+    margin-bottom: 20px;
+  }
+
+  .bottle-label {
+    padding: 15px 0;
+    width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+
+    .bottle-id {
+      font-weight: 600;
+      font-size: 18px;
+      color: #030321;
+      width: 35%;
+    }
+
+    .bottle-name {
+      @extend .bottle-id;
+      color: #363c4a;
+    }
+  }
+
+  .icon-delete {
+    padding: 2px;
+    width: 31px;
+    height: 31px;
+  }
+}

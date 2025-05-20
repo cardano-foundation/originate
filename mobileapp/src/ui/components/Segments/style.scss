@@ -1,0 +1,22 @@
+.custom-segment {
+  ion-segment {
+    --background: #cccccc80;
+  }
+
+  ion-segment-button {
+    --indicator-color: var(--primary-color);
+    text-transform: none;
+  }
+
+  /* Material Design styles */
+  ion-segment-button.md {
+    --color: #000;
+    --color-checked: var(--primary-color);
+    --indicator-height: 4px;
+  }
+
+  /* iOS styles */
+  ion-segment-button.ios {
+    --color-checked: #fff;
+  }
+}

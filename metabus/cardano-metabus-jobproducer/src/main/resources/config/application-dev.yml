@@ -1,0 +1,108 @@
+# monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+    enabled-by-default: true
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: ${JOB_PRODUCER_PORT:8071}
+
+cardano-metabus-txproducer:
+  connection:
+    address: ${NODE_ADDRESS:localhost}
+    port: ${NODE_PORT:3011}
+  network: ${CARDANO_NODE_NETWORK:preprod}
+  crawlerMaxBlockLag: ${CRAWLER_MAX_BLOCK_LAG:5}
+  retryConfirmingTransactionDelayTime: ${METABUS_RETRY_CONFIRMING_TRANSACTION_DELAY_TIME:5000} # miliseconds
+
+kafka:
+  auto-create-topics: false
+  admin:
+    bootstrapServers: ${KAFKA_BOOTSTRAP_SERVER:localhost:29092}
+  topics:
+    jobRetry:
+      name: ${TOPIC_RETRY_JOB:dev.job.retry}
+      partitions: 1
+      replicationFactor: 1
+
+    jobSchedule:
+      name: ${TOPIC_SCHEDULE_JOB:dev.job.schedule}
+      partitions: 1
+      replicationFactor: 1
+
+    confirmingTransaction:
+      name: ${TOPIC_CONFIRMING_TRANSACTION:dev.transaction.confirming}
+      partitions: 1
+      replicationFactor: 1
+      configs:
+        retryCountForUnexpectedError: ${TOPIC_CONFIRMING_TRANSACTION_RETRY_COUNT_FOR_UNEXPECTED_ERROR:-1} # -1 is mean Long.maxValue for infinite retry.
+      retryableTopic:
+        attemptCounts: 2
+        autoCreateRetryTopics: true
+        reconfirmDelayMilliseconds: ${TOPIC_CONFIRMING_DELAY_DURATIONS:180000}
+        replicationFactor: 1
+
+    deadLetter:
+      name: ${TOPIC_DEAD_LETTER:dev.job.dead.letter}
+      partitions: 1
+      replicationFactor: 1
+
+  producers:
+    json-producer:
+      clientId: json-producer
+      retries: 3
+      bootstrapServers: ${KAFKA_BOOTSTRAP_SERVER:localhost:29092}
+      maxInFlightRequestsPerConnection: 1
+      requestTimeoutMs: 30000
+      batchSize: 16384
+      lingerMs: 5
+      bufferMemory: 33554432
+      acks: all
+      enableIdempotence: true
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: org.springframework.kafka.support.serializer.JsonSerializer
+  consumers:
+    json-consumer:
+      clientId: json-consumer
+      bootstrapServers: ${KAFKA_BOOTSTRAP_SERVER:localhost:29092}
+      keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+      valueDeserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      autoOffsetReset: earliest
+      enableAutoCommit: false
+      autoCommitIntervalMs: 1000
+      sessionTimeoutMs: 30000
+      trustedPackages: "*"
+      allowAutoCreateTopics: true # easier to let it auto create for now due to RetryableTopic (vs in init-kafka service)  
+      groupId: job
+      concurrency: 10
+      pollTimeout: 3600000
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://${STATE_DB_HOST:localhost}:${STATE_DB_EXPOSED_PORT:54324}/${STATE_DB_NAME:state_storage}?reWriteBatchedInserts=true&currentSchema=public
+    username: ${STATE_DB_USER_NAME:proofoforiginadmin}
+    password: ${STATE_DB_USER_SECRET:bolnisiDoNotUseInProduction}
+    driver-class-name: org.postgresql.Driver
+  # JPA specific configs
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        '[jdbc.batch_size]': 1000
+        '[default_schema]': public
+        '[show_sql]': false
+        '[format_sql]': true
+        '[order_inserts]': true
+        '[order_updates]': true
+
+logging:
+  level:
+    com.cardano: ${JOB_PRODUCER_LOG:TRACE}

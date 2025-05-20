@@ -1,0 +1,111 @@
+# custom configs:
+cardano-metabus-txsubmitter:
+  connection:
+    socket:
+      path: ${CARDANO_NODE_SOCKET_PATH:${user.dir}/metabus/cardano-metabus-txsubmitter/ipc/node.socket}
+  network: ${CARDANO_NODE_NETWORK:preprod}
+  wallet:
+    mnemonic: ${METABUS_TXSUBMITTER_WALLET_MNEMONIC:kit color frog trick speak employ suit sort bomb goddess jewel primary spoil fade person useless measure manage warfare reduce few scrub beyond era}
+  metadatumLabel: ${METABUS_TXSUBMITTER_METADATUM_LABEL:1904}
+  metadataVersion: ${METADATA_VERSION:1}
+  txOut: ${METABUS_TXSUBMITTER_FIXED_TX_OUT:1000000} #lovelace
+  batchConsumptionBoundaryTime: ${METABUS_TXSUBMITTER_PENDING_JOB_BOUNDARY_TIME:6000} # milliseconds
+  consumeBaseOnTimeInterval: ${METABUS_TXSUBMITTER_CONSUME_BASE_ON_TIME_INTERVAL:6000} # milliseconds
+  numberOfDerivedAddresses: ${METABUS_TXSUBMITTER_NUMBER_OF_ADDRESSES:10}
+  waitingTimeToReConsume: ${METABUS_TXSUBMITTER_WAITING_TIME_TO_RECONSUME:30000}
+  numberOfRetryPullingUtxo: ${METABUS_TXSUBMITTER_NUMBER_OF_RETRY_PULLING_UTXO:1}
+  offchainBucket: ${METABUS_TXSUBMITTER_OFFCHAIN_BUCKET:georgian-wine}
+  txSubmissionRetryDelayDuration: ${METABUS_TXSUBMITTER_TX_SUBMISSION_RETRY_DELAY_DURATION:500} # milliseconds
+  webclients:
+    - { beanName: "offchainStorageWebClient", baseUrl: "${METABUS_TXSUBMITTER_OFFCHAIN_HOST:http://localhost:8061}", headers: { } }
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://${STATE_DB_HOST:localhost}:${STATE_DB_EXPOSED_PORT:54324}/${STATE_DB_NAME:state_storage}?reWriteBatchedInserts=true&currentSchema=public
+    username: ${STATE_DB_USER_NAME:proofoforiginadmin}
+    password: ${STATE_DB_USER_SECRET:bolnisiDoNotUseInProduction}
+    driver-class-name: org.postgresql.Driver
+  # JPA specific configs
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.batch_size: 1000
+        default_schema: public
+        show_sql: false
+        format_sql: true
+        order_inserts: true
+        order_updates: true
+  task:
+    scheduling:
+      pool:
+        size: ${TASK_SCHEDULER_POOL_SIZE:1}
+        threadGroupName: ${TASK_SCHEDULER_THREAD_POOL_NAME:txSubmitterPool}
+        threadPrefixName: ${TASK_SCHEDULER_THREAD_PREFIX_NAME:txSubmitterThread-}
+
+kafka:
+  auto-create-topics: false
+  admin:
+    bootstrapServers: ${KAFKA_BOOTSTRAP_SERVER:localhost:29092}
+  topics:
+    jobRetry:
+      name: ${TOPIC_RETRY_JOB:dev.job.retry}
+      partitions: 1
+      replicationFactor: 1
+
+    jobSchedule:
+      name: ${TOPIC_SCHEDULE_JOB:dev.job.schedule}
+      partitions: 1
+      replicationFactor: 1
+
+    confirmingTransaction:
+      name: ${TOPIC_CONFIRMING_TRANSACTION:dev.transaction.confirming}
+      partitions: 1
+      replicationFactor: 1
+      configs:
+        retryCountForUnexpectedError: ${TOPIC_CONFIRMING_TRANSACTION_RETRY_COUNT_FOR_UNEXPECTED_ERROR:-1} # -1 is mean Long.maxValue for infinite retry.
+
+    deadLetter:
+      name: ${TOPIC_DEAD_LETTER:dev.job.dead.letter}
+      partitions: 1
+      replicationFactor: 1
+
+  producers:
+    json-producer:
+      clientId: json-producer
+      retries: 3
+      bootstrapServers: ${KAFKA_BOOTSTRAP_SERVER:localhost:29092}
+      maxInFlightRequestsPerConnection: 1
+      requestTimeoutMs: 30000
+      batchSize: 16384
+      lingerMs: 5
+      bufferMemory: 33554432
+      acks: all
+      enableIdempotence: true
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: org.springframework.kafka.support.serializer.JsonSerializer
+  consumers:
+    json-consumer:
+      clientId: json-consumer
+      bootstrapServers: ${KAFKA_BOOTSTRAP_SERVER:localhost:29092}
+      keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+      valueDeserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      autoOffsetReset: earliest
+      enableAutoCommit: false
+      autoCommitIntervalMs: 1000
+      sessionTimeoutMs: 30000
+      trustedPackages: "*"
+      allowAutoCreateTopics: false
+      groupId: txsubmitter
+      concurrency: 1
+      pollTimeout: 3600000
+
+logging:
+  level:
+    com.sotatek: ${LOG:TRACE}
+
+server:
+  port: ${METABUS_TXSUBMITTER_PORT:8088}

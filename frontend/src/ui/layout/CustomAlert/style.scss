@@ -1,0 +1,47 @@
+@import "../../styles/customStyles.scss";
+
+.custom-alert {
+    position: absolute;
+    padding: 16px 44px !important;
+    top: 50px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
+    z-index: 1301; // z-index of modal = 1300 so z-index of alert must larger
+
+    .MuiAlert-message {
+        color: $black-color;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+    }
+
+    .MuiAlert-icon {
+        display: none;
+    }
+}
+
+.alert-success {
+    background-color: $light-green !important;
+    border: 1px solid $green-color;
+    text-align: center;
+}
+
+.alert-error {
+    background-color: $light-red !important;
+    border: 1px solid $red-color;
+    text-align: center;
+}
+
+@media screen and (max-width: 400px) {
+    .alert-error {
+        top: 90px !important;
+        padding-inline: 20px !important;
+    }
+
+    .alert-success {
+        top: 60px !important;
+        padding-inline: 20px !important;
+    }
+}

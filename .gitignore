@@ -1,0 +1,44 @@
+# IDEA
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iws
+*.iml
+*.ipr
+
+# Change if we need run configs committed from individual modules
+**/.idea/*
+
+# VSCODE
+.vscode
+
+# JAVA
+**/.flattened-pom.xml
+**/target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# TS
+**/node_modules
+**/.pnp
+**/.pnp.js
+
+**/coverage
+
+**/build
+
+**/.DS_Store
+# **/.env.dev
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# COMMON
+.env
+/.idea/

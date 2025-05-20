@@ -1,0 +1,10 @@
+.list-card-item {
+  padding: 25px 20px 15px;
+  ion-row {
+    gap: 20px;
+    ion-col {
+      max-width: calc(50% - 10px);
+      min-width: calc(50% - 10px);
+    }
+  }
+}

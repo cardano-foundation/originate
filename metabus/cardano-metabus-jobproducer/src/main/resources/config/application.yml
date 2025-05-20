@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: cardano-metabus-jobproducer
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
