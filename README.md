@@ -1,30 +1,59 @@
-# Originate (README)
+# Originate
 
-**Originate** is an open source solution created by the Cardano Foundation to prove the origin of wine bottles on the Cardano blockchain. It anchors key supply-chain events on chain and exposes simple application interfaces so vineyards, distributors, regulators, and consumers can verify a bottle’s journey. By combining decentralized identifiers, richly structured metadata, and the Cardano UTXO ledger, Originate delivers a transparent, tamper evident provenance layer that any wine producer, or developer, can adopt and extend.
+**Originate** is an open-source traceability solution developed by the Cardano Foundation to verify product authenticity and certification integrity across complex supply chains.
+Designed for real-world implementation, Originate anchors key events to the Cardano blockchain—enabling tamper-proof records and exposing modular APIs for seamless integration into enterprise and regulatory systems.
+Whether you are a developer building trust-driven applications or an enterprise embedding compliance into operations, Originate provides:
+
+* **Decentralized identifiers (DIDs)** for secure actor authentication
+* **Structured provenance metadata** for certification and inspection
+* **Immutable records** on the Cardano UTXO ledger
+* **API interfaces** for interoperability with ERP, QA, or traceability systems
+
+Originate is already deployed in production environments and is adaptable across industries—from regulated goods to global exports—supporting transparency, operational alignment, and consumer confidence.
 
 > note: ⚠️ The local development environment currently supports Linux and macOS only — Windows support is coming soon.
 
 ### Cardano
 
-Cardano is a decentralized, immutable blockchain whose design lets certificates, supply-chain events, and digital signatures be stored as machine-readable metadata in a single, tamper-proof transaction. The network is stewarded by the Cardano Foundation, an independent Swiss not-for-profit that advances Cardano as public digital infrastructure across multiple industries.
+Cardano is a third-generation decentralized blockchain optimized for immutability, security, and machine-readable metadata—enabling tamper-proof records of certifications, supply chain data, and digital signatures.
+
+The Cardano Foundation advances Cardano as public digital infrastructure and empowers the architects of the future to solve problems in new ways.
 
 ## Modules
 
 #### API Module
 
-Spring Boot service that exposes REST and WebSocket endpoints to manage all provenance operations—register producers, mint bottle assets, append shipping or quality events, and query history. It stores off-chain data in PostgreSQL database, enforces role-based access, and forwards signed Cardano jobs to Metabus.
+A robust Spring Boot service that exposes both REST and WebSocket endpoints to orchestrate core provenance operations. This includes:
+
+* Registering producers and users
+* Minting product assets
+* Recording events (e.g., shipping, inspection, certification)
+* Querying historical trace data
+
+It enforces role-based access control, stores off-chain metadata in a PostgreSQL database, and forwards signed blockchain jobs to the Metabus module for ledger submission.
 
 #### Frontend Module
 
-React + Material UI dashboard. Users can create product batches using their browser wallets.
+A React application built with Material UI, this dashboard enables users to create product batches directly from their browser. It integrates with browser-based Cardano wallets, allowing users to sign transactions and interact with the system without additional setup.
 
 #### Metabus Module
 
-Lightweight transaction manager that turns any piece of business data into a tamper-evident Cardano record while shielding your application from blockchain complexity. Incoming events arrive through a simple REST API; Metabus stores the full JSON payload in object storage, produces a content-addressable CID, places a job on Kafka, picks an unspent UTXO, builds and batches the corresponding metadata transaction, submits it through a local node, watches the chain for confirmation, and finally returns the result to your service over RabbitMQ.
+A lightweight transaction manager that turns any piece of business data into a **tamper-evident Cardano record** while shielding your application from blockchain complexity.
+Incoming events arrive through a simple REST API. Metabus:
+
+* Stores the full JSON payload in object storage
+* Produces a content-addressable CID
+* Places a job on Kafka
+* Picks an unspent UTXO
+* Builds and batches the corresponding metadata transaction
+* Submits it through a local node
+* Watches the chain for confirmation
+* Returns the result to your service over RabbitMQ
 
 #### Mobile App Module
 
-Ionic/Capacitor hybrid app (installable PWA and native wrapper)
+The Originate Mobile App is built using an **Ionic/Capacitor hybrid stack**, enabling both **installable PWAs** and **native mobile deployment** from a single codebase. 
+Designed for field operability and usability at the edge of supply chains, it enables real-time interaction with traceability workflows via QR scanning, wallet integration, and event logging.
 
 ## Dependencies
 
