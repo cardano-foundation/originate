@@ -1,4 +1,4 @@
-# Originate (README)
+# Originate
 
 **Originate** is an open-source traceability solution developed by the Cardano Foundation to verify product authenticity and certification integrity across complex supply chains.
 Designed for real-world implementation, Originate anchors key events to the Cardano blockchain—enabling tamper-proof records and exposing modular APIs for seamless integration into enterprise and regulatory systems.
