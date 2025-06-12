@@ -4,7 +4,7 @@
 Designed for real-world implementation, Originate anchors key events to the Cardano blockchain—enabling tamper-proof records and exposing modular APIs for seamless integration into enterprise and regulatory systems.
 Whether you are a developer building trust-driven applications or an enterprise embedding compliance into operations, Originate provides:
 
-* **Decentralized identifiers (DIDs)** for secure actor authentication
+* **Digital signatures** ensuring data authenticity and integrity
 * **Structured provenance metadata** for certification and inspection
 * **Immutable records** on the Cardano UTXO ledger
 * **API interfaces** for interoperability with ERP, QA, or traceability systems
@@ -23,7 +23,7 @@ The Cardano Foundation advances Cardano as public digital infrastructure and emp
 
 #### API Module
 
-A robust Spring Boot service that exposes both REST and WebSocket endpoints to orchestrate core provenance operations. This includes:
+A robust Spring Boot service that exposes both REST endpoints to orchestrate core provenance operations. This includes:
 
 * Registering producers and users
 * Minting product assets
@@ -34,18 +34,18 @@ It enforces role-based access control, stores off-chain metadata in a PostgreSQL
 
 #### Frontend Module
 
-A React application built with Material UI, this dashboard enables users to create product batches directly from their browser. It integrates with browser-based Cardano wallets, allowing users to sign transactions and interact with the system without additional setup.
+A React application built with Material UI, this dashboard enables users to create product batches directly from their browser.
 
 #### Metabus Module
 
 A lightweight transaction manager that turns any piece of business data into a **tamper-evident Cardano record** while shielding your application from blockchain complexity.
 Incoming events arrive through a simple REST API. Metabus:
 
-* Stores the full JSON payload in object storage
-* Produces a content-addressable CID
-* Places a job on Kafka
+* Places a job on Kafka for batching
+* Stores the full batch JSON payload in object storage
+* Produces a content-addressable CID of the batch
 * Picks an unspent UTXO
-* Builds and batches the corresponding metadata transaction
+* Builds the corresponding metadata transaction
 * Submits it through a local node
 * Watches the chain for confirmation
 * Returns the result to your service over RabbitMQ
@@ -98,16 +98,16 @@ Then build the app:
 ./mvn clean package
 ```
 
-### Step 4: Create the .env.dev file
+### Step 4: Create the .env file
 
 First in the terminal, in the same file path than before: >> /mnt/c/Users/originate/originate-agl-oss
 
 ```plain
-$ touch .env.dev
+$ touch .env
 ```
 
 ```plain
-$ nano .env.dev
+$ nano .env
 ```
 
 Add the environment file that you need based on the environment that you are working
@@ -125,14 +125,14 @@ Add the environment file that you need based on the environment that you are wor
 ```plain
 sudo usermod -aG docker $USER
 restart session in wsl
-docker compose --env-file ../.env.dev -f docker-compose-local.yml up -d
+docker compose --env-file ../.env -f docker-compose-local.yml up -d
 ```
 
 Go back to the main route:
 
 ```plain
 >> /mnt/c/Users/originate/originate-agl-oss
-$ docker compose --env-file .env.dev up -d 
+$ docker compose --env-file .env up -d 
 ```
 
 If everything works properly we are going to see in our terminal something like this:
