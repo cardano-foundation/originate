@@ -131,7 +131,7 @@ brew services restart zookeeper
 
 ### Post deployment
 
-*   Detailed post-deployment instructions are provided [here](https://github.com/Agrow-Labs/originate-agl-oss/blob/update-name/docs/post-deployment-steps.md).
+*   Detailed post-deployment instructions are provided [here](docs/post-deployment-steps.md).
 
 ## Dev environment cleanup
 
