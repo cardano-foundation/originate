@@ -41,11 +41,11 @@ A React application built with Material UI, this dashboard enables users to crea
 A lightweight transaction manager that turns any piece of business data into a **tamper-evident Cardano record** while shielding your application from blockchain complexity.
 Incoming events arrive through a simple REST API. Metabus:
 
-* Stores the full JSON payload in object storage
-* Produces a content-addressable CID
-* Places a job on Kafka
+* Places a job on Kafka for batching
+* Stores the full batch JSON payload in object storage
+* Produces a content-addressable CID of the batch
 * Picks an unspent UTXO
-* Builds and batches the corresponding metadata transaction
+* Builds the corresponding metadata transaction
 * Submits it through a local node
 * Watches the chain for confirmation
 * Returns the result to your service over RabbitMQ
