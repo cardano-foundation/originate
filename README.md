@@ -26,8 +26,7 @@ The Cardano Foundation advances Cardano as public digital infrastructure and emp
 A robust Spring Boot service that exposes both REST endpoints to orchestrate core provenance operations. This includes:
 
 * Registering producers and users
-* Minting product assets
-* Recording events (e.g., shipping, inspection, certification)
+* Recording events (e.g., certification)
 * Querying historical trace data
 
 It enforces role-based access control, stores off-chain metadata in a PostgreSQL database, and forwards signed blockchain jobs to the Metabus module for ledger submission.
@@ -53,7 +52,7 @@ Incoming events arrive through a simple REST API. Metabus:
 #### Mobile App Module
 
 The Originate Mobile App is built using an **Ionic/Capacitor hybrid stack**, enabling both **installable PWAs** and **native mobile deployment** from a single codebase. 
-Designed for field operability and usability at the edge of supply chains, it enables real-time interaction with traceability workflows via QR scanning, wallet integration, and event logging.
+Designed for field operability and usability at the edge of supply chains, it enables real-time interaction with traceability workflows via QR scanning, and event logging.
 
 ## Dependencies
 
