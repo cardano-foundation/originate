@@ -8,8 +8,8 @@ import org.cardanofoundation.proofoforigin.api.controllers.dtos.request.WineryUs
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BaseResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BriefWineryResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.WineryInfoUserResponse;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.WineryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.entities.Winery;
 import org.cardanofoundation.proofoforigin.api.utils.SecurityContextHolderUtil;
@@ -77,7 +77,7 @@ public class WineryServiceImplTest {
 
         for (String s : list) {
             WineryUserBody wineryUserBody = getWineryUserBody(s);
-            Assertions.assertThrows(BolnisiPilotException.class, () -> {
+            Assertions.assertThrows(OriginatePilotException.class, () -> {
                 wineryService.createWinery(wineryUserBody);
             });
         }
@@ -265,10 +265,10 @@ public class WineryServiceImplTest {
         wineryFromDB.setWineryId("f");
         when(wineryRepository.findTopByOrderByWineryIdLPadDesc()).thenReturn(Optional.of(wineryFromDB));
         when(wineryRepository.existsById("10")).thenReturn(true);
-        Exception exception = assertThrows(BolnisiPilotException.class,
+        Exception exception = assertThrows(OriginatePilotException.class,
                 () -> wineryService.saveWinery(winery));
         verify(wineryRepository, times(0)).save(any());
-        assertEquals(BolnisiPilotErrors.CALCULATED_WINERY_ID_NOT_UNIQUE.getMessage(), exception.getMessage());
+        assertEquals(OriginatePilotErrors.CALCULATED_WINERY_ID_NOT_UNIQUE.getMessage(), exception.getMessage());
     }
 
     @Test
@@ -284,7 +284,7 @@ public class WineryServiceImplTest {
     public void cannotGetPublicKeyForMissingWinery() {
         String wineryId = "winery1";
         when(wineryRepository.findByWineryId(wineryId)).thenReturn(Optional.empty());
-        Exception exception = assertThrows(BolnisiPilotException.class,
+        Exception exception = assertThrows(OriginatePilotException.class,
                 () -> wineryService.getWineryPublicKey(wineryId));
         assertEquals(exception.getMessage(), "Winery does not exist");
     }

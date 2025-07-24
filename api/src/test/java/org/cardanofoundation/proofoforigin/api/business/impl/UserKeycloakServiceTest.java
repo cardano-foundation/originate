@@ -6,7 +6,7 @@ import org.cardanofoundation.proofoforigin.api.constants.Role;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.UserCreateDto;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.request.KeycloakUserBody;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BaseResponse;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.utils.SecurityContextHolderUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,14 +74,14 @@ public class UserKeycloakServiceTest {
         list.add("test@ttess@..");
         KeycloakUserBody keycloakUserBody = getUser();
         for (String s : list) {
-            Assertions.assertThrows(BolnisiPilotException.class, () -> {
+            Assertions.assertThrows(OriginatePilotException.class, () -> {
                 keycloakUserBody.setEmail(s);
                 userKeycloak.createUser(keycloakUserBody, Role.ADMIN);
             });
         }
 
         for (String s : list) {
-            Assertions.assertThrows(BolnisiPilotException.class, () -> {
+            Assertions.assertThrows(OriginatePilotException.class, () -> {
                 keycloakUserBody.setEmail(s);
                 userKeycloak.createUser(keycloakUserBody, Role.DATA_PROVIDER);
             });

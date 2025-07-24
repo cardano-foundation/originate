@@ -2,8 +2,8 @@ package org.cardanofoundation.proofoforigin.api.business.impl;
 
 import org.cardanofoundation.proofoforigin.api.business.ScmUploadLotService;
 import org.cardanofoundation.proofoforigin.api.constants.Constants;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotError;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotError;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.LotRepository;
 import org.cardanofoundation.proofoforigin.api.repository.WineryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.entities.Lot;
@@ -73,15 +73,15 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_InvalidFileType_ThrowBolnisiPilotException() {
+    void uploadCsvFile_InvalidFileType_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.txt", "text/plain", "abc");
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_FILE_TYPE, ScmUploadLotServiceImpl.INVALID_FILE_TYPE_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -95,17 +95,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_InvalidWineryId_ThrowBolnisiPilotException() {
+    void uploadCsvFile_InvalidWineryId_ThrowOriginatePilotException() {
         MultipartFile file = createValidFile();
 
         when(wineryRepository.findById(any())).thenReturn(java.util.Optional.empty());
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 HttpStatus.NOT_FOUND.value(), ScmUploadLotServiceImpl.WINERY_NOT_FOUND_MSG, HttpStatus.NOT_FOUND));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -119,15 +119,15 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_NoData_ThrowBolnisiPilotException() {
+    void uploadCsvFile_NoData_ThrowOriginatePilotException() {
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.FILE_MISSING, ScmUploadLotServiceImpl.FILE_MISSING_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(null, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -140,17 +140,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankLotId_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankLotId_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 ",wine_name,origin,country_of_origin,produced_by,producer_address,40.123776,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -163,17 +163,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankWineName_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankWineName_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,,origin,country_of_origin,produced_by,producer_address,40.123776,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -186,17 +186,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankOrigin_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankOrigin_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,,country_of_origin,produced_by,producer_address,40.123776,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -209,17 +209,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankHCountryOfOrigin_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankHCountryOfOrigin_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,,produced_by,producer_address,40.123776,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -232,17 +232,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankProducedBy_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankProducedBy_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,,producer_address,40.123776,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -255,17 +255,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankProducerAddress_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankProducerAddress_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,,40.123776,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -278,17 +278,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankVarietalName_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankVarietalName_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -301,17 +301,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankVintageYear_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankVintageYear_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -324,17 +324,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankWineType_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankWineType_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -347,17 +347,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankWineColor_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankWineColor_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,wine_type,,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -370,17 +370,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankHarvestDate_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankHarvestDate_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,wine_type,wine_color,,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -393,17 +393,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankHarvestLocation_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankHarvestLocation_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -416,17 +416,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankPressingDate_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankPressingDate_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -439,17 +439,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankFermentationLng_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankFermentationLng_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -462,17 +462,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankFermentationDuration_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankFermentationDuration_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -485,17 +485,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankStorageVessel_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankStorageVessel_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -508,17 +508,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankBottlingLocation_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankBottlingLocation_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -531,17 +531,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_BlankNumberOfBottles_ThrowBolnisiPilotException() {
+    void uploadCsvFile_BlankNumberOfBottles_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -554,17 +554,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_InvalidLotIdLength_ThrowBolnisiPilotException() {
+    void uploadCsvFile_InvalidLotIdLength_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "1234567890,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -577,17 +577,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_InvalidTotalBottles_ThrowBolnisiPilotException() {
+    void uploadCsvFile_InvalidTotalBottles_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,0");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -600,17 +600,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_InvalidRangeProducerLatitude_ThrowBolnisiPilotException() {
+    void uploadCsvFile_InvalidRangeProducerLatitude_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,91,40.8962975,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -623,17 +623,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_InvalidRangeProducerLongitude_ThrowBolnisiPilotException() {
+    void uploadCsvFile_InvalidRangeProducerLongitude_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles\n" +
                 "12345678901,wine_name,origin,country_of_origin,produced_by,producer_address,41.1232016,181,varietal_name,2022,wine_type,wine_color,2022-10-07,harvest_location,2022-10-08,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,2022-10-09,bottling_location,2000");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -646,16 +646,16 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_InputFileNoData_ThrowBolnisiPilotException() {
+    void uploadCsvFile_InputFileNoData_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv", "lot_number,wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -668,17 +668,17 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_InputFileHeader_ThrowBolnisiPilotException() {
+    void uploadCsvFile_InputFileHeader_ThrowOriginatePilotException() {
         MultipartFile file = createMockMultipartFile("invalid.csv", "text/csv",
                 "wine_name,origin,country_of_origin,produced_by,producer_address,producer_latitude,producer_longitude,varietal_name,vintage_year,wine_type,wine_color,harvest_date,harvest_location,pressing_date,processing_location,fermentation_vessel,fermentation_duration,aging_recipient,aging_time,storage_vessel,bottling_date,bottling_location,number_of_bottles");
         setupWinery();
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 Constants.ERROR_CODE.INVALID_DATA, ScmUploadLotServiceImpl.INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
@@ -691,18 +691,18 @@ class ScmUploadLotServiceImplTest {
     }
 
     @Test
-    void uploadCsvFile_Exception_ThrowBolnisiPilotException() {
+    void uploadCsvFile_Exception_ThrowOriginatePilotException() {
         MultipartFile file = createValidFile();
         setupWinery();
 
         when(lotRepository.findByLotIdIn(any())).thenThrow(new RuntimeException());
 
-        BolnisiPilotException expectedException = new BolnisiPilotException(new BolnisiPilotError(
+        OriginatePilotException expectedException = new OriginatePilotException(new OriginatePilotError(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), HttpStatus.INTERNAL_SERVER_ERROR));
 
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> {
             scmUploadLotService.uploadCsvFile(file, WINERY_ID);
-        }, "Expected BolnisiPilotException to be thrown");
+        }, "Expected OriginatePilotException to be thrown");
 
         assertAll("Exception properties",
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),

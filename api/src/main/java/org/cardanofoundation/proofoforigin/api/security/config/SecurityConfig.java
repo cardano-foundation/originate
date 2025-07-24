@@ -3,7 +3,7 @@ package org.cardanofoundation.proofoforigin.api.security.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BaseResponse;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
 import org.cardanofoundation.proofoforigin.api.security.filter.TermsAuthenticationFilter;
 import org.cardanofoundation.proofoforigin.api.security.properties.EndpointAuthorizationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -96,7 +96,7 @@ public class SecurityConfig {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
-                    String json = objectMapper.writeValueAsString(BaseResponse.ofFailed(BolnisiPilotErrors.UNAUTHORIZED,
+                    String json = objectMapper.writeValueAsString(BaseResponse.ofFailed(OriginatePilotErrors.UNAUTHORIZED,
                             "Invalid or expired token. Please obtain a new token by the keycloak login api"));
                     response.getWriter().write(json);
                 })
@@ -105,14 +105,14 @@ public class SecurityConfig {
                         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                         response.setContentType("application/json");
                         response.setCharacterEncoding("UTF-8");
-                        String json = objectMapper.writeValueAsString(BaseResponse.ofFailed(BolnisiPilotErrors.ACCOUNT_NOT_TERMS,
+                        String json = objectMapper.writeValueAsString(BaseResponse.ofFailed(OriginatePilotErrors.ACCOUNT_NOT_TERMS,
                                 "account not terms."));
                         response.getWriter().write(json);
                     } else {
                         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                         response.setContentType("application/json");
                         response.setCharacterEncoding("UTF-8");
-                        String json = objectMapper.writeValueAsString(BaseResponse.ofFailed(BolnisiPilotErrors.FORBIDDEN,
+                        String json = objectMapper.writeValueAsString(BaseResponse.ofFailed(OriginatePilotErrors.FORBIDDEN,
                                 "You do not have permission to access this resource."));
                         response.getWriter().write(json);
                     }

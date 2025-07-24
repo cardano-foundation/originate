@@ -15,8 +15,8 @@ import org.cardanofoundation.proofoforigin.api.controllers.dtos.request.CertRequ
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.request.CertLotEntryBody;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.CertsResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.WineryCertsResponse;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.BottleRepository;
 import org.cardanofoundation.proofoforigin.api.repository.CertificateLotEntryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.CertificateRepository;
@@ -139,8 +139,8 @@ class CertificateServiceImplTest {
     @Test
     void test_create_cert_fail_duplicate() {
         when(certificateRepository.existsById("cert_id")).thenReturn(true);
-        Exception exception = assertThrows(BolnisiPilotException.class, () -> service.createCertificate("cert_id", "winery_id", new CertRequest()));
-        assertEquals(BolnisiPilotErrors.CONFLICT.getMessage(), exception.getMessage());
+        Exception exception = assertThrows(OriginatePilotException.class, () -> service.createCertificate("cert_id", "winery_id", new CertRequest()));
+        assertEquals(OriginatePilotErrors.CONFLICT.getMessage(), exception.getMessage());
     }
 
     @Test
@@ -148,8 +148,8 @@ class CertificateServiceImplTest {
         Winery winery = new Winery(wineryId, "keycloakUserId", "wineryName", null, "privateKey", "publicKey", "salt");
         when(certificateRepository.existsById("cert_id")).thenReturn(false);
         when(wineryRepository.findByWineryId("winery_id")).thenReturn(Optional.of(winery));
-        Exception exception = assertThrows(BolnisiPilotException.class, () -> service.createCertificate("cert_id", "winery_id", new CertRequest()));
-        assertEquals(exception.getMessage(), BolnisiPilotErrors.WINERY_MISSING_RS_CODE.getMessage());
+        Exception exception = assertThrows(OriginatePilotException.class, () -> service.createCertificate("cert_id", "winery_id", new CertRequest()));
+        assertEquals(exception.getMessage(), OriginatePilotErrors.WINERY_MISSING_RS_CODE.getMessage());
     }
 
     @Test
@@ -160,8 +160,8 @@ class CertificateServiceImplTest {
         CertLotEntryBody lotEntry = mockLotEntry();
         CertRequest certRequest = validCertRequest(lotEntry);
         certRequest.setSignature("signature");
-        Exception exception = assertThrows(BolnisiPilotException.class, () -> service.createCertificate("cert_id", "winery_id", certRequest));
-        assertEquals(BolnisiPilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), exception.getMessage());
+        Exception exception = assertThrows(OriginatePilotException.class, () -> service.createCertificate("cert_id", "winery_id", certRequest));
+        assertEquals(OriginatePilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), exception.getMessage());
     }
 
     @Test
@@ -172,8 +172,8 @@ class CertificateServiceImplTest {
         CertLotEntryBody lotEntry = mockLotEntry();
         CertRequest certRequest = validCertRequest(lotEntry);
         certRequest.setSignature("header.signature");
-        Exception exception = assertThrows(BolnisiPilotException.class, () -> service.createCertificate("cert_id", "winery_id", certRequest));
-        assertEquals(BolnisiPilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), exception.getMessage());
+        Exception exception = assertThrows(OriginatePilotException.class, () -> service.createCertificate("cert_id", "winery_id", certRequest));
+        assertEquals(OriginatePilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), exception.getMessage());
     }
 
     @Test
@@ -184,8 +184,8 @@ class CertificateServiceImplTest {
         CertLotEntryBody lotEntry = mockLotEntry();
         CertRequest certRequest = validCertRequest(lotEntry);
         certRequest.setPublicKeyBase64Url("notlength32");
-        Exception exception = assertThrows(BolnisiPilotException.class, () -> service.createCertificate("cert_id", "winery_id", certRequest));
-        assertEquals(BolnisiPilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), exception.getMessage());
+        Exception exception = assertThrows(OriginatePilotException.class, () -> service.createCertificate("cert_id", "winery_id", certRequest));
+        assertEquals(OriginatePilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), exception.getMessage());
     }
 
     @Test
@@ -197,16 +197,16 @@ class CertificateServiceImplTest {
 
         CertLotEntryBody lotEntry = mockLotEntry();
         CertRequest certRequest = validCertRequest(lotEntry);
-        Exception exception = assertThrows(BolnisiPilotException.class, () -> service.createCertificate("cert_id", "winery_id", certRequest));
-        assertEquals(BolnisiPilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), exception.getMessage());
+        Exception exception = assertThrows(OriginatePilotException.class, () -> service.createCertificate("cert_id", "winery_id", certRequest));
+        assertEquals(OriginatePilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), exception.getMessage());
     }
 
     @Test
     void test_create_cert_when_winery_does_not_exist() {
         CertRequest mockCertRequest = new CertRequest();
         when(wineryRepository.findByWineryId("winery_id")).thenReturn(Optional.empty());
-        Exception exception = assertThrows(BolnisiPilotException.class, () -> service.createCertificate("cert_id", "winery_id", mockCertRequest));
-        assertEquals(BolnisiPilotErrors.WINERY_NOT_FOUND.getMessage(), exception.getMessage());
+        Exception exception = assertThrows(OriginatePilotException.class, () -> service.createCertificate("cert_id", "winery_id", mockCertRequest));
+        assertEquals(OriginatePilotErrors.WINERY_NOT_FOUND.getMessage(), exception.getMessage());
     }
 
     @Test
@@ -242,8 +242,8 @@ class CertificateServiceImplTest {
         when(wineryRepository.findByWineryId(wineryId)).thenReturn(Optional.empty());
 
         //THEN
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> service.getByWineryId(wineryId));
-        assertEquals(BolnisiPilotErrors.NOT_FOUND, actualException.getError());
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> service.getByWineryId(wineryId));
+        assertEquals(OriginatePilotErrors.NOT_FOUND, actualException.getError());
     }
 
     @Test
@@ -295,8 +295,8 @@ class CertificateServiceImplTest {
         when(securityContextHolderUtil.getKeyCloakUserId()).thenReturn("anotherKeycloakUserId");
 
         //THEN
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> service.getByWineryId(wineryId));
-        assertEquals(BolnisiPilotErrors.FORBIDDEN, actualException.getError());
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> service.getByWineryId(wineryId));
+        assertEquals(OriginatePilotErrors.FORBIDDEN, actualException.getError());
     }
 
     @Test
@@ -389,8 +389,8 @@ class CertificateServiceImplTest {
         when(securityContextHolderUtil.getListRoles()).thenReturn(roles);
 
         //THEN
-        BolnisiPilotException actualException = assertThrows(BolnisiPilotException.class, () -> service.getByWineryId(wineryId));
-        assertEquals(BolnisiPilotErrors.FORBIDDEN, actualException.getError());
+        OriginatePilotException actualException = assertThrows(OriginatePilotException.class, () -> service.getByWineryId(wineryId));
+        assertEquals(OriginatePilotErrors.FORBIDDEN, actualException.getError());
     }
 
     @Test
@@ -422,8 +422,8 @@ class CertificateServiceImplTest {
                 .thenReturn(JobResponse.builder().build());
 
         // Assert
-        Exception ex = assertThrows(BolnisiPilotException.class, () -> service.createCertificate(certId, wineryId, certRequest));
-        assertEquals(BolnisiPilotErrors.METABUS_ERROR.getMessage(), ex.getMessage());
+        Exception ex = assertThrows(OriginatePilotException.class, () -> service.createCertificate(certId, wineryId, certRequest));
+        assertEquals(OriginatePilotErrors.METABUS_ERROR.getMessage(), ex.getMessage());
     }
 
     private CertRequest validCertRequest(CertLotEntryBody lotEntry) {
@@ -465,8 +465,8 @@ class CertificateServiceImplTest {
     /**
      * <p>
      * Description:
-     * Test if the function throws a BolnisiPilotException with error
-     * BolnisiPilotErrors.FORBIDDEN when the user does not have the NWA role.
+     * Test if the function throws a OriginatePilotException with error
+     * OriginatePilotErrors.FORBIDDEN when the user does not have the NWA role.
      * </p>
      */
     @Test
@@ -479,7 +479,7 @@ class CertificateServiceImplTest {
         doReturn(false).when(service).hasPermissionOnlyForNWA();
 
         // Then
-        assertThrows(BolnisiPilotException.class,
+        assertThrows(OriginatePilotException.class,
                 () -> service.revokeCertificate(certId, createSignature, publicKey));
     }
 
@@ -487,7 +487,7 @@ class CertificateServiceImplTest {
     /**
      * <p>
      * Description:
-     * Test if the function throws a BolnisiPilotException with error BolnisiPilotErrors.CERT_DOES_NOT_EXIST
+     * Test if the function throws a OriginatePilotException with error OriginatePilotErrors.CERT_DOES_NOT_EXIST
      * when the certificate with the given certId does not exist.
      * </p>
      */
@@ -502,14 +502,14 @@ class CertificateServiceImplTest {
         when(certificateRepository.findById(certId)).thenReturn(Optional.empty());
 
         // Then
-        assertThrows(BolnisiPilotException.class,
+        assertThrows(OriginatePilotException.class,
                 () -> service.revokeCertificate(certId, createSignature, publicKey));
     }
 
     /**
      * <p>
      * Description:
-     * Test if the function throws a BolnisiPilotException with error BolnisiPilotErrors.CERT_HAD_ALREADY_BEEN_REVOKED
+     * Test if the function throws a OriginatePilotException with error OriginatePilotErrors.CERT_HAD_ALREADY_BEEN_REVOKED
      * when the certificate with the given certId has already been revoked.
      * </p>
      */
@@ -527,7 +527,7 @@ class CertificateServiceImplTest {
         when(certificateRepository.findById(certId)).thenReturn(Optional.of(certificateEntity));
 
         // Then
-        assertThrows(BolnisiPilotException.class,
+        assertThrows(OriginatePilotException.class,
                 () -> service.revokeCertificate(certId, createSignature, publicKey));
     }
 
@@ -635,7 +635,7 @@ class CertificateServiceImplTest {
                     eq(pubKey));
             mockedContext.when(AopContext::currentProxy).thenReturn(service);
 
-            assertThrows(BolnisiPilotException.class, () -> service.revokeCertificate(certId, revokeSignature, pubKey));
+            assertThrows(OriginatePilotException.class, () -> service.revokeCertificate(certId, revokeSignature, pubKey));
 
             // Then
             verify(service).syncCertRevocation(eq(certId), any(CertificateRevokeDTO.class), eq(revokeSignature), eq(pubKey), eq(listOfRevokedBottle));
@@ -652,8 +652,8 @@ class CertificateServiceImplTest {
         when(service.hasPermissionOnlyForNWA()).thenReturn(true);
         when(certificateRepository.findById(certId)).thenReturn(Optional.of(certificateEntity));
 
-        Exception ex = assertThrows(BolnisiPilotException.class, () -> service.revokeCertificate(certId, "signature", pubKey));
-        assertEquals(BolnisiPilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), ex.getMessage());
+        Exception ex = assertThrows(OriginatePilotException.class, () -> service.revokeCertificate(certId, "signature", pubKey));
+        assertEquals(OriginatePilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), ex.getMessage());
     }
 
     @Test
@@ -666,8 +666,8 @@ class CertificateServiceImplTest {
         when(service.hasPermissionOnlyForNWA()).thenReturn(true);
         when(certificateRepository.findById(certId)).thenReturn(Optional.of(certificateEntity));
 
-        Exception ex = assertThrows(BolnisiPilotException.class, () -> service.revokeCertificate(certId, "header.signature", pubKey));
-        assertEquals(BolnisiPilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), ex.getMessage());
+        Exception ex = assertThrows(OriginatePilotException.class, () -> service.revokeCertificate(certId, "header.signature", pubKey));
+        assertEquals(OriginatePilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), ex.getMessage());
     }
 
     @Test
@@ -680,8 +680,8 @@ class CertificateServiceImplTest {
         when(service.hasPermissionOnlyForNWA()).thenReturn(true);
         when(certificateRepository.findById(certId)).thenReturn(Optional.of(certificateEntity));
 
-        Exception ex = assertThrows(BolnisiPilotException.class, () -> service.revokeCertificate(certId, revokeSignature, "pubKey"));
-        assertEquals(BolnisiPilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), ex.getMessage());
+        Exception ex = assertThrows(OriginatePilotException.class, () -> service.revokeCertificate(certId, revokeSignature, "pubKey"));
+        assertEquals(OriginatePilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), ex.getMessage());
     }
 
     @Test
@@ -694,8 +694,8 @@ class CertificateServiceImplTest {
         when(service.hasPermissionOnlyForNWA()).thenReturn(true);
         when(certificateRepository.findById(certId)).thenReturn(Optional.of(certificateEntity));
 
-        Exception ex = assertThrows(BolnisiPilotException.class, () -> service.revokeCertificate(certId, revokeSignature, pubKey));
-        assertEquals(BolnisiPilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), ex.getMessage());
+        Exception ex = assertThrows(OriginatePilotException.class, () -> service.revokeCertificate(certId, revokeSignature, pubKey));
+        assertEquals(OriginatePilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION.getMessage(), ex.getMessage());
     }
 
     /**
@@ -844,7 +844,7 @@ class CertificateServiceImplTest {
     /**
      * <p>
      * Description:
-     * Test if the function throws a BolnisiPilotException with error BolnisiPilotErrors.METABUS_ERROR
+     * Test if the function throws a OriginatePilotException with error OriginatePilotErrors.METABUS_ERROR
      * when the jobResponse returned by metabusCallerService.createJob has a null id.
      * </p>
      */
@@ -871,9 +871,9 @@ class CertificateServiceImplTest {
                 .thenReturn(jobResponse);
 
         // Then
-        Exception ex = assertThrows(BolnisiPilotException.class,
+        Exception ex = assertThrows(OriginatePilotException.class,
                 () -> service.syncCertRevocation(certId, CertificateRevokeDTO.builder().build(), revokeSignature, pubKey, listOfRevokedBottle));
-        assertEquals(BolnisiPilotErrors.METABUS_ERROR.getMessage(), ex.getMessage());
+        assertEquals(OriginatePilotErrors.METABUS_ERROR.getMessage(), ex.getMessage());
     }
 
     @Test

@@ -30,8 +30,8 @@ import org.cardanofoundation.proofoforigin.api.controllers.dtos.request.CertLotE
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.CertsResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.CertsResponseLotEntry;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.WineryCertsResponse;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.BottleRepository;
 import org.cardanofoundation.proofoforigin.api.repository.CertificateLotEntryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.CertificateRepository;
@@ -76,7 +76,7 @@ public class CertificateServiceImpl implements CertificateService {
                     .findByWineryIdAndCertificateTxIdIsNotNullAndCertificateCertStatus(wineryId, CertStatus.ACTIVE);
             return convertLotEntriesToResponse(certificateLotEntryEntityList);
         } else {
-            throw new BolnisiPilotException(BolnisiPilotErrors.FORBIDDEN);
+            throw new OriginatePilotException(OriginatePilotErrors.FORBIDDEN);
         }
     }
 
@@ -84,19 +84,19 @@ public class CertificateServiceImpl implements CertificateService {
     @Transactional(rollbackOn = Exception.class)
     public void createCertificate(String certId, String wineryId, CertRequest certRequest) {
         if (isCertificateExist(certId)) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.CONFLICT);
+            throw new OriginatePilotException(OriginatePilotErrors.CONFLICT);
         }
 
         Winery winery = wineryRepository.findByWineryId(wineryId)
-                .orElseThrow(() -> new BolnisiPilotException(BolnisiPilotErrors.WINERY_NOT_FOUND));
+                .orElseThrow(() -> new OriginatePilotException(OriginatePilotErrors.WINERY_NOT_FOUND));
 
         if (winery.getWineryRsCode() == null) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.WINERY_MISSING_RS_CODE);
+            throw new OriginatePilotException(OriginatePilotErrors.WINERY_MISSING_RS_CODE);
         }
 
         CertificateDataDTO certDto = CertificateDataDTO.toCertificateDataDTO(winery, certRequest);
         if (!signatureIsValid(certDto, certRequest.getSignature(), certRequest.getPublicKeyBase64Url())) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION);
+            throw new OriginatePilotException(OriginatePilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION);
         }
 
         CertificateEntity certificateEntity = saveCertificate(certId, wineryId, certRequest);
@@ -106,7 +106,7 @@ public class CertificateServiceImpl implements CertificateService {
                 certDto, Unit.MetabusJobType.CERT,
                 certRequest.getSignature(), certRequest.getPublicKeyBase64Url());
         if (Objects.isNull(jobResponse.getId())) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.METABUS_ERROR);
+            throw new OriginatePilotException(OriginatePilotErrors.METABUS_ERROR);
         }
 
         certificateEntity.setJobId(jobResponse.getId());
@@ -231,7 +231,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     private boolean hasPermission(String wineryId) {
         Winery winery = wineryRepository.findByWineryId(wineryId)
-                .orElseThrow(() -> new BolnisiPilotException(BolnisiPilotErrors.NOT_FOUND));
+                .orElseThrow(() -> new OriginatePilotException(OriginatePilotErrors.NOT_FOUND));
         List<String> roles = securityContextHolderUtil.getListRoles();
         Predicate<String> isAdminOrNwaRole = role -> role.equals(Role.ADMIN.toString())
                 || role.equals(Role.NWA.toString());
@@ -271,13 +271,13 @@ public class CertificateServiceImpl implements CertificateService {
     @Transactional(rollbackOn = Exception.class)
     public void revokeCertificate(final String certId, final String signature, final String publicKey) {
         if (!hasPermissionOnlyForNWA()) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.FORBIDDEN);
+            throw new OriginatePilotException(OriginatePilotErrors.FORBIDDEN);
         }
 
         final CertificateEntity certificateEntity = certificateRepository.findById(certId).orElseThrow(
-                () -> new BolnisiPilotException(BolnisiPilotErrors.CERT_DOES_NOT_EXIST));
+                () -> new OriginatePilotException(OriginatePilotErrors.CERT_DOES_NOT_EXIST));
         if (CertStatus.REVOKED.equals(certificateEntity.getCertStatus())) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.CERT_HAD_ALREADY_BEEN_REVOKED);
+            throw new OriginatePilotException(OriginatePilotErrors.CERT_HAD_ALREADY_BEEN_REVOKED);
         }
 
         final CertificateRevokeDTO certRevokeDto = CertificateRevokeDTO.builder()
@@ -285,7 +285,7 @@ public class CertificateServiceImpl implements CertificateService {
                 .certificateType(certificateEntity.getCertificateType())
                 .build();
         if (!signatureIsValid(certRevokeDto, signature, publicKey)) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION);
+            throw new OriginatePilotException(OriginatePilotErrors.SIGNATURE_INVALID_OR_FAILED_VERIFICATION);
         }
 
         certificateEntity.setCertStatus(CertStatus.REVOKED);
@@ -315,12 +315,12 @@ public class CertificateServiceImpl implements CertificateService {
         final JobResponse jobResponse = metabusCallerService.createJob(certRevokeDto, Unit.MetabusJobType.CERT_REVOCATION,
                 signature, pubKey);
         if (Objects.isNull(jobResponse.getId())) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.METABUS_ERROR);
+            throw new OriginatePilotException(OriginatePilotErrors.METABUS_ERROR);
         }
 
         // Update jobId to cert
         final CertificateEntity certificateEntity = certificateRepository.findById(certId)
-                .orElseThrow(()-> new BolnisiPilotException(BolnisiPilotErrors.CERT_DOES_NOT_EXIST));
+                .orElseThrow(()-> new OriginatePilotException(OriginatePilotErrors.CERT_DOES_NOT_EXIST));
         certificateEntity.setRevokeJobId(jobResponse.getId());
         certificateRepository.save(certificateEntity);
 

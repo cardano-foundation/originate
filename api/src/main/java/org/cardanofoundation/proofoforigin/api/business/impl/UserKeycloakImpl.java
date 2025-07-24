@@ -8,9 +8,9 @@ import org.cardanofoundation.proofoforigin.api.constants.Role;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.UserCreateDto;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.request.KeycloakUserBody;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BaseResponse;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotError;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotError;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.utils.SecurityContextHolderUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -40,7 +40,7 @@ public class UserKeycloakImpl implements UserKeycloak {
     @Override
     public <T extends KeycloakUserBody> BaseResponse<Void> createUser(T user, Role role) {
         if (!Constants.emailFormatCorrect(user.getEmail())) {
-            throw new BolnisiPilotException(new BolnisiPilotError(HttpStatus.BAD_REQUEST.value(), "Invalid email.", HttpStatus.BAD_REQUEST));
+            throw new OriginatePilotException(new OriginatePilotError(HttpStatus.BAD_REQUEST.value(), "Invalid email.", HttpStatus.BAD_REQUEST));
         }
         UserCreateDto userCreateDto = keycloakCallService.createUser(user, role);
         if (userCreateDto.getIsSendMail()) {
@@ -56,7 +56,7 @@ public class UserKeycloakImpl implements UserKeycloak {
         String clientId = securityContextHolderUtil.getClientId();
         String terms = getTerms.apply(clientId);
         if (terms == null) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.ACCOUNT_NOT_TERMS);
+            throw new OriginatePilotException(OriginatePilotErrors.ACCOUNT_NOT_TERMS);
         }
         keycloakCallService.updateTermsKeyCloak(terms, userId);
     }

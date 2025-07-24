@@ -6,20 +6,20 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BolnisiPilotException extends RuntimeException {
-    BolnisiPilotError error;
+public class OriginatePilotException extends RuntimeException {
+    OriginatePilotError error;
 
-    public BolnisiPilotException(BolnisiPilotError error) {
+    public OriginatePilotException(OriginatePilotError error) {
         super(error.getMessage());
         this.error = error;
     }
 
-    public BolnisiPilotException(BolnisiPilotError error, String message) {
+    public OriginatePilotException(OriginatePilotError error, String message) {
         super(message);
         this.error = error;
     }
 
-    public BolnisiPilotException(BolnisiPilotError error, String message, Throwable cause) {
+    public OriginatePilotException(OriginatePilotError error, String message, Throwable cause) {
         super(message, cause);
         this.error = error;
     }

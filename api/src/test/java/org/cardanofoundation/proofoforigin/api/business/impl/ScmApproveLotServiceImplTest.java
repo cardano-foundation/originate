@@ -8,8 +8,8 @@ import org.cardanofoundation.proofoforigin.api.controllers.dtos.metabus.Unit;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.metabus.response.JobResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.ScmApproveResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.scan_trust.ScmData;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.LotRepository;
 import org.cardanofoundation.proofoforigin.api.repository.WineryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.entities.Lot;
@@ -163,7 +163,7 @@ class ScmApproveLotServiceImplTest {
     }
 
     @Test
-    void approveLots_InvalidWineryId_ThrowsBolnisiPilotException() {
+    void approveLots_InvalidWineryId_ThrowsOriginatePilotException() {
         // Mock input data
         List<String> lotIds = Arrays.asList("lot1", "lot2", "lot3");
 
@@ -171,7 +171,7 @@ class ScmApproveLotServiceImplTest {
         when(wineryRepository.findById(eq(WINERY_ID))).thenReturn(Optional.empty());
 
         // Call the method and assert exception
-        BolnisiPilotException exception = assertThrows(BolnisiPilotException.class,
+        OriginatePilotException exception = assertThrows(OriginatePilotException.class,
                 () -> scmApproveLotService.approveLots(WINERY_ID, lotIds));
 
         // Verify the results
@@ -181,13 +181,13 @@ class ScmApproveLotServiceImplTest {
         verifyNoInteractions(scanTrustService);
 
         // Assertions
-        assertEquals(BolnisiPilotErrors.NOT_FOUND.getCode(), exception.getError().getCode());
-        assertEquals(BolnisiPilotErrors.NOT_FOUND.getMessage(), exception.getError().getMessage());
-        assertEquals(BolnisiPilotErrors.NOT_FOUND.getHttpStatus(), exception.getError().getHttpStatus());
+        assertEquals(OriginatePilotErrors.NOT_FOUND.getCode(), exception.getError().getCode());
+        assertEquals(OriginatePilotErrors.NOT_FOUND.getMessage(), exception.getError().getMessage());
+        assertEquals(OriginatePilotErrors.NOT_FOUND.getHttpStatus(), exception.getError().getHttpStatus());
     }
 
     @Test
-    void approveLots_InvalidKeycloakUserId_ThrowsBolnisiPilotException() {
+    void approveLots_InvalidKeycloakUserId_ThrowsOriginatePilotException() {
         // Mock input data
         List<String> lotIds = Arrays.asList("lot1", "lot2", "lot3");
 
@@ -201,7 +201,7 @@ class ScmApproveLotServiceImplTest {
         when(wineryRepository.findById(eq(WINERY_ID))).thenReturn(Optional.of(winery));
 
         // Call the method and assert exception
-        BolnisiPilotException exception = assertThrows(BolnisiPilotException.class,
+        OriginatePilotException exception = assertThrows(OriginatePilotException.class,
                 () -> scmApproveLotService.approveLots(WINERY_ID, lotIds));
 
         // Verify the results
@@ -211,20 +211,20 @@ class ScmApproveLotServiceImplTest {
         verifyNoInteractions(scanTrustService);
 
         // Assertions
-        assertEquals(BolnisiPilotErrors.FORBIDDEN.getCode(), exception.getError().getCode());
-        assertEquals(BolnisiPilotErrors.FORBIDDEN.getMessage(), exception.getError().getMessage());
-        assertEquals(BolnisiPilotErrors.FORBIDDEN.getHttpStatus(), exception.getError().getHttpStatus());
+        assertEquals(OriginatePilotErrors.FORBIDDEN.getCode(), exception.getError().getCode());
+        assertEquals(OriginatePilotErrors.FORBIDDEN.getMessage(), exception.getError().getMessage());
+        assertEquals(OriginatePilotErrors.FORBIDDEN.getHttpStatus(), exception.getError().getHttpStatus());
     }
 
     @Test
-    void approveLots_Exception_ThrowsBolnisiPilotException() {
+    void approveLots_Exception_ThrowsOriginatePilotException() {
         // Mock input data
         List<String> lotIds = Arrays.asList("12345678901", "12345678902", "12345678903");
 
         // Mock LotRepository
         when(lotRepository.findByWineryIdAndLotIdIn(anyString(), anySet())).thenThrow(new RuntimeException());
 
-        BolnisiPilotException exception = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException exception = assertThrows(OriginatePilotException.class, () -> {
             scmApproveLotService.approveLots(WINERY_ID, lotIds);
         });
 
@@ -235,9 +235,9 @@ class ScmApproveLotServiceImplTest {
         verifyNoInteractions(scanTrustService);
 
         // Assertions
-        assertEquals(BolnisiPilotErrors.INTERNAL_SERVER_ERROR.getCode(), exception.getError().getCode());
-        assertEquals(BolnisiPilotErrors.INTERNAL_SERVER_ERROR.getMessage(), exception.getError().getMessage());
-        assertEquals(BolnisiPilotErrors.INTERNAL_SERVER_ERROR.getHttpStatus(), exception.getError().getHttpStatus());
+        assertEquals(OriginatePilotErrors.INTERNAL_SERVER_ERROR.getCode(), exception.getError().getCode());
+        assertEquals(OriginatePilotErrors.INTERNAL_SERVER_ERROR.getMessage(), exception.getError().getMessage());
+        assertEquals(OriginatePilotErrors.INTERNAL_SERVER_ERROR.getHttpStatus(), exception.getError().getHttpStatus());
     }
 
 

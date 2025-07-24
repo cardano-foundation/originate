@@ -5,8 +5,8 @@ import org.cardanofoundation.proofoforigin.api.constants.Role;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.DeleteLotResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.FinaliseLotResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.LotSCMResponse;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.LotRepository;
 import org.cardanofoundation.proofoforigin.api.repository.WineryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.entities.Lot;
@@ -82,9 +82,9 @@ class ScmServiceImplTest {
     void getWineryById_not_exist() {
         when(wineryRepository.findByWineryId(wineryId)).thenReturn(Optional.empty());
 
-        Throwable actualThrow = assertThrows(BolnisiPilotException.class, () -> scmService.getLotsSCMData(wineryId));
+        Throwable actualThrow = assertThrows(OriginatePilotException.class, () -> scmService.getLotsSCMData(wineryId));
 
-        assertEquals(BolnisiPilotErrors.NOT_FOUND.getMessage(), actualThrow.getMessage());
+        assertEquals(OriginatePilotErrors.NOT_FOUND.getMessage(), actualThrow.getMessage());
     }
 
     @Test
@@ -95,9 +95,9 @@ class ScmServiceImplTest {
         when(wineryRepository.findByWineryId(wineryId)).thenReturn(Optional.of(winery));
         when(securityContextHolderUtil.getListRoles()).thenReturn(roles);
 
-        Throwable actualThrow = assertThrows(BolnisiPilotException.class, () -> scmService.getLotsSCMData(wineryId));
+        Throwable actualThrow = assertThrows(OriginatePilotException.class, () -> scmService.getLotsSCMData(wineryId));
 
-        assertEquals(BolnisiPilotErrors.FORBIDDEN.getMessage(), actualThrow.getMessage());
+        assertEquals(OriginatePilotErrors.FORBIDDEN.getMessage(), actualThrow.getMessage());
     }
 
     @Test
@@ -109,9 +109,9 @@ class ScmServiceImplTest {
         when(securityContextHolderUtil.getListRoles()).thenReturn(roles);
         when(securityContextHolderUtil.getKeyCloakUserId()).thenReturn("anotherKeycloakUserId");
 
-        Throwable actualThrow = assertThrows(BolnisiPilotException.class, () -> scmService.getLotsSCMData(wineryId));
+        Throwable actualThrow = assertThrows(OriginatePilotException.class, () -> scmService.getLotsSCMData(wineryId));
 
-        assertEquals(BolnisiPilotErrors.FORBIDDEN.getMessage(), actualThrow.getMessage());
+        assertEquals(OriginatePilotErrors.FORBIDDEN.getMessage(), actualThrow.getMessage());
     }
 
     @Test
@@ -161,17 +161,17 @@ class ScmServiceImplTest {
 
         when(wineryRepository.existsById(wineryId)).thenReturn(false);
 
-        Throwable actualThrow = assertThrows(BolnisiPilotException.class, () -> scmService.deleteUnfinalisedLot(wineryId, lotIds));
-        assertEquals(BolnisiPilotErrors.NOT_FOUND.getMessage(), actualThrow.getMessage());
+        Throwable actualThrow = assertThrows(OriginatePilotException.class, () -> scmService.deleteUnfinalisedLot(wineryId, lotIds));
+        assertEquals(OriginatePilotErrors.NOT_FOUND.getMessage(), actualThrow.getMessage());
     }
 
     @Test
     void deleteUnfinalisedLot_with_lotIds_empty() {
         Set<String> lotIds = Collections.emptySet();
 
-        Throwable actualThrow = assertThrows(BolnisiPilotException.class, () -> scmService.deleteUnfinalisedLot(wineryId, lotIds));
+        Throwable actualThrow = assertThrows(OriginatePilotException.class, () -> scmService.deleteUnfinalisedLot(wineryId, lotIds));
 
-        assertEquals(BolnisiPilotErrors.INVALID_PARAMETERS.getMessage(), actualThrow.getMessage());
+        assertEquals(OriginatePilotErrors.INVALID_PARAMETERS.getMessage(), actualThrow.getMessage());
     }
 
     @Test
@@ -218,8 +218,8 @@ class ScmServiceImplTest {
 
         when(wineryRepository.existsById(wineryId)).thenReturn(false);
 
-        Throwable actualThrow = assertThrows(BolnisiPilotException.class, () -> scmService.finaliseLot(wineryId, lotIds));
-        assertEquals(BolnisiPilotErrors.NOT_FOUND.getMessage(), actualThrow.getMessage());
+        Throwable actualThrow = assertThrows(OriginatePilotException.class, () -> scmService.finaliseLot(wineryId, lotIds));
+        assertEquals(OriginatePilotErrors.NOT_FOUND.getMessage(), actualThrow.getMessage());
 
     }
 
@@ -227,9 +227,9 @@ class ScmServiceImplTest {
     void finaliseLot_with_lotIds_empty() {
         Set<String> lotIds = Collections.emptySet();
 
-        Throwable actualThrow = assertThrows(BolnisiPilotException.class, () -> scmService.finaliseLot(wineryId, lotIds));
+        Throwable actualThrow = assertThrows(OriginatePilotException.class, () -> scmService.finaliseLot(wineryId, lotIds));
 
-        assertEquals(BolnisiPilotErrors.INVALID_PARAMETERS.getMessage(), actualThrow.getMessage());
+        assertEquals(OriginatePilotErrors.INVALID_PARAMETERS.getMessage(), actualThrow.getMessage());
     }
 
     @Test

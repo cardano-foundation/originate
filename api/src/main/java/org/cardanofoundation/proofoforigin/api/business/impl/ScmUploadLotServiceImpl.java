@@ -8,8 +8,8 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 import org.cardanofoundation.proofoforigin.api.business.ScmUploadLotService;
 import org.cardanofoundation.proofoforigin.api.constants.Constants;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotError;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotError;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.LotRepository;
 import org.cardanofoundation.proofoforigin.api.repository.WineryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.entities.Lot;
@@ -54,8 +54,8 @@ public class ScmUploadLotServiceImpl implements ScmUploadLotService {
             lotRepository.saveAll(nonFinalizedLots);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            if (e instanceof BolnisiPilotException) throw (BolnisiPilotException) e;
-            throw new BolnisiPilotException(new BolnisiPilotError(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), HttpStatus.INTERNAL_SERVER_ERROR));
+            if (e instanceof OriginatePilotException) throw (OriginatePilotException) e;
+            throw new OriginatePilotException(new OriginatePilotError(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), HttpStatus.INTERNAL_SERVER_ERROR));
         }
     }
 
@@ -74,17 +74,17 @@ public class ScmUploadLotServiceImpl implements ScmUploadLotService {
 
     private void validateFileType(MultipartFile file) {
         if (file == null) {
-            throw new BolnisiPilotException(new BolnisiPilotError(Constants.ERROR_CODE.FILE_MISSING, FILE_MISSING_MSG, HttpStatus.BAD_REQUEST));
+            throw new OriginatePilotException(new OriginatePilotError(Constants.ERROR_CODE.FILE_MISSING, FILE_MISSING_MSG, HttpStatus.BAD_REQUEST));
         }
 
         if (!ACCEPT_FILE_TYPE.equalsIgnoreCase(file.getContentType())) {
-            throw new BolnisiPilotException(new BolnisiPilotError(Constants.ERROR_CODE.INVALID_FILE_TYPE, INVALID_FILE_TYPE_MSG, HttpStatus.BAD_REQUEST));
+            throw new OriginatePilotException(new OriginatePilotError(Constants.ERROR_CODE.INVALID_FILE_TYPE, INVALID_FILE_TYPE_MSG, HttpStatus.BAD_REQUEST));
         }
     }
 
     private void validateWinery(String wineryId) {
         if (wineryRepository.findById(wineryId).isEmpty()) {
-            throw new BolnisiPilotException(new BolnisiPilotError(HttpStatus.NOT_FOUND.value(), WINERY_NOT_FOUND_MSG, HttpStatus.NOT_FOUND));
+            throw new OriginatePilotException(new OriginatePilotError(HttpStatus.NOT_FOUND.value(), WINERY_NOT_FOUND_MSG, HttpStatus.NOT_FOUND));
         }
     }
 
@@ -100,20 +100,20 @@ public class ScmUploadLotServiceImpl implements ScmUploadLotService {
                 lot.setStatus(Constants.LOT_STATUS.NOT_FINALIZED);
                 lot.setWineryId(wineryId);
                 if (!validateLot(lot)) {
-                    throw new BolnisiPilotException(new BolnisiPilotError(Constants.ERROR_CODE.INVALID_DATA, INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
+                    throw new OriginatePilotException(new OriginatePilotError(Constants.ERROR_CODE.INVALID_DATA, INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
                 }
 
                 lots.add(lot);
             }
 
             if (lots.isEmpty()) {
-                throw new BolnisiPilotException(new BolnisiPilotError(Constants.ERROR_CODE.INVALID_DATA, INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
+                throw new OriginatePilotException(new OriginatePilotError(Constants.ERROR_CODE.INVALID_DATA, INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
             }
 
             return lots;
         } catch (UncheckedIOException | IllegalArgumentException e) {
             // This will handle the case when file with .csv extension but do not have csv format
-            throw new BolnisiPilotException(new BolnisiPilotError(Constants.ERROR_CODE.INVALID_DATA, INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
+            throw new OriginatePilotException(new OriginatePilotError(Constants.ERROR_CODE.INVALID_DATA, INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
         }
     }
 
@@ -158,7 +158,7 @@ public class ScmUploadLotServiceImpl implements ScmUploadLotService {
 
             return lot;
         } catch (DateTimeParseException | NullPointerException | IllegalArgumentException e) {
-            throw new BolnisiPilotException(new BolnisiPilotError(Constants.ERROR_CODE.INVALID_DATA, INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
+            throw new OriginatePilotException(new OriginatePilotError(Constants.ERROR_CODE.INVALID_DATA, INVALID_DATA_MSG, HttpStatus.BAD_REQUEST));
         }
     }
 

@@ -7,9 +7,9 @@ import org.cardanofoundation.proofoforigin.api.constants.Constants;
 import org.cardanofoundation.proofoforigin.api.constants.Role;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.UserCreateDto;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.request.KeycloakUserBody;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotError;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotError;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -48,7 +48,7 @@ public class KeycloakCallServiceImpl implements KeycloakCallService {
                 .filter(roleRepresentation -> role.toString().equals(roleRepresentation.getName()))
                 .toList();
         if (idRoleAdd.size() == 0) {
-            throw new BolnisiPilotException(new BolnisiPilotError(HttpStatus.BAD_REQUEST.value(), "Role does not exist.", HttpStatus.BAD_REQUEST));
+            throw new OriginatePilotException(new OriginatePilotError(HttpStatus.BAD_REQUEST.value(), "Role does not exist.", HttpStatus.BAD_REQUEST));
         }
         UserRepresentation keycloakUser = new UserRepresentation();
         keycloakUser.setEmail(user.getEmail());
@@ -64,7 +64,7 @@ public class KeycloakCallServiceImpl implements KeycloakCallService {
             log.info("[KeycloakCallService] create user success username {}", user.getEmail());
         } else {
             log.info("[KeycloakCallService] create user fail username {} error {}", user.getEmail(), response.getMetadata());
-            throw new BolnisiPilotException(new BolnisiPilotError(response.getStatus(), "Email already exists (there's unlikely any other reason than this)", HttpStatus.CONFLICT));
+            throw new OriginatePilotException(new OriginatePilotError(response.getStatus(), "Email already exists (there's unlikely any other reason than this)", HttpStatus.CONFLICT));
         }
         UserRepresentation userResource = usersResource.search(keycloakUser.getEmail()).stream().findFirst().orElse(new UserRepresentation());
         userResource.setEnabled(true);
@@ -104,7 +104,7 @@ public class KeycloakCallServiceImpl implements KeycloakCallService {
             // update user keycloak
             userResource.update(keycloakUser);
         } catch (NotFoundException e) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.USER_NOT_FOUND_KEYCLOAK);
+            throw new OriginatePilotException(OriginatePilotErrors.USER_NOT_FOUND_KEYCLOAK);
         }
     }
 }

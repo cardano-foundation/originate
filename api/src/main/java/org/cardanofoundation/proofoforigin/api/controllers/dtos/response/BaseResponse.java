@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotError;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotError;
 
 @Data
 @Accessors(chain = true)
@@ -48,7 +48,7 @@ public class BaseResponse<T> {
         return ofFailed(error, "Internal server error");
     }
 
-    public static BaseResponse<Void> ofFailed(BolnisiPilotError errorCode, String message) {
+    public static BaseResponse<Void> ofFailed(OriginatePilotError errorCode, String message) {
         BaseResponse<Void> response = new BaseResponse<>();
         response.meta.code = String.valueOf(errorCode.getCode());
         response.meta.message = errorCode.getMessage();

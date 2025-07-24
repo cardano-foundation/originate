@@ -132,7 +132,7 @@ Go back to the main route:
 
 ```plain
 >> /mnt/c/Users/originate/originate-agl-oss
-$ docker compose --env-file .env up -d 
+$ docker-compose --env-file .env.dev up -d 
 ```
 
 If everything works properly we are going to see in our terminal something like this:

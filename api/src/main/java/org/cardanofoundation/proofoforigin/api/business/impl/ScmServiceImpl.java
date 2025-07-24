@@ -9,8 +9,8 @@ import org.cardanofoundation.proofoforigin.api.constants.Role;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.DeleteLotResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.FinaliseLotResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.LotSCMResponse;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.LotRepository;
 import org.cardanofoundation.proofoforigin.api.repository.WineryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.entities.Lot;
@@ -49,7 +49,7 @@ public class ScmServiceImpl implements ScmService {
                     .map(LotSCMResponse::buildLotSCMResponse)
                     .toList();
         } else {
-            throw new BolnisiPilotException(BolnisiPilotErrors.FORBIDDEN);
+            throw new OriginatePilotException(OriginatePilotErrors.FORBIDDEN);
         }
     }
 
@@ -57,7 +57,7 @@ public class ScmServiceImpl implements ScmService {
     @Transactional
     public DeleteLotResponse deleteUnfinalisedLot(String wineryId, Set<String> lotIds) {
         if (lotIds.isEmpty()) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.INVALID_PARAMETERS);
+            throw new OriginatePilotException(OriginatePilotErrors.INVALID_PARAMETERS);
         }
         validateWineryExistence(wineryId);
         Set<String> lotIdsSucceed = new HashSet<>();
@@ -93,7 +93,7 @@ public class ScmServiceImpl implements ScmService {
     @Transactional
     public FinaliseLotResponse finaliseLot(String wineryId, Set<String> lotIds) {
         if (lotIds.isEmpty()) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.INVALID_PARAMETERS);
+            throw new OriginatePilotException(OriginatePilotErrors.INVALID_PARAMETERS);
         }
         validateWineryExistence(wineryId);
         Set<String> lotIdsSucceed = new HashSet<>();
@@ -122,7 +122,7 @@ public class ScmServiceImpl implements ScmService {
 
     private Winery getWineryById(String wineryId) {
         return wineryRepository.findByWineryId(wineryId)
-                .orElseThrow(() -> new BolnisiPilotException(BolnisiPilotErrors.NOT_FOUND));
+                .orElseThrow(() -> new OriginatePilotException(OriginatePilotErrors.NOT_FOUND));
     }
 
     private boolean hasAdminOrDataProviderRole(List<String> roles) {
@@ -137,7 +137,7 @@ public class ScmServiceImpl implements ScmService {
 
     private void validateWineryExistence(String wineryId) {
         if (!wineryRepository.existsById(wineryId)) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.NOT_FOUND);
+            throw new OriginatePilotException(OriginatePilotErrors.NOT_FOUND);
         }
     }
 

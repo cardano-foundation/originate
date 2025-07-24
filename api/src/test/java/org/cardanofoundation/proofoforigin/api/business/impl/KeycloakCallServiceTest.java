@@ -4,7 +4,7 @@ package org.cardanofoundation.proofoforigin.api.business.impl;
 import org.cardanofoundation.proofoforigin.api.constants.Role;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.UserCreateDto;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.request.KeycloakUserBody;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.jboss.resteasy.core.ServerResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,9 +51,9 @@ public class KeycloakCallServiceTest {
         when(roleMock.list()).thenReturn(List.of(getRoleRepresentation()));
         when(mock1.create(any())).thenReturn(fail());
 
-        Assertions.assertThrows(BolnisiPilotException.class, () -> keycloakCallService.createUser(userBody, Role.WINERY));
-        Assertions.assertThrows(BolnisiPilotException.class, () -> keycloakCallService.createUser(userBody, Role.ADMIN));
-        Assertions.assertThrows(BolnisiPilotException.class, () -> keycloakCallService.createUser(userBody, Role.DATA_PROVIDER));
+        Assertions.assertThrows(OriginatePilotException.class, () -> keycloakCallService.createUser(userBody, Role.WINERY));
+        Assertions.assertThrows(OriginatePilotException.class, () -> keycloakCallService.createUser(userBody, Role.ADMIN));
+        Assertions.assertThrows(OriginatePilotException.class, () -> keycloakCallService.createUser(userBody, Role.DATA_PROVIDER));
     }
 
     @Test
@@ -65,9 +65,9 @@ public class KeycloakCallServiceTest {
         List<RoleRepresentation> list = new ArrayList<>();
         when(roleMock.list()).thenReturn(list);
 
-        Assertions.assertThrows(BolnisiPilotException.class, () -> keycloakCallService.createUser(userBody, Role.WINERY));
-        Assertions.assertThrows(BolnisiPilotException.class, () -> keycloakCallService.createUser(userBody, Role.ADMIN));
-        Assertions.assertThrows(BolnisiPilotException.class, () -> keycloakCallService.createUser(userBody, Role.DATA_PROVIDER));
+        Assertions.assertThrows(OriginatePilotException.class, () -> keycloakCallService.createUser(userBody, Role.WINERY));
+        Assertions.assertThrows(OriginatePilotException.class, () -> keycloakCallService.createUser(userBody, Role.ADMIN));
+        Assertions.assertThrows(OriginatePilotException.class, () -> keycloakCallService.createUser(userBody, Role.DATA_PROVIDER));
     }
 
     @Test
@@ -163,7 +163,7 @@ public class KeycloakCallServiceTest {
         UserResource mock2 = mock(UserResource.class);
         when(mock.get(keyCloakId)).thenReturn(mock2);
         when(mock2.toRepresentation()).thenThrow(new NotFoundException());
-        Assertions.assertThrows(BolnisiPilotException.class, () -> {
+        Assertions.assertThrows(OriginatePilotException.class, () -> {
             keycloakCallService.updateTermsKeyCloak(terms, keyCloakId);
         });
     }

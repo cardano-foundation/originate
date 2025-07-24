@@ -20,8 +20,8 @@ import org.cardanofoundation.proofoforigin.api.controllers.dtos.metabus.Unit;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.metabus.response.JobResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.ScmApproveResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.scan_trust.ScmData;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.LotRepository;
 import org.cardanofoundation.proofoforigin.api.repository.WineryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.entities.Lot;
@@ -105,7 +105,7 @@ public class ScmApproveLotServiceImpl implements ScmApproveLotService {
                     signature = signLotData(jwk, objectMapper.writeValueAsString(data));
                     JobResponse jobResponse = metabusCallerService.createJob(data, Unit.MetabusJobType.LOT, signature, winery.getPublicKey(), wineryId);
                     if (Objects.isNull(jobResponse.getId())) {
-                        throw new BolnisiPilotException(BolnisiPilotErrors.METABUS_ERROR);
+                        throw new OriginatePilotException(OriginatePilotErrors.METABUS_ERROR);
                     }
                     lot.setJobId(jobResponse.getId());
                     lot.setStatus(Constants.LOT_STATUS.APPROVED);
@@ -128,8 +128,8 @@ public class ScmApproveLotServiceImpl implements ScmApproveLotService {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
 
-            if (e instanceof BolnisiPilotException) throw (BolnisiPilotException) e;
-            throw new BolnisiPilotException(BolnisiPilotErrors.INTERNAL_SERVER_ERROR);
+            if (e instanceof OriginatePilotException) throw (OriginatePilotException) e;
+            throw new OriginatePilotException(OriginatePilotErrors.INTERNAL_SERVER_ERROR);
         }
         return scmApproveResponse;
     }
@@ -167,12 +167,12 @@ public class ScmApproveLotServiceImpl implements ScmApproveLotService {
     private Winery validateWinery(String wineryId) {
         Optional<Winery> wineryOptional = wineryRepository.findById(wineryId);
         if (wineryOptional.isEmpty()) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.NOT_FOUND);
+            throw new OriginatePilotException(OriginatePilotErrors.NOT_FOUND);
         }
 
         Winery winery = wineryOptional.get();
         if (!winery.getKeycloakUserId().equals(securityContextHolderUtil.getKeyCloakUserId())) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.FORBIDDEN);
+            throw new OriginatePilotException(OriginatePilotErrors.FORBIDDEN);
         }
 
         return winery;
