@@ -76,8 +76,8 @@ key-cloak-config:
     url: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}/realms/Metabus/protocol/openid-connect/token
   apiMetabus: ${METABUS_API_HOST:http://localhost}:${METABUS_API_EXPOSED_PORT:8084}/api/v1/jobs
   bolnisiKeyCloakConfig:
-    clientId: manage_bolnisi_users
-    secret: ${BOLNISI_KEYCLOAK_API_SECRET:**********}
+    clientId: manage_originate_users
+    secret: ${ORIGINATE_KEYCLOAK_API_SECRET:**********}
     url: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}
     realm: BolnisiPilotApplication
   clientIdFontEnd: frontend_dashboard

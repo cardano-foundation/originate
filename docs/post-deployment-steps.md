@@ -48,7 +48,7 @@ Go back to **Clients** and now select **manage\_bolnisi\_users.** Then click on 
 
 `METABUS_KEYCLOAK_CLIENT_SECRET=your-new-secret`
 
-`BOLNISI_KEYCLOAK_API_SECRET=your-new-secret`
+`ORIGINATE_KEYCLOAK_API_SECRET=your-new-secret`
 
 ### 4\. Create an admin user
 

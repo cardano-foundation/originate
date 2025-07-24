@@ -336,7 +336,7 @@
       "frontend_dashboard": [],
       "security-admin-console": [],
       "admin-cli": [],
-      "manage_bolnisi_users": [],
+      "manage_originate_users": [],
       "account-console": [],
       "broker": [
         {
@@ -493,11 +493,11 @@
     {
       "id": "214afed6-5542-4e75-bdcd-093704c29c6f",
       "createdTimestamp": 1687940252008,
-      "username": "service-account-manage_bolnisi_users",
+      "username": "service-account-manage_originate_users",
       "enabled": true,
       "totp": false,
       "emailVerified": false,
-      "serviceAccountClientId": "manage_bolnisi_users",
+      "serviceAccountClientId": "manage_originate_users",
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "clientRoles": {
@@ -797,7 +797,7 @@
     },
     {
       "id": "fe6fd58b-2cd4-473a-a996-450e9e26ec44",
-      "clientId": "manage_bolnisi_users",
+      "clientId": "manage_originate_users",
       "name": "",
       "description": "",
       "rootUrl": "",
