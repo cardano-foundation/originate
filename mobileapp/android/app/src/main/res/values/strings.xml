@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">CF Bolnisi</string>
-    <string name="title_activity_main">CF Bolnisi</string>
+    <string name="app_name">CF Originate</string>
+    <string name="title_activity_main">CF Originate</string>
     <string name="package_name">cf.proofoforigin.mobileapp</string>
     <string name="custom_url_scheme">cf.proofoforigin.mobileapp</string>
 </resources>

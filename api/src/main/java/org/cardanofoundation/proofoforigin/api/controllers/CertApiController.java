@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.cardanofoundation.proofoforigin.api.constants.BaseUri.CARDANO_BOLNISI_PILOT_API.CERTIFICATES;
-import static org.cardanofoundation.proofoforigin.api.constants.BaseUri.CARDANO_BOLNISI_PILOT_API.V1;
+import static org.cardanofoundation.proofoforigin.api.constants.BaseUri.CARDANO_ORIGINATE_PILOT_API.CERTIFICATES;
+import static org.cardanofoundation.proofoforigin.api.constants.BaseUri.CARDANO_ORIGINATE_PILOT_API.V1;
 
 @RestController
 @RequestMapping(V1 + CERTIFICATES)

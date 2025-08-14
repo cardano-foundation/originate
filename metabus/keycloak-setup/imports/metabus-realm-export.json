@@ -94,7 +94,7 @@
       },
       {
         "id": "673e0e93-863a-4440-bc4c-aa735a1a9c16",
-        "name": "BOLNISI_APPLICATION",
+        "name": "ORIGINATE_APPLICATION",
         "composite": false,
         "clientRole": false,
         "containerId": "Metabus",
@@ -102,7 +102,7 @@
       }
     ],
     "client": {
-      "BOLNISI_PILOT_APPLICATION": [],
+      "ORIGINATE_PILOT_APPLICATION": [],
       "realm-management": [
         {
           "id": "0ecec97e-e243-40ec-811c-c36317aff594",
@@ -488,15 +488,15 @@
     {
       "id": "62e4e69c-2555-4227-843d-0284c8bebfd7",
       "createdTimestamp": 1683284705746,
-      "username": "service-account-bolnisi_pilot_application",
+      "username": "service-account-originate_pilot_application",
       "enabled": true,
       "totp": false,
       "emailVerified": false,
-      "serviceAccountClientId": "BOLNISI_PILOT_APPLICATION",
+      "serviceAccountClientId": "ORIGINATE_PILOT_APPLICATION",
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
-        "BOLNISI_APPLICATION"
+        "ORIGINATE_APPLICATION"
       ],
       "notBefore": 0,
       "groups": []
@@ -768,7 +768,7 @@
     },
     {
       "id": "6d236916-07ab-4494-9c99-5e2c9dd5164a",
-      "clientId": "BOLNISI_PILOT_APPLICATION",
+      "clientId": "ORIGINATE_PILOT_APPLICATION",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,

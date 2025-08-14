@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    @ExceptionHandler({BolnisiPilotException.class})
-    public ResponseEntity<BaseResponse<Void>> handleBusinessException(BolnisiPilotException e) {
-        var bolnisiPilotError = e.getError();
-        var data = BaseResponse.ofFailed(bolnisiPilotError, e.getMessage());
-        return ResponseEntity.status(bolnisiPilotError.getHttpStatus()).body(data);
+    @ExceptionHandler({OriginatePilotException.class})
+    public ResponseEntity<BaseResponse<Void>> handleBusinessException(OriginatePilotException e) {
+        var OriginatePilotError = e.getError();
+        var data = BaseResponse.ofFailed(OriginatePilotError, e.getMessage());
+        return ResponseEntity.status(OriginatePilotError.getHttpStatus()).body(data);
     }
 
     @ExceptionHandler(Exception.class)
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<BaseResponse<Void>> handleException(HttpMessageNotReadableException e){
         e.printStackTrace();
-        var data=BaseResponse.ofFailed(BolnisiPilotErrors.REQUEST_FORMAT,"incorrect request format");
+        var data=BaseResponse.ofFailed(OriginatePilotErrors.REQUEST_FORMAT,"incorrect request format");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(data);
     }
 
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
                                 fieldError ->
                                         (fieldError.getField() + ": " + fieldError.getDefaultMessage() + "\n"))
                         .reduce("", (pre, next) -> pre + next);
-        var data = BaseResponse.ofFailed(BolnisiPilotErrors.INVALID_PARAMETERS, message);
+        var data = BaseResponse.ofFailed(OriginatePilotErrors.INVALID_PARAMETERS, message);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(data);
     }
 }

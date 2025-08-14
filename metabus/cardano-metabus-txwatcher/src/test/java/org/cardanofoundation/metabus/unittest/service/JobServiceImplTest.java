@@ -36,10 +36,10 @@ class JobServiceImplTest {
 
     @Test
     void test_push_job_to_rabbit_success() {
-        String routingKey = "bolnisi";
+        String routingKey = "originate";
         String typeJob = "conformityCert:georgianWine";
         String subType = "georgianWine";
-        String queue = "bolnisi";
+        String queue = "originate";
         String exchange = "job";
         // prepare data
         Job job = new Job();
@@ -52,7 +52,7 @@ class JobServiceImplTest {
         CardanoMetabusTxwatcherProperties.Binding bindingConfig = new CardanoMetabusTxwatcherProperties.Binding();
         bindingConfig.setRoutingKey(routingKey);
         bindingConfig.setQueue(queue);
-        rabbitMQConfig.setSubTypeRoutingKeyMapping(Map.of("georgianWine","bolnisi"));
+        rabbitMQConfig.setSubTypeRoutingKeyMapping(Map.of("georgianWine","originate"));
         List<CardanoMetabusTxwatcherProperties.Binding> bindingList = List.of(bindingConfig);
         rabbitMQConfig.setBindings(bindingList);
 
@@ -71,10 +71,10 @@ class JobServiceImplTest {
 
     @Test
     void test_push_job_to_rabbit_failed() {
-        String routingKey = "bolnisi";
+        String routingKey = "originate";
         String typeJob = "conformityCert:georgianWine";
         String subType = "georgianWine";
-        String queue = "bolnisi";
+        String queue = "originate";
         String exchange = "job";
         // prepare data
         Job job = new Job();
@@ -87,7 +87,7 @@ class JobServiceImplTest {
         CardanoMetabusTxwatcherProperties.Binding bindingConfig = new CardanoMetabusTxwatcherProperties.Binding();
         bindingConfig.setRoutingKey(routingKey);
         bindingConfig.setQueue(queue);
-        rabbitMQConfig.setSubTypeRoutingKeyMapping(Map.of("georgianWine","bolnisi"));
+        rabbitMQConfig.setSubTypeRoutingKeyMapping(Map.of("georgianWine","originate"));
         List<CardanoMetabusTxwatcherProperties.Binding> bindingList = List.of(bindingConfig);
         rabbitMQConfig.setBindings(bindingList);
 

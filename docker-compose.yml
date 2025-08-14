@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   db:
-    container_name: ${BOLNISI_DB_CONTAINER_NAME}
+    container_name: ${ORIGINATE_DB_CONTAINER_NAME}
     image: "${DB_IMAGE_NAME}:${DB_IMAGE_TAG}"
     ports:
       - "${DB_LOCAL_BIND_PORT}:${DB_EXPOSED_PORT}"
@@ -32,7 +32,7 @@ services:
       LOGGING_LEVEL_ROOT: DEBUG
 
       SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE}"
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://${BOLNISI_DB_CONTAINER_NAME}:${DB_EXPOSED_PORT}/${API_DB_NAME}"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://${ORIGINATE_DB_CONTAINER_NAME}:${DB_EXPOSED_PORT}/${API_DB_NAME}"
       SPRING_DATASOURCE_USERNAME: "${DB_USER_NAME}"
       SPRING_DATASOURCE_PASSWORD: "${DB_USER_SECRET}"
 
@@ -46,7 +46,7 @@ services:
       SCANTRUST_MIN_BACKOFF: "${SCANTRUST_MIN_BACKOFF}"
       SCANTRUST_MAX_BACKOFF: "${SCANTRUST_MAX_BACKOFF}"
 
-      BOLNISI_KEYCLOAK_API_SECRET: "${BOLNISI_KEYCLOAK_API_SECRET}"
+      ORIGINATE_KEYCLOAK_API_SECRET: "${ORIGINATE_KEYCLOAK_API_SECRET}"
 
       METABUS_KEYCLOAK_CLIENT_SECRET: "${METABUS_KEYCLOAK_CLIENT_SECRET}"
       ENCRYPT_PASSWORD: "${ENCRYPT_PASSWORD}"
@@ -72,11 +72,11 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      #- "traefik.http.routers.api.rule=Host(`${BOLNISI_BACKEND_HOST:-dev.api.cf-bolnisi-wine-preprod.originate.company.com}`)"
-      - "traefik.http.routers.api.rule=Host(`${BOLNISI_BACKEND_HOST:-localhost}`)"
+      #- "traefik.http.routers.api.rule=Host(`${ORIGINATE_BACKEND_HOST:-dev.api.cf-originate-wine-preprod.originate.company.com}`)"
+      - "traefik.http.routers.api.rule=Host(`${ORIGINATE_BACKEND_HOST:-localhost}`)"
       # HACK: this is a workaround to make letsencrypt work with FQDNs >=64
       - "traefik.http.routers.api.tls.domains[0].main=${INSTANCE_ID_HOSTNAME:-i-0872852d61ec68d6f.originate.company.com}"
-      - "traefik.http.routers.api.tls.domains[0].sans=${BOLNISI_BACKEND_HOST:-dev.api.cf-bolnisi-wine-preprod.originate.company.com}"
+      - "traefik.http.routers.api.tls.domains[0].sans=${ORIGINATE_BACKEND_HOST:-dev.api.cf-originate-wine-preprod.originate.company.com}"
       - "traefik.http.routers.api.entrypoints=websecure"
       - "traefik.http.routers.api.tls.certresolver=myresolver"
 
@@ -96,10 +96,10 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`${FRONTEND_DOMAIN_HOST:-dev.cf-bolnisi-wine-preprod.originate.company.com}`)"
+      - "traefik.http.routers.frontend.rule=Host(`${FRONTEND_DOMAIN_HOST:-dev.cf-originate-wine-preprod.originate.company.com}`)"
       # HACK: this is a workaround to make letsencrypt work with FQDNs >=64
       - "traefik.http.routers.frontend.tls.domains[0].main=${INSTANCE_ID_HOSTNAME:-i-0872852d61ec68d6f.originate.company.com}"
-      - "traefik.http.routers.frontend.tls.domains[0].sans=${FRONTEND_DOMAIN_HOST:-dev.cf-bolnisi-wine-preprod.originate.company.com}"
+      - "traefik.http.routers.frontend.tls.domains[0].sans=${FRONTEND_DOMAIN_HOST:-dev.cf-originate-wine-preprod.originate.company.com}"
       - "traefik.http.routers.frontend.entrypoints=websecure"
       - "traefik.http.routers.frontend.tls.certresolver=myresolver"
 

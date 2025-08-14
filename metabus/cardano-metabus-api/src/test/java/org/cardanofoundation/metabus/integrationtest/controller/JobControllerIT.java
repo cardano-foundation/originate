@@ -55,7 +55,7 @@ public class JobControllerIT extends BaseIntegrationTest {
     public void givenValidToken_whenCreateSingleGroupJob_shouldSuccess() {
         createStubForWireMockJobProducerServer_createJobSuccess();
 
-        String accessToken = prepareValidAccessTokenForBolnisiRole();
+        String accessToken = prepareValidAccessTokenForOriginateRole();
 
         Integer jobId = given().headers("Authorization", "Bearer " + accessToken,
                         "Content-Type",
@@ -97,7 +97,7 @@ public class JobControllerIT extends BaseIntegrationTest {
     public void givenValidToken_whenCreateMultiGroupJob_shouldSuccess() {
         createStubForWireMockJobProducerServer_createJobSuccess();
 
-        String accessToken = prepareValidAccessTokenForBolnisiRole();
+        String accessToken = prepareValidAccessTokenForOriginateRole();
 
         Integer jobId = given().headers("Authorization", "Bearer " + accessToken,
                         "Content-Type",
@@ -196,7 +196,7 @@ public class JobControllerIT extends BaseIntegrationTest {
     @SneakyThrows
     public void givenValidToken_whenErrorCallingJobProducerServer_thenVerifyInternalServerError() {
         createStubForWireMockJobProducerServer_createJobFail();
-        String accessToken = prepareValidAccessTokenForBolnisiRole();
+        String accessToken = prepareValidAccessTokenForOriginateRole();
 
         JsonPath jsonPath = given().headers("Authorization", "Bearer " + accessToken,
                         "Content-Type",
@@ -224,7 +224,7 @@ public class JobControllerIT extends BaseIntegrationTest {
     @SneakyThrows
     public void givenValidToken_whenCreateJob_thenVerifyInternalServerError() {
         createStubForWireMockJobProducerServer_createJobFail();
-        String accessToken = prepareValidAccessTokenForBolnisiRole();
+        String accessToken = prepareValidAccessTokenForOriginateRole();
 
         JsonPath jsonPath = given().headers("Authorization", "Bearer " + accessToken,
                         "Content-Type",
@@ -293,7 +293,7 @@ public class JobControllerIT extends BaseIntegrationTest {
     public void givenValidToken_whenGetJob_shouldSucess() {
         createStubForWireMockJobProducerServer_createJobSuccess();
 
-        String accessToken = prepareValidAccessTokenForBolnisiRole();
+        String accessToken = prepareValidAccessTokenForOriginateRole();
 
         var jobType = "scm:georgianWine";
         JobJPA savedJob = jobRepository.save(JobJPA.builder()
@@ -319,11 +319,11 @@ public class JobControllerIT extends BaseIntegrationTest {
         assertEquals(savedJob.getId(), jobId.longValue());
     }
 
-    private String prepareValidAccessTokenForBolnisiRole() {
+    private String prepareValidAccessTokenForOriginateRole() {
         LinkedHashMap keycloakTokenResponse = keycloakWebClient.post()
                 .uri(uriBuilder -> uriBuilder.path("/protocol/openid-connect/token").build())
                 .body(BodyInserters.fromFormData("grant_type", "client_credentials")
-                        .with("client_id", "BOLNISI_PILOT_APPLICATION")
+                        .with("client_id", "ORIGINATE_PILOT_APPLICATION")
                         .with("client_secret", "**********"))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()

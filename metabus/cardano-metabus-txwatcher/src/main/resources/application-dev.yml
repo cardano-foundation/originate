@@ -3,15 +3,15 @@ cardano-metabus-txwatcher:
   rabbitmq: # All the queue, exchange, stats,...etc... of this config must be the same value with the rabbitmq-setup/definitions.json file
     exchange: ${RABBITMQ_EXCHANGE:job}
     bindings:
-      - routingKey: ${RABBITMQ_ROUTING_KEY_BOLNISI:bolnisi}
-        queue: ${RABBITMQ_QUEUE_BOLNISI:bolnisi}
-        messageTTL: ${RABBITMQ_MESSAGE_TTL_BOLNISI:345600000}
-        hasDLQ: ${RABBITMQ_HAS_DLQ_BOLNISI:true}
+      - routingKey: ${RABBITMQ_ROUTING_KEY_ORIGINATE:originate}
+        queue: ${RABBITMQ_QUEUE_ORIGINATE:originate}
+        messageTTL: ${RABBITMQ_MESSAGE_TTL_ORIGINATE:345600000}
+        hasDLQ: ${RABBITMQ_HAS_DLQ_ORIGINATE:true}
     subTypeRoutingKeyMapping:
-      georgianWine: bolnisi
-    deadLetterQueue: ${DEAD_LETTER_QUEUE:bolnisi-dead-letter-queue}
-    deadLetterRoutingKey: ${DEAD_LETTER_ROUTING_KEY:bolnisi-dead}
-    deadLetterExchange: ${DEAD_LETTER_EXCHANGE:bolnisi-dead-letter-exchange}
+      georgianWine: originate
+    deadLetterQueue: ${DEAD_LETTER_QUEUE:originate-dead-letter-queue}
+    deadLetterRoutingKey: ${DEAD_LETTER_ROUTING_KEY:originate-dead}
+    deadLetterExchange: ${DEAD_LETTER_EXCHANGE:originate-dead-letter-exchange}
 
   # delay reconsume duration in milliseconds if business exception occurs
   delayReconsumeDuration: ${TX_WATCHER_DELAY_RECONSUME_DURATION:3000}
@@ -21,7 +21,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://${STATE_DB_HOST:localhost}:${STATE_DB_EXPOSED_PORT:54324}/${STATE_DB_NAME:state_storage}?reWriteBatchedInserts=true&currentSchema=public
     username: ${STATE_DB_USER_NAME:proofoforiginadmin}
-    password: ${STATE_DB_USER_SECRET:bolnisiDoNotUseInProduction}
+    password: ${STATE_DB_USER_SECRET:originateDoNotUseInProduction}
     driver-class-name: org.postgresql.Driver
 
   # JPA specific configs

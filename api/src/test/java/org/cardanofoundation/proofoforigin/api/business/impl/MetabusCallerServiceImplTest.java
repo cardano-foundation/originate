@@ -5,7 +5,7 @@ import org.cardanofoundation.proofoforigin.api.controllers.dtos.metabus.request.
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.metabus.response.AccessTokenResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.metabus.response.JobResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BaseResponse;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.security.properties.KeycloakTokenMetabusApiProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -142,7 +142,7 @@ public class MetabusCallerServiceImplTest {
                     return responseEntityMock;
                 });
 
-        assertThrows(BolnisiPilotException.class, () -> metabusCallerService.createJob(job, type, signature));
+        assertThrows(OriginatePilotException.class, () -> metabusCallerService.createJob(job, type, signature));
 
     }
 
@@ -171,7 +171,7 @@ public class MetabusCallerServiceImplTest {
                     return responseEntityMock;
                 });
 
-        assertThrows(BolnisiPilotException.class, () -> metabusCallerService.createJob(job, type, signature));
+        assertThrows(OriginatePilotException.class, () -> metabusCallerService.createJob(job, type, signature));
     }
 
     @Test
@@ -199,6 +199,6 @@ public class MetabusCallerServiceImplTest {
                     return responseEntityMock;
                 });
 
-        assertThrows(BolnisiPilotException.class, () -> metabusCallerService.createJob(job, type, signature));
+        assertThrows(OriginatePilotException.class, () -> metabusCallerService.createJob(job, type, signature));
     }
 }

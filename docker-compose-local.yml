@@ -222,7 +222,7 @@ services:
       - "${KEYCLOAK_START_TYPE}"
       - --import-realm
     volumes:
-      - ./keycloak-setup/imports/bolnisi-realm-export.json:/opt/keycloak/data/import/bolnisi-realm-export.json
+      - ./keycloak-setup/imports/originate-realm-export.json:/opt/keycloak/data/import/originate-realm-export.json
       - ./keycloak-setup/imports/metabus-realm-export.json:/opt/keycloak/data/import/metabus-realm-export.json
       - ./keycloak-setup/themes:/opt/keycloak/themes
     depends_on:
@@ -245,7 +245,7 @@ services:
       STATE_DB_HOST: "state-storage"
       STATE_DB_EXPOSED_PORT: "5432"
       STATE_DB_USER_NAME: "proofoforiginadmin"
-      STATE_DB_USER_SECRET: "bolnisiDoNotUseInProduction"
+      STATE_DB_USER_SECRET: "originateDoNotUseInProduction"
       STATE_DB_NAME: "state_storage"
       KEYCLOAK_HOST: "https://poo-keycloak-dev.sotatek.works"
       METABUS_API_EXPOSED_PORT: "8080"
@@ -324,7 +324,7 @@ services:
       STATE_DB_EXPOSED_PORT: "5432"
       STATE_DB_NAME: "state_storage"
       STATE_DB_USER_NAME: "proofoforiginadmin"
-      STATE_DB_USER_SECRET: "bolnisiDoNotUseInProduction"
+      STATE_DB_USER_SECRET: "originateDoNotUseInProduction"
       RABBITMQ_IMAGE_NAME: "rabbitmq"
       RABBITMQ_USER_NAME: "guest"
       RABBITMQ_PASSWORD: "guest"

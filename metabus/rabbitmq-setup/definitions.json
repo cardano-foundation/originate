@@ -23,19 +23,19 @@
   ],
   "queues": [
     {
-      "name": "bolnisi",
+      "name": "originate",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
       "arguments": {
         "x-queue-type": "classic",
-        "x-dead-letter-exchange": "bolnisi-dead-letter-exchange",
-        "x-dead-letter-routing-key": "bolnisi-dead",
+        "x-dead-letter-exchange": "originate-dead-letter-exchange",
+        "x-dead-letter-routing-key": "originate-dead",
         "x-message-ttl": 345600000
       }
     },
     {
-      "name": "bolnisi-dead-letter-queue",
+      "name": "originate-dead-letter-queue",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
@@ -55,7 +55,7 @@
       "arguments": {}
     },
     {
-      "name": "bolnisi-dead-letter-exchange",
+      "name": "originate-dead-letter-exchange",
       "vhost": "/",
       "type": "direct",
       "durable": true,
@@ -68,17 +68,17 @@
     {
       "source": "job",
       "vhost": "/",
-      "destination": "bolnisi",
+      "destination": "originate",
       "destination_type": "queue",
-      "routing_key": "bolnisi",
+      "routing_key": "originate",
       "arguments": {}
     },
     {
-      "source": "bolnisi-dead-letter-exchange",
+      "source": "originate-dead-letter-exchange",
       "vhost": "/",
-      "destination": "bolnisi-dead-letter-queue",
+      "destination": "originate-dead-letter-queue",
       "destination_type": "queue",
-      "routing_key": "bolnisi-dead",
+      "routing_key": "originate-dead",
       "arguments": {}
     }
   ]

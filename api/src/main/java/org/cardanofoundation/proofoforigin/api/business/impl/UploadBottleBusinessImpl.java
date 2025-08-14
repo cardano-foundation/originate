@@ -9,9 +9,9 @@ import org.cardanofoundation.proofoforigin.api.business.ScanTrustService;
 import org.cardanofoundation.proofoforigin.api.business.UploadBottleBusiness;
 import org.cardanofoundation.proofoforigin.api.constants.CertUpdateStatus;
 import org.cardanofoundation.proofoforigin.api.constants.Constants;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotError;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotError;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.BottleRepository;
 import org.cardanofoundation.proofoforigin.api.repository.WineryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.entities.Bottle;
@@ -67,15 +67,15 @@ public class UploadBottleBusinessImpl implements UploadBottleBusiness {
 
     public void validateFileType(MultipartFile file) {
         if (file == null || file.isEmpty()) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.FILE_MISSING);
+            throw new OriginatePilotException(OriginatePilotErrors.FILE_MISSING);
         } else if (!ACCEPT_FILE_TYPE.equalsIgnoreCase(file.getContentType())) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.INVALID_FILE_TYPE);
+            throw new OriginatePilotException(OriginatePilotErrors.INVALID_FILE_TYPE);
         }
     }
 
     public void validateWinery(String wineryId) {
         if (wineryRepository.findById(wineryId).isEmpty()) {
-            throw new BolnisiPilotException(new BolnisiPilotError(HttpStatus.NOT_FOUND.value(), "Winery does not exist", HttpStatus.NOT_FOUND));
+            throw new OriginatePilotException(new OriginatePilotError(HttpStatus.NOT_FOUND.value(), "Winery does not exist", HttpStatus.NOT_FOUND));
         }
     }
 
@@ -99,18 +99,18 @@ public class UploadBottleBusinessImpl implements UploadBottleBusiness {
                 bottle.setLotUpdateStatus(Constants.SCANTRUST.STATUS.NOT_UPDATED);
                 bottle.setCertUpdateStatus(CertUpdateStatus.NOT_UPDATED);
                 if (!validateBottle(bottle)) {
-                    throw new BolnisiPilotException(BolnisiPilotErrors.INVALID_DATA);
+                    throw new OriginatePilotException(OriginatePilotErrors.INVALID_DATA);
                 }
                 bottles.add(bottle);
             }
 
             if (bottles.isEmpty()) {
-                throw new BolnisiPilotException(BolnisiPilotErrors.INVALID_PARAMETERS);
+                throw new OriginatePilotException(OriginatePilotErrors.INVALID_PARAMETERS);
             }
 
             return bottles;
         } catch (Exception e) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.INVALID_DATA, e.getMessage(), e.getCause());
+            throw new OriginatePilotException(OriginatePilotErrors.INVALID_DATA, e.getMessage(), e.getCause());
         }
     }
 
@@ -124,7 +124,7 @@ public class UploadBottleBusinessImpl implements UploadBottleBusiness {
                     .sequentialNumberInLot(Integer.parseInt(csvRecord.get(BottleCsvHeaders.SEQUENTIAL_NUMBER_IN_LOT.getName())))
                     .build();
         } catch (Exception e) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.INVALID_DATA, e.getMessage(), e.getCause());
+            throw new OriginatePilotException(OriginatePilotErrors.INVALID_DATA, e.getMessage(), e.getCause());
         }
     }
 

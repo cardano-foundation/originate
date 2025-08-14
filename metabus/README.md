@@ -18,11 +18,11 @@ Expose services for submitting data to Cardano blockchain and getting result fro
   crawler modules, then update onchain confirming status for jobs
 * **metabus-crawler** - a Docker container, that dockerized using cf-ledger-crawler docker image, is for
   crawling blocks from blockchain (via a remote node) and push crawled blocks to the Kafka
-* **keycloak** - The opensource is for authorization, managing user roles and client roles for both Bolnisi and Metabus
+* **keycloak** - The opensource is for authorization, managing user roles and client roles for both Originate and Metabus
   systems
 * **kafka** - The main queue for jobs come from **cardano-metabus-api** and crawled blocks from **
   cardano-metabus-crawler**
-* **rabbitmq** - The queue for storing job result by **cardano-metabus-txwatcher**, and allow app clients (e.g Bolnisi
+* **rabbitmq** - The queue for storing job result by **cardano-metabus-txwatcher**, and allow app clients (e.g Originate
   Application) to subscribe to get job's submitting result
 
 ## How to build?
@@ -42,10 +42,10 @@ running environment (xxx: dev/staging/prod) such as:
 - Staging: [.env.staging file](../.env.staging)
 - Production: [.env.prod file](../.env.prod)
 
-First, open terminal, cd to `cf-bolnisi-prototype` folder and run for building all the jar files
+First, open terminal, cd to `originate` folder and run for building all the jar files
 
 ```console
-$ cd cf-bolnisi-prototype
+$ cd originate
 $ ./mvnw clean package
 ```
 
@@ -80,7 +80,7 @@ $ docker compose -f docker-compose-local.yml up --build -d
 
 For running integration tests, after change all the test with post fix "IT" to "Test" (currently "IT" for passing build
 on github) wait for all the docker container started, the cardano-node must be fully sync, and then cd to
-`cf-bolnisi-prototype` folder again and type
+`originate` folder again and type
 
 ```console
 $ ./mvnw clean verify

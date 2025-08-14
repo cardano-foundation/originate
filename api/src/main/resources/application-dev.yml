@@ -1,5 +1,5 @@
 # custom configs
-cardano-bolnisipilot-api:
+cardano-originatepilot-api:
   security:
     cors:
       allowedOrigins: 
@@ -21,9 +21,9 @@ spring:
     oauth2:
       resource-server:
         jwt:
-          jwk-set-uri: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}/realms/BolnisiPilotApplication/protocol/openid-connect/certs
-          issuer-uri: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}/realms/BolnisiPilotApplication
-          # http://localhost:8881/realms/BolnisiPilotApplication/.well-known/openid-configuration
+          jwk-set-uri: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}/realms/OriginatePilotApplication/protocol/openid-connect/certs
+          issuer-uri: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}/realms/OriginatePilotApplication
+          # http://localhost:8881/realms/OriginatePilotApplication/.well-known/openid-configuration
           jws-algorithms: RS256
   jpa:
     properties:
@@ -41,7 +41,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:54321/cf_proof_of_origin}
     username: ${SPRING_DATASOURCE_USERNAME:proofoforiginadmin}
-    password: ${SPRING_DATASOURCE_PASSWORD:bolnisiDoNotUseInProduction}
+    password: ${SPRING_DATASOURCE_PASSWORD:originateDoNotUseInProduction}
 
   flyway:
     enabled: true
@@ -56,7 +56,7 @@ spring:
       simple:
         acknowledge-mode: manual
     bindings:
-      - { routingKey: "bolnisi", queue: "bolnisi" }
+      - { routingKey: "originate", queue: "originate" }
   quartz:
     job-store-type: jdbc
     jdbc:
@@ -69,17 +69,17 @@ spring:
 
 key-cloak-config:
   metabusKeyCloakConfig:
-    clientId: BOLNISI_PILOT_APPLICATION
+    clientId: ORIGINATE_PILOT_APPLICATION
     clientSecret: ${METABUS_KEYCLOAK_CLIENT_SECRET:**********}
     scope: openid email profile address
     grantYype: client_credentials
     url: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}/realms/Metabus/protocol/openid-connect/token
   apiMetabus: ${METABUS_API_HOST:http://localhost}:${METABUS_API_EXPOSED_PORT:8084}/api/v1/jobs
-  bolnisiKeyCloakConfig:
-    clientId: manage_bolnisi_users
-    secret: ${BOLNISI_KEYCLOAK_API_SECRET:**********}
+  originateKeyCloakConfig:
+    clientId: manage_originate_users
+    secret: ${ORIGINATE_KEYCLOAK_API_SECRET:**********}
     url: ${KEYCLOAK_HOST:https://poo-keycloak-dev.sotatek.works}
-    realm: BolnisiPilotApplication
+    realm: OriginatePilotApplication
   clientIdFontEnd: frontend_dashboard
   frontendUrl: ${FRONTEND_DOMAIN_PUBLIC_URL:https://poo-frontend-dev.sotatek.works}${FRONTEND_LOGIN_PATH:/login}
   clientIdApp: mobile-scan-app

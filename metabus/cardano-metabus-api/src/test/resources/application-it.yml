@@ -3,9 +3,9 @@ metabus:
   jobDefaultRetryCount: 5
   security:
     endpointAuthorizations:
-      - { urlPattern: "/api/v1/jobs/**", roles: [ "BOLNISI_APPLICATION", "ADMIN" ] }
+      - { urlPattern: "/api/v1/jobs/**", roles: [ "ORIGINATE_APPLICATION", "ADMIN" ] }
     jobTypeAuthorizations:
-      - { roles: [ "BOLNISI_APPLICATION" ], allowedJobTypes: ["scm:georgianWine", "conformityCert:georgianWine", "conformityCertRevoke:georgianWine"] }
+      - { roles: [ "ORIGINATE_APPLICATION" ], allowedJobTypes: ["scm:georgianWine", "conformityCert:georgianWine", "conformityCertRevoke:georgianWine"] }
   webclients:
     - { beanName: "jobProducerWebClient", baseUrl: "http://localhost:8099/api/v1", headers: { } }
 
@@ -23,7 +23,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:54324/state_storage?reWriteBatchedInserts=true&currentSchema=public
     username: proofoforiginadmin
-    password: bolnisiDoNotUseInProduction
+    password: originateDoNotUseInProduction
     driver-class-name: org.postgresql.Driver
   # JPA specific configs
   jpa:

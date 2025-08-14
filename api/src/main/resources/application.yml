@@ -1,5 +1,5 @@
 # custom configs
-cardano-bolnisipilot-api:
+cardano-originatepilot-api:
   security:
     endpointAuthorizations:
       - { urlPattern: "/api/v1/certs/**", method: "POST", roles: [ "ADMIN", "NWA" ], device: [ ] }

@@ -10,7 +10,7 @@ import org.cardanofoundation.proofoforigin.api.controllers.dtos.request.BottleRa
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BottleDto;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BottleResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BottlesInformation;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.*;
 import org.cardanofoundation.proofoforigin.api.repository.entities.*;
 import org.cardanofoundation.proofoforigin.api.utils.SecurityContextHolderUtil;
@@ -69,7 +69,7 @@ class BottlesServiceImplTest {
     void winery_does_not_exist() {
         when(wineryRepository.findByWineryId(wineryId)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(BolnisiPilotException.class, () -> bottlesService.getBottlesByWineryId(wineryId));
+        Assertions.assertThrows(OriginatePilotException.class, () -> bottlesService.getBottlesByWineryId(wineryId));
     }
 
     @Test
@@ -80,7 +80,7 @@ class BottlesServiceImplTest {
         when(wineryRepository.findByWineryId(wineryId)).thenReturn(Optional.of(winery));
         when(securityContextHolderUtil.getListRoles()).thenReturn(roles);
 
-        Assertions.assertThrows(BolnisiPilotException.class, () -> bottlesService.getBottlesByWineryId(wineryId));
+        Assertions.assertThrows(OriginatePilotException.class, () -> bottlesService.getBottlesByWineryId(wineryId));
     }
 
     @Test
@@ -92,7 +92,7 @@ class BottlesServiceImplTest {
         when(securityContextHolderUtil.getListRoles()).thenReturn(roles);
         when(securityContextHolderUtil.getKeyCloakUserId()).thenReturn("anotherKeycloakUserId");
 
-        Assertions.assertThrows(BolnisiPilotException.class, () -> bottlesService.getBottlesByWineryId(wineryId));
+        Assertions.assertThrows(OriginatePilotException.class, () -> bottlesService.getBottlesByWineryId(wineryId));
     }
 
     @Test
@@ -188,7 +188,7 @@ class BottlesServiceImplTest {
         when(wineryRepository.findByWineryId(wineryId)).thenReturn(Optional.of(winery));
         when(securityContextHolderUtil.getListRoles()).thenReturn(roles);
 
-        Assertions.assertThrows(BolnisiPilotException.class, () -> bottlesService.getBottlesByLotId(wineryId, lotId));
+        Assertions.assertThrows(OriginatePilotException.class, () -> bottlesService.getBottlesByLotId(wineryId, lotId));
     }
 
     @Test
@@ -200,7 +200,7 @@ class BottlesServiceImplTest {
         when(securityContextHolderUtil.getListRoles()).thenReturn(roles);
         when(securityContextHolderUtil.getKeyCloakUserId()).thenReturn("anotherKeycloakUserId");
 
-        Assertions.assertThrows(BolnisiPilotException.class, () -> bottlesService.getBottlesByLotId(wineryId, lotId));
+        Assertions.assertThrows(OriginatePilotException.class, () -> bottlesService.getBottlesByLotId(wineryId, lotId));
     }
 
     @Test
@@ -213,7 +213,7 @@ class BottlesServiceImplTest {
         when(securityContextHolderUtil.getKeyCloakUserId()).thenReturn(keycloakUserId);
         when(bottleRepository.existsByLotIdAndWineryId(lotId, wineryId)).thenReturn(false);
 
-        Assertions.assertThrows(BolnisiPilotException.class, () -> bottlesService.getBottlesByLotId(wineryId, lotId));
+        Assertions.assertThrows(OriginatePilotException.class, () -> bottlesService.getBottlesByLotId(wineryId, lotId));
     }
 
     @Test
@@ -341,7 +341,7 @@ class BottlesServiceImplTest {
         when(bottleRepository.findById(bottleId)).thenReturn(Optional.empty());
 
         // Call the method under test and assert that it throws an exception
-        assertThrows(BolnisiPilotException.class, () -> {
+        assertThrows(OriginatePilotException.class, () -> {
             bottlesService.getBottlesInformation(wineryId, bottleId);
         });
     }
@@ -355,7 +355,7 @@ class BottlesServiceImplTest {
         when(wineryRepository.findByWineryId(wineryId)).thenReturn(Optional.empty());
 
         // Call the method under test and assert that it throws an exception
-        assertThrows(BolnisiPilotException.class, () -> {
+        assertThrows(OriginatePilotException.class, () -> {
             bottlesService.getBottlesInformation(wineryId, bottleId);
         });
     }
@@ -371,7 +371,7 @@ class BottlesServiceImplTest {
         when(securityContextHolderUtil.getKeyCloakUserId()).thenReturn(null);
 
         // Call the method under test and assert that it throws an exception
-        assertThrows(BolnisiPilotException.class, () -> {
+        assertThrows(OriginatePilotException.class, () -> {
             bottlesService.getBottlesInformation(wineryId, bottleId);
         });
     }
@@ -436,7 +436,7 @@ class BottlesServiceImplTest {
 
         bottleIdsAddSet.forEach(add -> {
             if (bottleIdsRemoveSet.contains(add)) {
-                assertThrows(BolnisiPilotException.class,
+                assertThrows(OriginatePilotException.class,
                         () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
             }
         });
@@ -504,7 +504,7 @@ class BottlesServiceImplTest {
 
         bottleIdsAddSet.forEach(add -> {
             if (bottleIdsRemoveSet.contains(add)) {
-                assertThrows(BolnisiPilotException.class,
+                assertThrows(OriginatePilotException.class,
                         () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
             }
         });
@@ -524,7 +524,7 @@ class BottlesServiceImplTest {
 
         Assertions.assertNotEquals(winery.getKeycloakUserId(), keycloakUserIdOther);
 
-        assertThrows(BolnisiPilotException.class,
+        assertThrows(OriginatePilotException.class,
                 () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
     }
 
@@ -535,7 +535,7 @@ class BottlesServiceImplTest {
 
         when(wineryRepository.findByWineryId(wineryId)).thenReturn(Optional.empty());
 
-        assertThrows(BolnisiPilotException.class,
+        assertThrows(OriginatePilotException.class,
                 () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
     }
 
@@ -561,7 +561,7 @@ class BottlesServiceImplTest {
         bottlesBody.setAdd(List.of("bottle", "bottle1", "bottle2", "bottle1"));
         bottlesBody.setFinalise(true);
 
-        assertThrows(BolnisiPilotException.class, () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
+        assertThrows(OriginatePilotException.class, () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
     }
 
 
@@ -621,7 +621,7 @@ class BottlesServiceImplTest {
 
         Assertions.assertNotEquals(bottleRemoveExist.size(), bottleIdsRemoveSet.size());
 
-        assertThrows(BolnisiPilotException.class,
+        assertThrows(OriginatePilotException.class,
                 () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
     }
 
@@ -685,7 +685,7 @@ class BottlesServiceImplTest {
 
         bottleIdsAddSet.forEach(add -> {
             if (bottleIdsRemoveSet.contains(add)) {
-                assertThrows(BolnisiPilotException.class,
+                assertThrows(OriginatePilotException.class,
                         () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
             }
         });
@@ -696,7 +696,7 @@ class BottlesServiceImplTest {
 
         Assertions.assertNotEquals(bottleAddExist.size(), bottleIdsAddSet.size());
 
-        assertThrows(BolnisiPilotException.class,
+        assertThrows(OriginatePilotException.class,
                 () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
     }
 
@@ -763,7 +763,7 @@ class BottlesServiceImplTest {
 
         bottleIdsAddSet.forEach(add -> {
             if (bottleIdsRemoveSet.contains(add)) {
-                assertThrows(BolnisiPilotException.class,
+                assertThrows(OriginatePilotException.class,
                         () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
             }
         });
@@ -780,7 +780,7 @@ class BottlesServiceImplTest {
 
         Assertions.assertNotEquals(bottleRemoveExistWithLot.size(), bottleIdsRemoveSet.size());
 
-        assertThrows(BolnisiPilotException.class,
+        assertThrows(OriginatePilotException.class,
                 () ->  bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
     }
 
@@ -825,7 +825,7 @@ class BottlesServiceImplTest {
                         certId, lotId, ScanningStatus.APPROVED, CertStatus.ACTIVE))
                 .thenReturn(Optional.empty());
 
-        assertThrows(BolnisiPilotException.class,
+        assertThrows(OriginatePilotException.class,
                 () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
     }
 
@@ -855,7 +855,7 @@ class BottlesServiceImplTest {
 
         when(bottleRepository.findByIdInAndCertificateIdNotNull(bottleIds))
                 .thenReturn(bottles);
-        assertThrows(BolnisiPilotException.class,
+        assertThrows(OriginatePilotException.class,
                 () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
     }
 
@@ -922,7 +922,7 @@ class BottlesServiceImplTest {
         bottleIdsAddSet.forEach(add ->
         {
             if (bottleIdsRemoveSet.contains(add)) {
-                assertThrows(BolnisiPilotException.class,
+                assertThrows(OriginatePilotException.class,
                         () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
             }
         });
@@ -988,7 +988,7 @@ class BottlesServiceImplTest {
 
         bottleIdsAddSet.forEach(add -> {
             if (bottleIdsRemoveSet.contains(add)) {
-                assertThrows(BolnisiPilotException.class,
+                assertThrows(OriginatePilotException.class,
                         () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
             }
         });
@@ -1041,7 +1041,7 @@ class BottlesServiceImplTest {
 
         when(certificateRepository.findByCertificateIdAndTxIdIsNotNullAndCertStatus(certId, CertStatus.ACTIVE)).thenReturn(Arrays.asList());
 
-        assertThrows(BolnisiPilotException.class,
+        assertThrows(OriginatePilotException.class,
                 () -> bottlesService.updateCertificateAssociations(wineryId, certId, lotId, bottlesBody));
     }
 

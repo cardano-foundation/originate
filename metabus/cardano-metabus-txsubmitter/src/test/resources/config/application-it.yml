@@ -24,7 +24,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:54324/state_storage?reWriteBatchedInserts=true&currentSchema=public
     username: proofoforiginadmin
-    password: bolnisiDoNotUseInProduction
+    password: originateDoNotUseInProduction
     driver-class-name: org.postgresql.Driver
   # JPA specific configs
   jpa:

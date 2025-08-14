@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "3c9e830c-6296-4a0b-97a4-9f9266bd2997",
-		"name": "Bolnisi API",
+		"name": "Originate API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "21501013"
 	},
@@ -58,7 +58,7 @@
 								}
 							]
 						},
-						"url": "{{url_keycloak}}realms/BolnisiPilotApplication/protocol/openid-connect/token"
+						"url": "{{url_keycloak}}realms/OriginatePilotApplication/protocol/openid-connect/token"
 					},
 					"response": []
 				},
@@ -111,7 +111,7 @@
 								}
 							]
 						},
-						"url": "{{url_keycloak}}realms/BolnisiPilotApplication/protocol/openid-connect/token"
+						"url": "{{url_keycloak}}realms/OriginatePilotApplication/protocol/openid-connect/token"
 					},
 					"response": []
 				},
@@ -164,7 +164,7 @@
 								}
 							]
 						},
-						"url": "{{url_keycloak}}realms/BolnisiPilotApplication/protocol/openid-connect/token"
+						"url": "{{url_keycloak}}realms/OriginatePilotApplication/protocol/openid-connect/token"
 					},
 					"response": []
 				},
@@ -217,7 +217,7 @@
 								}
 							]
 						},
-						"url": "{{url_keycloak}}realms/BolnisiPilotApplication/protocol/openid-connect/token"
+						"url": "{{url_keycloak}}realms/OriginatePilotApplication/protocol/openid-connect/token"
 					},
 					"response": []
 				},
@@ -270,12 +270,12 @@
 								}
 							]
 						},
-						"url": "{{url_keycloak}}realms/BolnisiPilotApplication/protocol/openid-connect/token"
+						"url": "{{url_keycloak}}realms/OriginatePilotApplication/protocol/openid-connect/token"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Bolnisi application token (for Metabus)",
+					"name": "Get Originate application token (for Metabus)",
 					"event": [
 						{
 							"listen": "test",
@@ -283,7 +283,7 @@
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"// pm.collectionVariables.set (\"access_token\", jsonData.access_token);",
-									"pm.environment.set(\"access_token_Bolnisi_backend\", jsonData.access_token);"
+									"pm.environment.set(\"access_token_Originate_backend\", jsonData.access_token);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -298,7 +298,7 @@
 							"urlencoded": [
 								{
 									"key": "client_id",
-									"value": "BOLNISI_PILOT_APPLICATION",
+									"value": "ORIGINATE_PILOT_APPLICATION",
 									"type": "text"
 								},
 								{
@@ -340,7 +340,7 @@
 						},
 						"method": "POST",
 						"header": [],
-						"url": "{{bolnisi-api}}/user/terms/accept"
+						"url": "{{originate-api}}/user/terms/accept"
 					},
 					"response": []
 				}
@@ -373,7 +373,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"b\",\n    \"email\": \"b@winery.com\",\n    \"rsCode\": \"code-in0nwa\"\n}"
 						},
-						"url": "{{bolnisi-api}}/user/winery"
+						"url": "{{originate-api}}/user/winery"
 					},
 					"response": []
 				},
@@ -405,7 +405,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"dp2\",\n    \"email\": \"root@dp2.com\"\n}"
 						},
-						"url": "{{bolnisi-api}}/user/dataprovider"
+						"url": "{{originate-api}}/user/dataprovider"
 					},
 					"response": []
 				},
@@ -437,7 +437,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"admin 2\",\n    \"email\": \"root@admin2.com\"\n}"
 						},
-						"url": "{{bolnisi-api}}/user/admin"
+						"url": "{{originate-api}}/user/admin"
 					},
 					"response": []
 				},
@@ -474,7 +474,7 @@
 								}
 							}
 						},
-						"url": "{{bolnisi-api}}/user/winery/1"
+						"url": "{{originate-api}}/user/winery/1"
 					},
 					"response": []
 				},
@@ -502,7 +502,7 @@
 								"value": "XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
 							}
 						],
-						"url": "{{bolnisi-api}}/user/winery"
+						"url": "{{originate-api}}/user/winery"
 					},
 					"response": []
 				},
@@ -530,7 +530,7 @@
 								"value": "XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
 							}
 						],
-						"url": "{{bolnisi-api}}/user/winery"
+						"url": "{{originate-api}}/user/winery"
 					},
 					"response": []
 				}
@@ -565,9 +565,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"cert\": {\n        \"certificateNumber\": \"GE-12345\",\n        \"certificateType\": \"TYPE-001\",\n        \"exportCountry\": \"USA\",\n        \"examProtocolNumber\": \"Analysis 2a\",\n        \"tastingProtocolNumber\": \"Tasting 5p\",\n        \"products\": [\n            {\n                \"lotNumber\": \"12345678920\",\n                \"wineName\": \"Wine Name\",\n                \"wineDescription\": \"Description of this wine\",\n                \"serialName\": \"Wine Serial No\",\n                \"origin\": \"Product origin\",\n                \"viticultureArea\": \"Bolnisi area\",\n                \"type\": \"TYPE-001\",\n                \"color\": \"WHITE\",\n                \"sugarContentCategory\": \"Dry\",\n                \"grapeVariety\": \"GrapeA\",\n                \"harvestYear\": 2022,\n                \"delayedOnChacha\": false,\n                \"bottleType\": \"Ceramic\",\n                \"bottlingDate\": \"2022-01-22\",\n                \"bottleVolume\": 5.5,\n                \"bottleCountInLot\": 1000\n            }\n        ]\n    },\n    \"signature\": \"eyJhbGciOiJFZERTQSJ9.WABEvEKpH8vocYEKRxzZYCowrmr99Bc57DpQhiqTcWKYfxbspKS7qoNbAbTUUli2pigxPUwVUNKh_n9IVRyCDw\",\n    \"publicKeyBase64Url\": \"CV-aGlld3nVdgnhoZK0D36Wk-9aIMlZjZOK2XhPMnkQ\"\n}"
+							"raw": "{\n    \"cert\": {\n        \"certificateNumber\": \"GE-12345\",\n        \"certificateType\": \"TYPE-001\",\n        \"exportCountry\": \"USA\",\n        \"examProtocolNumber\": \"Analysis 2a\",\n        \"tastingProtocolNumber\": \"Tasting 5p\",\n        \"products\": [\n            {\n                \"lotNumber\": \"12345678920\",\n                \"wineName\": \"Wine Name\",\n                \"wineDescription\": \"Description of this wine\",\n                \"serialName\": \"Wine Serial No\",\n                \"origin\": \"Product origin\",\n                \"viticultureArea\": \"Originate area\",\n                \"type\": \"TYPE-001\",\n                \"color\": \"WHITE\",\n                \"sugarContentCategory\": \"Dry\",\n                \"grapeVariety\": \"GrapeA\",\n                \"harvestYear\": 2022,\n                \"delayedOnChacha\": false,\n                \"bottleType\": \"Ceramic\",\n                \"bottlingDate\": \"2022-01-22\",\n                \"bottleVolume\": 5.5,\n                \"bottleCountInLot\": 1000\n            }\n        ]\n    },\n    \"signature\": \"eyJhbGciOiJFZERTQSJ9.WABEvEKpH8vocYEKRxzZYCowrmr99Bc57DpQhiqTcWKYfxbspKS7qoNbAbTUUli2pigxPUwVUNKh_n9IVRyCDw\",\n    \"publicKeyBase64Url\": \"CV-aGlld3nVdgnhoZK0D36Wk-9aIMlZjZOK2XhPMnkQ\"\n}"
 						},
-						"url": "{{bolnisi-api}}/certs/winery/1/GE-90025"
+						"url": "{{originate-api}}/certs/winery/1/GE-90025"
 					},
 					"response": []
 				},
@@ -595,7 +595,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"signature\": \"eyJhbGciOiJFZERTQSJ9.-h8ljGMaO6aq5ha5raG3Ms2RFFNoLkcPqiB3cNhwFutNrwXk9uia3TPgh2-02TvypRLdjjtETphQIrV-PjuPDw\",\n    \"publicKeyBase64Url\": \"CV-aGlld3nVdgnhoZK0D36Wk-9aIMlZjZOK2XhPMnkQ\"\n}"
 						},
-						"url": "{{bolnisi-api}}/certs/GE-90025/revoke"
+						"url": "{{originate-api}}/certs/GE-90025/revoke"
 					},
 					"response": []
 				},
@@ -615,7 +615,7 @@
 								"value": "XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
 							}
 						],
-						"url": "{{bolnisi-api}}/certs"
+						"url": "{{originate-api}}/certs"
 					},
 					"response": []
 				},
@@ -639,7 +639,7 @@
 								"value": "JSESSIONID=A2FF600F529816E4C6CAAFAD3488BF09; XSRF-TOKEN=d812c584-c28d-4d0d-a1e3-316eba9b0748"
 							}
 						],
-						"url": "{{bolnisi-api}}/certs/winery/1235"
+						"url": "{{originate-api}}/certs/winery/1235"
 					},
 					"response": []
 				}
@@ -669,7 +669,7 @@
 								}
 							]
 						},
-						"url": "{{bolnisi-api}}/bottles/1"
+						"url": "{{originate-api}}/bottles/1"
 					},
 					"response": []
 				},
@@ -689,7 +689,7 @@
 								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2ODg3MTg4MzQsImlhdCI6MTY4ODcxNzAzNCwianRpIjoiN2Y4NWQ4ZGUtMTM5OS00MjE1LWI3ZjUtNGFiMTY1N2Y2NDI5IiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiMTUwZTA5NzgtZjM3My00OGU2LWE4ZTktNDUzMDZhZGYyYmFiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoidGVzdF9yb2xlIiwic2Vzc2lvbl9zdGF0ZSI6IjkxZmJhODVkLTIxZWYtNDlmNC04YzZjLTYxODgzMjg5ZDc0YiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIldJTkVSWSJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiOTFmYmE4NWQtMjFlZi00OWY0LThjNmMtNjE4ODMyODlkNzRiIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIn0.h1FtJBThVUIJKqkHLU1VEc4Ub28-fHk0yzrOPyyPnou6lndDLAT_ZP7Hch7WQ39-yKihgDSvXT6GDFb6PBRsAiCesWjlTRFq3G-nnroHGcwMR9vQdBnf5y3TAmOHj6xe4cn9BoWrTIFpQCokKEvcykVMqIuGqdZ6zSIWSw6oWDJEVVr05tAkKMCqxDEDzrI_5C0RvgvHXDJ1Bwvz4fGgDBROMaSvVfsDp5poTBtRIdhHI65eIb54mv276-ZpLtCELoDxq5EBW0e5oNCjzJ14-mInvULyUDGvy3GHGtAbSmdJ-YzK0r_HxljRMFWLzKaSgqqc5K5yFKNOrfbBpmfILQ"
 							}
 						],
-						"url": "{{bolnisi-api}}/bottles/1"
+						"url": "{{originate-api}}/bottles/1"
 					},
 					"response": []
 				},
@@ -713,7 +713,7 @@
 								"value": "application/json"
 							}
 						],
-						"url": "{{bolnisi-api}}/bottles/1/lots/12355678918"
+						"url": "{{originate-api}}/bottles/1/lots/12355678918"
 					},
 					"response": []
 				},
@@ -737,7 +737,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"add\": [],\n    \"remove\": [\"PF0ZrHOIHRJW\"],\n    \"finalise\": true\n}"
 						},
-						"url": "{{bolnisi-api}}/bottles/1/certs/GE-333334/12355678903"
+						"url": "{{originate-api}}/bottles/1/certs/GE-333334/12355678903"
 					},
 					"response": []
 				},
@@ -761,7 +761,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"startRange\": 202021,\n    \"endRange\": 202023,\n    \"finalise\": true,\n    \"isSequentialNumber\": true\n}"
 						},
-						"url": "{{bolnisi-api}}/bottles/range-scan/1/certs/GE-12345/12345678920"
+						"url": "{{originate-api}}/bottles/range-scan/1/certs/GE-12345/12345678920"
 					},
 					"response": []
 				},
@@ -785,7 +785,7 @@
 								"value": "application/json"
 							}
 						],
-						"url": "{{bolnisi-api}}/bottles/1/bottle/Im8wGuZLLcWBdf"
+						"url": "{{originate-api}}/bottles/1/bottle/Im8wGuZLLcWBdf"
 					},
 					"response": []
 				}
@@ -810,7 +810,7 @@
 								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrZng2SzdRa1ctdjA2UzR5LThUTUZ6MmJBSGZka3UxOU1iLUtBcVJuVTFRIn0.eyJleHAiOjE2OTA4NjY0MDgsImlhdCI6MTY5MDg2NDYwOCwianRpIjoiMzBjNzBkMmItZTQxZi00MmVhLWJlODItMDQ5Nzg2NjFkOTc0IiwiaXNzIjoiaHR0cHM6Ly9wb28ta2V5Y2xvYWstZGV2LnNvdGF0ZWsud29ya3MvcmVhbG1zL0JvbG5pc2lQaWxvdEFwcGxpY2F0aW9uIiwic3ViIjoiODdhMmMwMjgtNzZmZS00ZTQwLTk5MTgtNDZjMDJjZWI2NTA0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibW9iaWxlLXNjYW4tYXBwIiwic2Vzc2lvbl9zdGF0ZSI6IjZlNmFlZTFkLWU4OGEtNDliNC1iYWRmLTNmMDdjNzUyNTdjMCIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJXSU5FUlkiXX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6IjZlNmFlZTFkLWU4OGEtNDliNC1iYWRmLTNmMDdjNzUyNTdjMCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoidGhhbmguaG9hbmdAc290YXRlay5jb20iLCJsb2NhbGUiOiJrYSIsImdpdmVuX25hbWUiOiIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoidGhhbmguaG9hbmdAc290YXRlay5jb20ifQ.dUtFOhctcWnmAI02hGD54B2jUqVtnG_A5W-NC-KFiMF0LQu6V3laqtBT9xGtoteyYofD12Zywr4hyuuzL4BRhtOEdmZreKRL49R6SfOo_Kou3sbTSsYFcjExYEFn-lFwT9lOgHHMWR1eiyzmnH2RUokG9FE8l7kDZA-UXtYaba2Vq98NTgr1ND351fVcfeR4mhrl63HfzWNE4hlrIkUYnISyTU1JmNSZ0wr3RANulDQdltSSZA1ncGFS42yuD3TV90FBUy_M5SQHz3VSLpAUbNOr7UNJL5qkT6jfNvxM9J9_Qp4N1_B2pB0vkReuEp8KzZCu_KmeOHrVoKSTRfYWCA"
 							}
 						],
-						"url": "{{bolnisi-api}}/scm/lot/1"
+						"url": "{{originate-api}}/scm/lot/1"
 					},
 					"response": []
 				},
@@ -840,7 +840,7 @@
 								}
 							]
 						},
-						"url": "{{bolnisi-api}}/scm/lot/1235"
+						"url": "{{originate-api}}/scm/lot/1235"
 					},
 					"response": []
 				},
@@ -868,7 +868,7 @@
 							"mode": "raw",
 							"raw": "[\n    \"12355678947\"   \n]"
 						},
-						"url": "{{bolnisi-api}}/scm/lot/1/finalise"
+						"url": "{{originate-api}}/scm/lot/1/finalise"
 					},
 					"response": []
 				},
@@ -896,7 +896,7 @@
 							"mode": "raw",
 							"raw": "[\n    \"12355678942\"\n]"
 						},
-						"url": "{{bolnisi-api}}/scm/lot/1235/delete"
+						"url": "{{originate-api}}/scm/lot/1235/delete"
 					},
 					"response": []
 				},
@@ -924,7 +924,7 @@
 							"mode": "raw",
 							"raw": "[\n  \"12355678947\"\n]"
 						},
-						"url": "{{bolnisi-api}}/scm/lot/1/approve"
+						"url": "{{originate-api}}/scm/lot/1/approve"
 					},
 					"response": []
 				}
@@ -939,7 +939,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{access_token_Bolnisi_backend}}"
+								"token": "{{access_token_Originate_backend}}"
 							}
 						},
 						"method": "GET",
@@ -959,7 +959,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{access_token_Bolnisi_backend}}"
+								"token": "{{access_token_Originate_backend}}"
 							}
 						},
 						"method": "POST",
@@ -987,7 +987,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{access_token_Bolnisi_backend}}"
+								"token": "{{access_token_Originate_backend}}"
 							}
 						},
 						"method": "POST",
@@ -1015,7 +1015,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{access_token_Bolnisi_backend}}"
+								"token": "{{access_token_Originate_backend}}"
 							}
 						},
 						"method": "POST",
@@ -1031,7 +1031,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"business_data\": {\n        \"type\": \"scm:georgianWine\",\n        \"data\": {\n            \"total_bottle\": 1000,\n            \"harvest_date\": \"21/10/2022\",\n            \"harvest_location\": \"bolnisi\",\n            \"laboratory\": \"string\",\n            \"wineName\": \"string\",\n            \"wineType\": \"string\",\n            \"nominate\": \"string\",\n            \"type\": \"string\",\n            \"quantity\": \"string\",\n            \"bottleVolume\": \"string\",\n            \"totalVolume\": \"string\",\n            \"pricePerBottle\": \"string\"\n        },\n        \"signature\": \"eyJraWQiOiI3MmNjNGY2NC1iMjgxLTQwOGItODQwNC05OWY5YmRkZTg5MTkiLCJhbGciOiJFZERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9.J-AzQJmYmaoycSY5yolWVsOdUFJDFti3qKvSYA-6JwtYPDHEogUnicexG0weEf_Q1dijAeU1kNaC6PW_VDSbDAERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9\",\n        \"pub_key\": \"https://wine.gov.ge/.well-known/4527/publickey\"\n    },\n    \"group_type\": \"MULTI_GROUP\",\n    \"group\": \"3\"\n}"
+							"raw": "{\n    \"business_data\": {\n        \"type\": \"scm:georgianWine\",\n        \"data\": {\n            \"total_bottle\": 1000,\n            \"harvest_date\": \"21/10/2022\",\n            \"harvest_location\": \"originate\",\n            \"laboratory\": \"string\",\n            \"wineName\": \"string\",\n            \"wineType\": \"string\",\n            \"nominate\": \"string\",\n            \"type\": \"string\",\n            \"quantity\": \"string\",\n            \"bottleVolume\": \"string\",\n            \"totalVolume\": \"string\",\n            \"pricePerBottle\": \"string\"\n        },\n        \"signature\": \"eyJraWQiOiI3MmNjNGY2NC1iMjgxLTQwOGItODQwNC05OWY5YmRkZTg5MTkiLCJhbGciOiJFZERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9.J-AzQJmYmaoycSY5yolWVsOdUFJDFti3qKvSYA-6JwtYPDHEogUnicexG0weEf_Q1dijAeU1kNaC6PW_VDSbDAERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9ERTQSJ9\",\n        \"pub_key\": \"https://wine.gov.ge/.well-known/4527/publickey\"\n    },\n    \"group_type\": \"MULTI_GROUP\",\n    \"group\": \"3\"\n}"
 						},
 						"url": "{{metabus-api}}/jobs"
 					},

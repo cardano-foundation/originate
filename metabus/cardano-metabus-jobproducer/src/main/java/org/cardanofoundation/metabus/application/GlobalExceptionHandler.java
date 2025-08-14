@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     @ExceptionHandler({JobProducerException.class})
     public ResponseEntity<BaseResponse<Void>> handleBusinessException(JobProducerException e) {
-        var bolnisiPilotError = e.getError();
-        var data = BaseResponse.ofFailed(bolnisiPilotError, e.getMessage());
-        return ResponseEntity.status(bolnisiPilotError.getHttpStatus()).body(data);
+        var OriginatePilotError = e.getError();
+        var data = BaseResponse.ofFailed(OriginatePilotError, e.getMessage());
+        return ResponseEntity.status(OriginatePilotError.getHttpStatus()).body(data);
     }
 
     @ExceptionHandler(Exception.class)

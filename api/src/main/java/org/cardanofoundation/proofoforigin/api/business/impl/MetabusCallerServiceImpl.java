@@ -10,8 +10,8 @@ import org.cardanofoundation.proofoforigin.api.controllers.dtos.metabus.request.
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.metabus.response.AccessTokenResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.metabus.response.JobResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BaseResponse;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.security.properties.KeycloakTokenMetabusApiProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.ParameterizedTypeReference;
@@ -94,7 +94,7 @@ public class MetabusCallerServiceImpl implements MetabusCallerService {
             HttpEntity<JobRequest> request = new HttpEntity<>(jobRequest, headers);
             ResponseEntity<BaseResponse<JobResponse>> response = restTemplate.exchange(keycloakTokenMetabusApiProperties.getApiMetabus(), HttpMethod.POST, request, new ParameterizedTypeReference<>() {});
             if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null || response.getBody().getData() == null) {
-                throw new BolnisiPilotException(BolnisiPilotErrors.METABUS_ERROR);
+                throw new OriginatePilotException(OriginatePilotErrors.METABUS_ERROR);
             }
 
             return response.getBody().getData();

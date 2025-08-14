@@ -7,7 +7,7 @@ import { keyCloakClient } from "./Instances/KeyCloakServices";
 /* global process */
 
 const axiosClient = axios.create({
-  baseURL: process.env.BOLNISI_BACKEND_API,
+  baseURL: process.env.ORIGINATE_BACKEND_API,
   headers: {
     "Content-Type": "application/json",
   },

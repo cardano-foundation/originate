@@ -1,8 +1,8 @@
 package org.cardanofoundation.proofoforigin.api.business.impl;
 
 import org.cardanofoundation.proofoforigin.api.business.ScanTrustService;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.BottleRepository;
 import org.cardanofoundation.proofoforigin.api.repository.WineryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.entities.Bottle;
@@ -59,12 +59,12 @@ public class UploadBottleBusinessImplTest {
     }
 
     @Test
-    void uploadCSV_InvalidFileType_ThrowBolnisiPilotException(){
-        BolnisiPilotException expectedException = new BolnisiPilotException(BolnisiPilotErrors.INVALID_FILE_TYPE);
+    void uploadCSV_InvalidFileType_ThrowOriginatePilotException(){
+        OriginatePilotException expectedException = new OriginatePilotException(OriginatePilotErrors.INVALID_FILE_TYPE);
         MultipartFile invalidFile = createMockMultipartFile("data","pdf", "extended_id,lot_id,sequential_number,reel_number,sequential_number_in_lot\n" +
                 "5XEDIMQBXN041SMQ1081S1DB4ZLY3YI,1234ABC5678,245,5,1");
 
-        BolnisiPilotException exception =  assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException exception =  assertThrows(OriginatePilotException.class, () -> {
             uploadBottleBusinessImpl.uploadCsvFile(invalidFile, WINERY_ID);
         });
         verify(wineryRepository,never()).findById(WINERY_ID);
@@ -73,10 +73,10 @@ public class UploadBottleBusinessImplTest {
     }
 
     @Test
-    void uploadCSV_NonExsistWineryId_ThrowBolnisiPilotException(){
+    void uploadCSV_NonExsistWineryId_ThrowOriginatePilotException(){
         when(wineryRepository.findById(any())).thenReturn(java.util.Optional.empty());
-        BolnisiPilotException expectedException = new BolnisiPilotException(BolnisiPilotErrors.NOT_FOUND);
-        BolnisiPilotException exception =  assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException expectedException = new OriginatePilotException(OriginatePilotErrors.NOT_FOUND);
+        OriginatePilotException exception =  assertThrows(OriginatePilotException.class, () -> {
             uploadBottleBusinessImpl.uploadCsvFile(createValidFile(), WINERY_ID);
         });
         verify(wineryRepository,times(1)).findById(WINERY_ID);
@@ -85,13 +85,13 @@ public class UploadBottleBusinessImplTest {
     }
 
     @Test
-    void uploadCSV_BlankExtendId_ThrowBolnisiPilotException(){
+    void uploadCSV_BlankExtendId_ThrowOriginatePilotException(){
         setupWinery();
-        BolnisiPilotException expectedException = new BolnisiPilotException(BolnisiPilotErrors.INVALID_DATA);
+        OriginatePilotException expectedException = new OriginatePilotException(OriginatePilotErrors.INVALID_DATA);
         MultipartFile invalidFile = createMockMultipartFile("data",TYPE, "extended_id,lot_id,sequential_number,reel_number,sequential_number_in_lot\n" +
                 ",1234ABC5678,245,5,1");
 
-        BolnisiPilotException exception =  assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException exception =  assertThrows(OriginatePilotException.class, () -> {
             uploadBottleBusinessImpl.uploadCsvFile(invalidFile, WINERY_ID);
         });
         verify(wineryRepository,times(1)).findById(WINERY_ID);
@@ -100,13 +100,13 @@ public class UploadBottleBusinessImplTest {
     }
 
     @Test
-    void uploadCSV_BlankLotId_ThrowBolnisiPilotException(){
+    void uploadCSV_BlankLotId_ThrowOriginatePilotException(){
         setupWinery();
-        BolnisiPilotException expectedException = new BolnisiPilotException(BolnisiPilotErrors.INVALID_DATA);
+        OriginatePilotException expectedException = new OriginatePilotException(OriginatePilotErrors.INVALID_DATA);
         MultipartFile invalidFile = createMockMultipartFile("data",TYPE, "extended_id,lot_id,sequential_number,reel_number,sequential_number_in_lot\n" +
                 "5XEDIMQBXN041SMQ1081S1DB4ZLY3YI,,245,5,1");
 
-        BolnisiPilotException exception =  assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException exception =  assertThrows(OriginatePilotException.class, () -> {
             uploadBottleBusinessImpl.uploadCsvFile(invalidFile, WINERY_ID);
         });
         verify(wineryRepository,times(1)).findById(WINERY_ID);
@@ -115,13 +115,13 @@ public class UploadBottleBusinessImplTest {
     }
 
     @Test
-    void uploadCSV_BlankSequentialNumber_ThrowBolnisiPilotException() {
+    void uploadCSV_BlankSequentialNumber_ThrowOriginatePilotException() {
         setupWinery();
-        BolnisiPilotException expectedException = new BolnisiPilotException(BolnisiPilotErrors.INVALID_DATA);
+        OriginatePilotException expectedException = new OriginatePilotException(OriginatePilotErrors.INVALID_DATA);
         MultipartFile invalidFile = createMockMultipartFile("data",TYPE, "extended_id,lot_id,sequential_number,reel_number,sequential_number_in_lot\n" +
                 "5XEDIMQBXN041SMQ1081S1DB4ZLY3YI,1234ABC5678,,5,1");
 
-        BolnisiPilotException exception =  assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException exception =  assertThrows(OriginatePilotException.class, () -> {
             uploadBottleBusinessImpl.uploadCsvFile(invalidFile, WINERY_ID);
         });
         verify(wineryRepository,times(1)).findById(WINERY_ID);
@@ -130,13 +130,13 @@ public class UploadBottleBusinessImplTest {
     }
 
     @Test
-    void uploadCSV_BlankReelNumber_ThrowBolnisiPilotException() {
+    void uploadCSV_BlankReelNumber_ThrowOriginatePilotException() {
         setupWinery();
-        BolnisiPilotException expectedException = new BolnisiPilotException(BolnisiPilotErrors.INVALID_DATA);
+        OriginatePilotException expectedException = new OriginatePilotException(OriginatePilotErrors.INVALID_DATA);
         MultipartFile invalidFile = createMockMultipartFile("data",TYPE, "extended_id,lot_id,sequential_number,reel_number,sequential_number_in_lot\n" +
                 "5XEDIMQBXN041SMQ1081S1DB4ZLY3YI,1234ABC5678,245,1");
 
-        BolnisiPilotException exception =  assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException exception =  assertThrows(OriginatePilotException.class, () -> {
             uploadBottleBusinessImpl.uploadCsvFile(invalidFile, WINERY_ID);
         });
         verify(wineryRepository,times(1)).findById(WINERY_ID);
@@ -145,13 +145,13 @@ public class UploadBottleBusinessImplTest {
     }
 
     @Test
-    void uploadCSV_BlankSequentialNumberInLot_ThrowBolnisiPilotException() {
+    void uploadCSV_BlankSequentialNumberInLot_ThrowOriginatePilotException() {
         setupWinery();
-        BolnisiPilotException expectedException = new BolnisiPilotException(BolnisiPilotErrors.INVALID_DATA);
+        OriginatePilotException expectedException = new OriginatePilotException(OriginatePilotErrors.INVALID_DATA);
         MultipartFile invalidFile = createMockMultipartFile("data",TYPE, "extended_id,lot_id,sequential_number,reel_number,sequential_number_in_lot\n" +
                 "5XEDIMQBXN041SMQ1081S1DB4ZLY3YI,1234ABC5678,1,245");
 
-        BolnisiPilotException exception =  assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException exception =  assertThrows(OriginatePilotException.class, () -> {
             uploadBottleBusinessImpl.uploadCsvFile(invalidFile, WINERY_ID);
         });
         verify(wineryRepository,times(1)).findById(WINERY_ID);
@@ -161,11 +161,11 @@ public class UploadBottleBusinessImplTest {
 
     @Test
     void csvToBottles_with_negative_sequentialNumber() {
-        BolnisiPilotException expectedException = new BolnisiPilotException(BolnisiPilotErrors.INVALID_DATA);
+        OriginatePilotException expectedException = new OriginatePilotException(OriginatePilotErrors.INVALID_DATA);
         MultipartFile invalidFile = createMockMultipartFile("data", TYPE, "extended_id,lot_id,sequential_number,reel_number,sequential_number_in_lot\n" +
                 "5XEDIMQBXN041SMQ1081S1DB4ZLY3YI,1234ABC5678,-1,10,1");
 
-        BolnisiPilotException exception = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException exception = assertThrows(OriginatePilotException.class, () -> {
             uploadBottleBusinessImpl.csvToBottles(invalidFile, WINERY_ID);
         });
         assertExceptionEquals(expectedException, exception);
@@ -173,11 +173,11 @@ public class UploadBottleBusinessImplTest {
 
     @Test
     void csvToBottles_with_negative_reelNumber() {
-        BolnisiPilotException expectedException = new BolnisiPilotException(BolnisiPilotErrors.INVALID_DATA);
+        OriginatePilotException expectedException = new OriginatePilotException(OriginatePilotErrors.INVALID_DATA);
         MultipartFile invalidFile = createMockMultipartFile("data", TYPE, "extended_id,lot_id,sequential_number,reel_number,sequential_number_in_lot\n" +
                 "5XEDIMQBXN041SMQ1081S1DB4ZLY3YI,1234ABC5678,10,-1,1");
 
-        BolnisiPilotException exception = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException exception = assertThrows(OriginatePilotException.class, () -> {
             uploadBottleBusinessImpl.csvToBottles(invalidFile, WINERY_ID);
         });
         assertExceptionEquals(expectedException, exception);
@@ -185,11 +185,11 @@ public class UploadBottleBusinessImplTest {
 
     @Test
     void csvToBottles_with_negative_sequentialNumberInLot() {
-        BolnisiPilotException expectedException = new BolnisiPilotException(BolnisiPilotErrors.INVALID_DATA);
+        OriginatePilotException expectedException = new OriginatePilotException(OriginatePilotErrors.INVALID_DATA);
         MultipartFile invalidFile = createMockMultipartFile("data", TYPE, "extended_id,lot_id,sequential_number,reel_number,sequential_number_in_lot\n" +
                 "5XEDIMQBXN041SMQ1081S1DB4ZLY3YI,1234ABC5678,10,245,-1");
 
-        BolnisiPilotException exception = assertThrows(BolnisiPilotException.class, () -> {
+        OriginatePilotException exception = assertThrows(OriginatePilotException.class, () -> {
             uploadBottleBusinessImpl.csvToBottles(invalidFile, WINERY_ID);
         });
         assertExceptionEquals(expectedException, exception);
@@ -228,7 +228,7 @@ public class UploadBottleBusinessImplTest {
         return new MockMultipartFile(fileName, fileName,contentType, fileContent.getBytes(StandardCharsets.UTF_8));
     }
 
-    private void assertExceptionEquals(BolnisiPilotException expectedException, BolnisiPilotException actualException) {
+    private void assertExceptionEquals(OriginatePilotException expectedException, OriginatePilotException actualException) {
         assertAll(
                 () -> assertEquals(expectedException.getError().getCode(), actualException.getError().getCode()),
                 () -> assertEquals(expectedException.getError().getMessage(), actualException.getError().getMessage()),

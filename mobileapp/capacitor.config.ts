@@ -11,7 +11,7 @@ dotenv.config({ path: "./.env" });
  */
 const config: CapacitorConfig = {
   appId: "cf.proofoforigin.mobileapp",
-  appName: "Bolnisi Scanning App",
+  appName: "Originate Scanning App",
   webDir: "build",
   bundledWebRuntime: false,
   plugins: {

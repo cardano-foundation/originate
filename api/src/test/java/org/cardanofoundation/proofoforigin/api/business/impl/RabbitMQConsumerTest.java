@@ -58,7 +58,7 @@ public class RabbitMQConsumerTest {
     private CertificateService certificateService;
 
     @Test
-    public void testConsume_withValidJob_BOLNISI_LOT() throws Exception {
+    public void testConsume_withValidJob_ORIGINATE_LOT() throws Exception {
         // Arrange
         final Job job = new Job();
         job.setId(1L);
@@ -93,7 +93,7 @@ public class RabbitMQConsumerTest {
     }
 
     @Test
-    public void testConsume_withValidJob_BOLNISI_CERT() throws Exception {
+    public void testConsume_withValidJob_ORIGINATE_CERT() throws Exception {
         // Arrange
         final Job job = new Job();
         job.setId(1L);
@@ -124,7 +124,7 @@ public class RabbitMQConsumerTest {
     }
 
     @Test
-    public void testConsume_withValidJob_BOLNISI_CERT_REVOKE() throws Exception {
+    public void testConsume_withValidJob_ORIGINATE_CERT_REVOKE() throws Exception {
         // Arrange
         final Job job = new Job();
         job.setId(1L);

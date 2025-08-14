@@ -1,6 +1,6 @@
 {
-  "id": "BolnisiPilotApplication",
-  "realm": "BolnisiPilotApplication",
+  "id": "OriginatePilotApplication",
+  "realm": "OriginatePilotApplication",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -50,7 +50,7 @@
         "name": "ADMIN",
         "composite": false,
         "clientRole": false,
-        "containerId": "BolnisiPilotApplication",
+        "containerId": "OriginatePilotApplication",
         "attributes": {}
       },
       {
@@ -59,12 +59,12 @@
         "description": "${role_offline-access}",
         "composite": false,
         "clientRole": false,
-        "containerId": "BolnisiPilotApplication",
+        "containerId": "OriginatePilotApplication",
         "attributes": {}
       },
       {
         "id": "11d2c8bb-b2c1-4108-b773-5096e7a49015",
-        "name": "default-roles-bolnisipilotapplication",
+        "name": "default-roles-originatepilotapplication",
         "description": "${role_default-roles}",
         "composite": true,
         "composites": {
@@ -80,7 +80,7 @@
           }
         },
         "clientRole": false,
-        "containerId": "BolnisiPilotApplication",
+        "containerId": "OriginatePilotApplication",
         "attributes": {}
       },
       {
@@ -89,7 +89,7 @@
         "description": "${role_uma_authorization}",
         "composite": false,
         "clientRole": false,
-        "containerId": "BolnisiPilotApplication",
+        "containerId": "OriginatePilotApplication",
         "attributes": {}
       },
       {
@@ -97,7 +97,7 @@
         "name": "WINERY",
         "composite": false,
         "clientRole": false,
-        "containerId": "BolnisiPilotApplication",
+        "containerId": "OriginatePilotApplication",
         "attributes": {}
       },
       {
@@ -105,7 +105,7 @@
         "name": "DATA_PROVIDER",
         "composite": false,
         "clientRole": false,
-        "containerId": "BolnisiPilotApplication",
+        "containerId": "OriginatePilotApplication",
         "attributes": {}
       }
     ],
@@ -336,7 +336,7 @@
       "frontend_dashboard": [],
       "security-admin-console": [],
       "admin-cli": [],
-      "manage_bolnisi_users": [],
+      "manage_originate_users": [],
       "account-console": [],
       "broker": [
         {
@@ -443,11 +443,11 @@
   "groups": [],
   "defaultRole": {
     "id": "11d2c8bb-b2c1-4108-b773-5096e7a49015",
-    "name": "default-roles-bolnisipilotapplication",
+    "name": "default-roles-originatepilotapplication",
     "description": "${role_default-roles}",
     "composite": true,
     "clientRole": false,
-    "containerId": "BolnisiPilotApplication"
+    "containerId": "OriginatePilotApplication"
   },
   "requiredCredentials": [
     "password"
@@ -493,11 +493,11 @@
     {
       "id": "214afed6-5542-4e75-bdcd-093704c29c6f",
       "createdTimestamp": 1687940252008,
-      "username": "service-account-manage_bolnisi_users",
+      "username": "service-account-manage_originate_users",
       "enabled": true,
       "totp": false,
       "emailVerified": false,
-      "serviceAccountClientId": "manage_bolnisi_users",
+      "serviceAccountClientId": "manage_originate_users",
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "clientRoles": {
@@ -553,13 +553,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/BolnisiPilotApplication/account/",
+      "baseUrl": "/realms/OriginatePilotApplication/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/BolnisiPilotApplication/account/*"
+        "/realms/OriginatePilotApplication/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -596,13 +596,13 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/BolnisiPilotApplication/account/",
+      "baseUrl": "/realms/OriginatePilotApplication/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/BolnisiPilotApplication/account/*"
+        "/realms/OriginatePilotApplication/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -730,16 +730,16 @@
       "description": "",
       "rootUrl": "",
       "adminUrl": "",
-      "baseUrl": "https://dev.cf-bolnisi-wine-preprod.originate.company.com/login",
+      "baseUrl": "https://dev.cf-originate-wine-preprod.originate.company.com/login",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://dev.cf-bolnisi-wine-preprod.originate.company.com/*"
+        "https://dev.cf-originate-wine-preprod.originate.company.com/*"
       ],
       "webOrigins": [
-        "https://dev.cf-bolnisi-wine-preprod.originate.company.com"
+        "https://dev.cf-originate-wine-preprod.originate.company.com"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -754,7 +754,7 @@
       "attributes": {
         "saml.force.post.binding": "false",
         "saml.multivalued.roles": "false",
-        "post.logout.redirect.uris": "https://dev.cf-bolnisi-wine-preprod.originate.company.com/*",
+        "post.logout.redirect.uris": "https://dev.cf-originate-wine-preprod.originate.company.com/*",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
         "saml.server.signature.keyinfo.ext": "false",
@@ -767,7 +767,7 @@
         "id.token.as.detached.signature": "false",
         "saml.assertion.signature": "false",
         "saml.encrypt": "false",
-        "login_theme": "bolnisi-keycloak-web",
+        "login_theme": "originate-keycloak-web",
         "saml.server.signature": "false",
         "exclude.session.state.from.auth.response": "false",
         "saml.artifact.binding": "false",
@@ -797,7 +797,7 @@
     },
     {
       "id": "fe6fd58b-2cd4-473a-a996-450e9e26ec44",
-      "clientId": "manage_bolnisi_users",
+      "clientId": "manage_originate_users",
       "name": "",
       "description": "",
       "rootUrl": "",
@@ -904,7 +904,7 @@
       "description": "",
       "rootUrl": "${authBaseUrl}",
       "adminUrl": "",
-      "baseUrl": "/realms/BolnisiPilotApplication/mobile-scan-app/",
+      "baseUrl": "/realms/OriginatePilotApplication/mobile-scan-app/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -928,7 +928,7 @@
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
-        "login_theme": "bolnisi-keycloak-app",
+        "login_theme": "originate-keycloak-app",
         "post.logout.redirect.uris": "*",
         "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
@@ -1097,13 +1097,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/BolnisiPilotApplication/console/",
+      "baseUrl": "/admin/OriginatePilotApplication/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/BolnisiPilotApplication/console/*"
+        "/admin/OriginatePilotApplication/console/*"
       ],
       "webOrigins": [
         "+"
@@ -1815,7 +1815,7 @@
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
   "smtpServer": {
-    "replyToDisplayName": "Bolnisi | Cardano Foundation",
+    "replyToDisplayName": "Originate | Cardano Foundation",
     "starttls": "false",
     "auth": "true",
     "envelopeFrom": "",
@@ -1825,13 +1825,13 @@
     "host": "smtp.gmail.com",
     "replyTo": "",
     "from": "vnsurvey2021.test@gmail.com",
-    "fromDisplayName": "Bolnisi | Cardano Foundation",
+    "fromDisplayName": "Originate | Cardano Foundation",
     "user": "vnsurvey2021.test@gmail.com"
   },
-  "loginTheme": "bolnisi-keycloak-web",
+  "loginTheme": "originate-keycloak-web",
   "accountTheme": "",
   "adminTheme": "",
-  "emailTheme": "bolnisi-keycloak",
+  "emailTheme": "originate-keycloak",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"

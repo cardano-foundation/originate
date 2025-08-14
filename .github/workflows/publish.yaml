@@ -80,7 +80,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build and Push docker image (bolnisi-api)
+      - name: Build and Push docker image (originate-api)
         uses: docker/build-push-action@v4
         if: |
           steps.metadata.outputs.BRANCH == 'main' ||
@@ -100,7 +100,7 @@ jobs:
             PRIVATE_MVN_REGISTRY_USER=${{ env.PRIVATE_MVN_REGISTRY_USER }}
             PRIVATE_MVN_REGISTRY_PASS=${{ env.PRIVATE_MVN_REGISTRY_PASS }}
 
-      - name: Build and Push docker image (bolnisi-frontend)
+      - name: Build and Push docker image (originate-frontend)
         uses: docker/build-push-action@v4
         if: |
           steps.metadata.outputs.BRANCH == 'main' ||

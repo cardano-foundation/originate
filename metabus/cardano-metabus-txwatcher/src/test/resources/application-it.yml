@@ -3,15 +3,15 @@ cardano-metabus-txwatcher:
   rabbitmq: # All the queue, exchange, stats,...etc... of this config must be the same value with the rabbitmq-setup/definitions.json file
     exchange: job
     bindings:
-      - routingKey: bolnisi
-        queue: bolnisi
+      - routingKey: originate
+        queue: originate
         messageTTL: 345600000
         hasDLQ: true
     subTypeRoutingKeyMapping:
-      georgianWine: bolnisi
-    deadLetterQueue: bolnisi-dead-letter-queue
-    deadLetterRoutingKey: bolnisi-dead
-    deadLetterExchange: bolnisi-dead-letter-exchange
+      georgianWine: originate
+    deadLetterQueue: originate-dead-letter-queue
+    deadLetterRoutingKey: originate-dead
+    deadLetterExchange: originate-dead-letter-exchange
 
   # delay reconsume duration in milliseconds if business exception occurs
   delayReconsumeDuration: 3000
@@ -21,7 +21,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://${STATE_DB_HOST:localhost}:${STATE_DB_EXPOSED_PORT:54324}/${STATE_DB_NAME:state_storage}?reWriteBatchedInserts=true&currentSchema=public
     username: ${STATE_DB_USER_NAME:proofoforiginadmin}
-    password: ${STATE_DB_USER_SECRET:bolnisiDoNotUseInProduction}
+    password: ${STATE_DB_USER_SECRET:originateDoNotUseInProduction}
     driver-class-name: org.postgresql.Driver
   # JPA specific configs
   jpa:

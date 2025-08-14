@@ -2,9 +2,9 @@
 metabus:
   security:
     endpointAuthorizations:
-      - { urlPattern: "/api/v1/jobs/**", roles: [ "BOLNISI_APPLICATION", "ADMIN" ] }
+      - { urlPattern: "/api/v1/jobs/**", roles: [ "ORIGINATE_APPLICATION", "ADMIN" ] }
     jobTypeAuthorizations:
-      - { roles: [ "BOLNISI_APPLICATION", "ADMIN" ], allowedJobTypes: ["scm:georgianWine", "conformityCert:georgianWine", "conformityCertRevoke:georgianWine"] }
+      - { roles: [ "ORIGINATE_APPLICATION", "ADMIN" ], allowedJobTypes: ["scm:georgianWine", "conformityCert:georgianWine", "conformityCertRevoke:georgianWine"] }
 
 spring:
   jackson:

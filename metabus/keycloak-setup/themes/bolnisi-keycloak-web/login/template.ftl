@@ -15,7 +15,7 @@
                 <meta name="${meta?split('==')[0]}" content="${meta?split('==')[1]}"/>
             </#list>
         </#if>
-        <title>Cardano Foundation | Bolnisi</title>
+        <title>Cardano Foundation | Originate</title>
         <link rel="icon" href="${url.resourcesPath}/img/favicon.png"/>
         <#if properties.styles?has_content>
             <#list properties.styles?split(' ') as style>

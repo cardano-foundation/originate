@@ -15,8 +15,8 @@ import org.cardanofoundation.proofoforigin.api.controllers.dtos.request.BottleRa
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BottleDto;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BottleResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BottlesInformation;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.*;
 import org.cardanofoundation.proofoforigin.api.repository.entities.Bottle;
 import org.cardanofoundation.proofoforigin.api.repository.entities.CertificateEntity;
@@ -45,7 +45,7 @@ public class BottlesServiceImpl implements BottlesService {
     @Override
     public BottleResponse getBottlesByWineryId(String wineryId) {
         if (!hasPermission(wineryId)) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.FORBIDDEN);
+            throw new OriginatePilotException(OriginatePilotErrors.FORBIDDEN);
         }
 
         return BottleResponse.toBottleResponse(bottleRepository.getBottlesByWineryId(wineryId));
@@ -54,11 +54,11 @@ public class BottlesServiceImpl implements BottlesService {
     @Override
     public List<BottleDto> getBottlesByLotId(String wineryId, String lotId) {
         if (!hasPermission(wineryId)) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.FORBIDDEN);
+            throw new OriginatePilotException(OriginatePilotErrors.FORBIDDEN);
         }
 
         if (!bottleRepository.existsByLotIdAndWineryId(lotId, wineryId)) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.LOT_NOT_FOUND);
+            throw new OriginatePilotException(OriginatePilotErrors.LOT_NOT_FOUND);
         }
 
         return bottleRepository.getBottlesByWineryIdAndLotId(wineryId, lotId).stream()
@@ -68,7 +68,7 @@ public class BottlesServiceImpl implements BottlesService {
 
     private Winery getWineryById(String wineryId) {
         return wineryRepository.findByWineryId(wineryId)
-                .orElseThrow(() -> new BolnisiPilotException(BolnisiPilotErrors.NOT_FOUND));
+                .orElseThrow(() -> new OriginatePilotException(OriginatePilotErrors.NOT_FOUND));
     }
 
     private boolean hasPermission(String wineryId) {
@@ -87,11 +87,11 @@ public class BottlesServiceImpl implements BottlesService {
     @Override
     public BottlesInformation getBottlesInformation(String wineryId, String bottleId) {
         if (!hasPermission(wineryId)) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.FORBIDDEN);
+            throw new OriginatePilotException(OriginatePilotErrors.FORBIDDEN);
         }
 
         Bottle bottle = bottleRepository.findByWineryIdAndId(wineryId, bottleId)
-                .orElseThrow(() -> new BolnisiPilotException(BolnisiPilotErrors.BOTTLE_NOT_FOUND));
+                .orElseThrow(() -> new OriginatePilotException(OriginatePilotErrors.BOTTLE_NOT_FOUND));
 
         CertificateLotEntryEntity certProduct = new CertificateLotEntryEntity();
         CertificateEntity cert;
@@ -120,20 +120,20 @@ public class BottlesServiceImpl implements BottlesService {
             BottleIdBody.class })
     public void updateCertificateAssociations(String wineryId, String certId, String lotId, BottleIdBody bottlesBody) {
         if (!hasPermission(wineryId)) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.FORBIDDEN);
+            throw new OriginatePilotException(OriginatePilotErrors.FORBIDDEN);
         }
 
         //check certID, lotID is exits with wineryID
         Long certificateLotEntryByWineryId = certificateLotEntryEntityRepository
                 .countByCertificateLotEntryPkCertificateIdAndCertificateLotEntryPkLotIdAndWineryIdAndCertificateCertStatus(certId, lotId, wineryId, CertStatus.ACTIVE);
         if (certificateLotEntryByWineryId == 0L) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.PS_INVALID_PARAMETERS_LOTID_OR_CERTID);
+            throw new OriginatePilotException(OriginatePilotErrors.PS_INVALID_PARAMETERS_LOTID_OR_CERTID);
         }
 
         //check certID is on chain
         List<CertificateEntity> certs = certificateRepository.findByCertificateIdAndTxIdIsNotNullAndCertStatus(certId, CertStatus.ACTIVE);
         if(certs.isEmpty()){
-            throw new BolnisiPilotException(BolnisiPilotErrors.PS_NOT_ON_CHAIN_CERTID);
+            throw new OriginatePilotException(OriginatePilotErrors.PS_NOT_ON_CHAIN_CERTID);
         }
 
         Set<String> bottleIdsAddSet = new HashSet<>(bottlesBody.getAdd());
@@ -142,11 +142,11 @@ public class BottlesServiceImpl implements BottlesService {
             List<Bottle> associateBottle = bottleRepository.findByIdInAndCertificateIdNotNull(bottleIdsAddSet);
             if (!associateBottle.isEmpty()) {
                 List<String> listBottleIds = associateBottle.stream().map(Bottle::getId).toList();
-                throw new BolnisiPilotException(BolnisiPilotErrors
+                throw new OriginatePilotException(OriginatePilotErrors
                         .errorBottleIds(HttpStatus.CONFLICT.value()
                                 , new ArrayList<>(listBottleIds)
                                 , HttpStatus.CONFLICT
-                                , BolnisiPilotErrors.ERROR_MESSAGE_BOTTLE_HAVE_BEEN_ASSOCIATED));
+                                , OriginatePilotErrors.ERROR_MESSAGE_BOTTLE_HAVE_BEEN_ASSOCIATED));
             }
 
         //check CertificateLotEntryEntity has certID and lotID corresponding to param input
@@ -156,7 +156,7 @@ public class BottlesServiceImpl implements BottlesService {
                         , ScanningStatus.APPROVED
                         , CertStatus.ACTIVE);
         if (entities.isEmpty()) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.PS_PAIR_LOTID_CERTID_APPROVE);
+            throw new OriginatePilotException(OriginatePilotErrors.PS_PAIR_LOTID_CERTID_APPROVE);
         }
 
         //check Bottle has been scan duplicate
@@ -168,11 +168,11 @@ public class BottlesServiceImpl implements BottlesService {
             if (bottleRemoveIsExits.size() != bottleIdsRemoveSet.size()){
                 List<String> bottleRemoveInDB = bottleRemoveIsExits.stream().map(Bottle::getId).toList();
                 bottleRemoveInDB.forEach(bottleIdsRemoveSet::remove);
-                throw new BolnisiPilotException(BolnisiPilotErrors
+                throw new OriginatePilotException(OriginatePilotErrors
                         .errorBottleIds(HttpStatus.CONFLICT.value()
                                 , new ArrayList<>(bottleIdsRemoveSet)
                                 , HttpStatus.CONFLICT
-                                , BolnisiPilotErrors.ERROR_MESSAGE_BOTTLE_WITH_CERT));
+                                , OriginatePilotErrors.ERROR_MESSAGE_BOTTLE_WITH_CERT));
             }
         }
 
@@ -180,7 +180,7 @@ public class BottlesServiceImpl implements BottlesService {
         bottleIdsAddSet.forEach(
                 add -> {
                     if (bottleIdsRemoveSet.contains(add)){
-                        throw new BolnisiPilotException(BolnisiPilotErrors.REQUEST_FORMAT);
+                        throw new OriginatePilotException(OriginatePilotErrors.REQUEST_FORMAT);
                     }
                 }
         );
@@ -217,11 +217,11 @@ public class BottlesServiceImpl implements BottlesService {
         if (!(bottleExist.size() == bottleIdsSet.size())) {
             List<String> bottleInDB = bottleExist.stream().map(Bottle::getId).toList();
             bottleInDB.forEach(bottleIdsSet::remove);
-            throw new BolnisiPilotException(BolnisiPilotErrors
+            throw new OriginatePilotException(OriginatePilotErrors
                     .errorBottleIds(HttpStatus.CONFLICT.value()
                             , new ArrayList<>(bottleIdsSet)
                             , HttpStatus.CONFLICT
-                            , BolnisiPilotErrors.ERROR_MESSAGE_BOTTLE_WITH_LOT));
+                            , OriginatePilotErrors.ERROR_MESSAGE_BOTTLE_WITH_LOT));
         }
         return bottleExist;
     }
@@ -248,7 +248,7 @@ public class BottlesServiceImpl implements BottlesService {
                 lstSequentialNumber.add(Integer.parseInt(bottleRangeBody.getStartRange()));
                 lstSequentialNumber.add(Integer.parseInt(bottleRangeBody.getEndRange()));
             }catch (NumberFormatException e){
-                throw new BolnisiPilotException(BolnisiPilotErrors.INVALID_PARAMETERS);
+                throw new OriginatePilotException(OriginatePilotErrors.INVALID_PARAMETERS);
             }
         } else {
             /**
@@ -304,7 +304,7 @@ public class BottlesServiceImpl implements BottlesService {
         }
 
         if (bottleIdsFromSNRange.isEmpty()) {
-            throw new BolnisiPilotException(BolnisiPilotErrors.PS_INVALID_PARAMETERS_LOTID_OR_CERTID);
+            throw new OriginatePilotException(OriginatePilotErrors.PS_INVALID_PARAMETERS_LOTID_OR_CERTID);
         }
 
         BottleIdBody bottlesBody = new BottleIdBody();

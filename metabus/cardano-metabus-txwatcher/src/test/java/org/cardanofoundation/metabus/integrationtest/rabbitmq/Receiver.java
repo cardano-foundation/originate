@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Receiver {
     AtomicReference<Job> jobAtomicReference = new AtomicReference<>();
 
-    @RabbitListener(queues = {"bolnisi"}, messageConverter = "jsonMessageConverter")
+    @RabbitListener(queues = {"originate"}, messageConverter = "jsonMessageConverter")
     public void consume(Job job){
         jobAtomicReference = new AtomicReference<>(job);
     }

@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RabbitMQConsumerIT {
 
 
-    private String QUEUE_NAME = "bolnisi";
+    private String QUEUE_NAME = "originate";
 
     private int PORT = 5672;
 
@@ -48,7 +48,7 @@ public class RabbitMQConsumerIT {
     private static final String MESSAGE = "{\n" +
             "    \"id\": 130,\n" +
             "    \"businessData\": {\n" +
-            "        \"type\": \"bolnisi_lot\",\n" +
+            "        \"type\": \"originate_lot\",\n" +
             "        \"data\": {\n" +
             "            \"id\": 92\n" +
             "        },\n" +
@@ -63,7 +63,7 @@ public class RabbitMQConsumerIT {
     private static final String ERROR_TYPE_MESSAGE = "{\n" +
             "    \"id\": 130,\n" +
             "    \"businessData\": {\n" +
-            "        \"type\": \"bolnisi_error\",\n" +
+            "        \"type\": \"originate_error\",\n" +
             "        \"data\": {\n" +
             "            \"id\": 92\n" +
             "        },\n" +
@@ -92,7 +92,7 @@ public class RabbitMQConsumerIT {
 
         Map<String, Object> args = new HashMap<String, Object>();
         args.put("x-message-ttl", 10000);
-        args.put("x-dead-letter-exchange", "bolnisi-dead-letter-exchange");
+        args.put("x-dead-letter-exchange", "originate-dead-letter-exchange");
 
         connection = factory.newConnection();
         channel = connection.createChannel();

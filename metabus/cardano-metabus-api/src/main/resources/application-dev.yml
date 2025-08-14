@@ -16,7 +16,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://${STATE_DB_HOST:localhost}:${STATE_DB_EXPOSED_PORT:54324}/${STATE_DB_NAME:state_storage}?reWriteBatchedInserts=true&currentSchema=public
     username: ${STATE_DB_USER_NAME:proofoforiginadmin}
-    password: ${STATE_DB_USER_SECRET:bolnisiDoNotUseInProduction}
+    password: ${STATE_DB_USER_SECRET:originateDoNotUseInProduction}
     driver-class-name: org.postgresql.Driver
   # JPA specific configs
   jpa:

@@ -47,8 +47,8 @@ class JobServiceImplTest extends BaseUnitTest {
         metabusSecurityProperties = new MetabusSecurityProperties();
         
         JobTypeAuthorization jobTypeAuthorization = new JobTypeAuthorization();
-        jobTypeAuthorization.setAllowedJobTypes(Arrays.asList("bolnisi_lot", "bolnisi_cert"));
-        jobTypeAuthorization.setRoles(Arrays.asList("BOLNISI_APPLICATION", "ADMIN"));
+        jobTypeAuthorization.setAllowedJobTypes(Arrays.asList("originate_lot", "originate_cert"));
+        jobTypeAuthorization.setRoles(Arrays.asList("ORIGINATE_APPLICATION", "ADMIN"));
         metabusSecurityProperties.setJobTypeAuthorizations(Arrays.asList(jobTypeAuthorization));
         jobProducerService = mock(JobProducerService.class);
         jobService = new JobServiceImpl(jobRepository, jobProducerService, metabusSecurityProperties,
@@ -59,7 +59,7 @@ class JobServiceImplTest extends BaseUnitTest {
         Jwt jwt = mock(Jwt.class);
         Map<String, Object> claims = new HashMap<>();
         Map<String, Object> realmAccess = new HashMap<>();
-        realmAccess.put("roles", Arrays.asList("BOLNISI_APPLICATION"));
+        realmAccess.put("roles", Arrays.asList("ORIGINATE_APPLICATION"));
         claims.put("realm_access", realmAccess);
 
         when(jwt.getClaims()).thenReturn(claims);
@@ -75,12 +75,12 @@ class JobServiceImplTest extends BaseUnitTest {
     void test_create_job_success() {
         // Prepare data
         MetabusSecurityProperties.JobTypeAuthorization jobTypeAuthorization = new MetabusSecurityProperties.JobTypeAuthorization();
-        jobTypeAuthorization.setRoles(Arrays.asList("BOLNISI_APPLICATION"));
-        jobTypeAuthorization.setAllowedJobTypes(Arrays.asList("bolnisi_lot", "bolnisi_cert"));
+        jobTypeAuthorization.setRoles(Arrays.asList("ORIGINATE_APPLICATION"));
+        jobTypeAuthorization.setAllowedJobTypes(Arrays.asList("originate_lot", "originate_cert"));
 
         // Create a mock Job object
         BusinessData businessData = BusinessData.builder()
-                .type("bolnisi_lot")
+                .type("originate_lot")
                 .build();
         Job job = Job.builder()
                 .businessData(businessData)
@@ -91,7 +91,7 @@ class JobServiceImplTest extends BaseUnitTest {
         JobJPA savedJobJPA = new JobJPA();
         Job createdJob = Job.builder().build();
 
-        final ScheduledBatchesJPA scheduledBatchesJPA = ScheduledBatchesJPA.builder().jobType("bolnisi_lot")
+        final ScheduledBatchesJPA scheduledBatchesJPA = ScheduledBatchesJPA.builder().jobType("originate_lot")
                 .batchStatus(BatchStatus.PENDING).consumedJobTime(Instant.now()).build();
         final List<ScheduledBatchesJPA> scheduledBatchesJPAs = List.of(scheduledBatchesJPA);
 
@@ -103,7 +103,7 @@ class JobServiceImplTest extends BaseUnitTest {
 
 
         // Mock the scheduled batch return not empty
-        doReturn(scheduledBatchesJPAs).when(scheduledBatchesRepository).findByJobType("bolnisi_lot");
+        doReturn(scheduledBatchesJPAs).when(scheduledBatchesRepository).findByJobType("originate_lot");
         doReturn(scheduledBatchesJPAs).when(scheduledBatchesRepository).saveAll(scheduledBatchesJPAs);
 
         // Create a mock response
@@ -125,12 +125,12 @@ class JobServiceImplTest extends BaseUnitTest {
     void test_create_job_success_with_non_existed_schedule() {
         // Prepare data
         MetabusSecurityProperties.JobTypeAuthorization jobTypeAuthorization = new MetabusSecurityProperties.JobTypeAuthorization();
-        jobTypeAuthorization.setRoles(Arrays.asList("BOLNISI_APPLICATION"));
-        jobTypeAuthorization.setAllowedJobTypes(Arrays.asList("bolnisi_lot", "bolnisi_cert"));
+        jobTypeAuthorization.setRoles(Arrays.asList("ORIGINATE_APPLICATION"));
+        jobTypeAuthorization.setAllowedJobTypes(Arrays.asList("originate_lot", "originate_cert"));
 
         // Create a mock Job object
         BusinessData businessData = BusinessData.builder()
-                .type("bolnisi_lot")
+                .type("originate_lot")
                 .build();
         Job job = Job.builder()
                 .businessData(businessData)
@@ -142,7 +142,7 @@ class JobServiceImplTest extends BaseUnitTest {
         Job createdJob = Job.builder().build();
 
         final List<ScheduledBatchesJPA> scheduledBatchesJPAs = List.of();
-        final ScheduledBatchesJPA scheduledBatchesJPA = ScheduledBatchesJPA.builder().jobType("bolnisi_lot")
+        final ScheduledBatchesJPA scheduledBatchesJPA = ScheduledBatchesJPA.builder().jobType("originate_lot")
                 .batchStatus(BatchStatus.PENDING).consumedJobTime(Instant.now()).build();
 
         // mock
@@ -152,7 +152,7 @@ class JobServiceImplTest extends BaseUnitTest {
         when(jobMapper.toJob(savedJobJPA)).thenReturn(createdJob);
 
         // Mock the scheduled batch return not empty
-        doReturn(scheduledBatchesJPAs).when(scheduledBatchesRepository).findByJobType("bolnisi_lot");
+        doReturn(scheduledBatchesJPAs).when(scheduledBatchesRepository).findByJobType("originate_lot");
         doReturn(scheduledBatchesJPA).when(scheduledBatchesRepository).save(any());
 
         // Create a mock response
@@ -190,7 +190,7 @@ class JobServiceImplTest extends BaseUnitTest {
     void test_create_job_throw_metabus_exception() {
         // Create a mock Job object
         BusinessData businessData = BusinessData.builder()
-                .type("bolnisi_lot")
+                .type("originate_lot")
                 .build();
         Job job = Job.builder()
                 .businessData(businessData)
@@ -207,7 +207,7 @@ class JobServiceImplTest extends BaseUnitTest {
     void test_create_job_throw_exception() {
         // Create a mock Job object
         BusinessData businessData = BusinessData.builder()
-                .type("bolnisi_lot")
+                .type("originate_lot")
                 .build();
         Job job = Job.builder()
                 .businessData(businessData)
@@ -236,7 +236,7 @@ class JobServiceImplTest extends BaseUnitTest {
         // Arrange
         JobJPA jobJPA = new JobJPA();
         jobJPA.setId(1L);
-        jobJPA.setType("bolnisi_lot");
+        jobJPA.setType("originate_lot");
         when(jobRepository.findById(1L)).thenReturn(Optional.of(jobJPA));
         when(jobMapper.toJob(jobJPA)).thenReturn(Job.builder().build());
         mockSecurityRoleUser();

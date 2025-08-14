@@ -7,7 +7,7 @@
     "data": {
       "total_bottle": 1000,
       "harvest_date": "21/10/2022",
-      "harvest_location": "bolnisi",
+      "harvest_location": "originate",
       "laboratory": "string",
       "wineName": "string",
       "wineType": "string",

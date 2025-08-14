@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.cardanofoundation.proofoforigin.api.constants.Constants;
 import org.cardanofoundation.proofoforigin.api.constants.Role;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.RequestMatcherTermDto;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.security.properties.EndpointAuthorizationProperties;
 import org.cardanofoundation.proofoforigin.api.utils.SecurityContextHolderUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -93,7 +93,7 @@ public class TermsAuthenticationFilter extends GenericFilterBean {
         if (isMathApp) {
             Boolean utilTerms = securityContextHolderUtil.getTerms(terms);
             if (!utilTerms) {
-                throw new BolnisiPilotException(BolnisiPilotErrors.ACCOUNT_NOT_TERMS);
+                throw new OriginatePilotException(OriginatePilotErrors.ACCOUNT_NOT_TERMS);
             }
         }
     }
@@ -104,7 +104,7 @@ public class TermsAuthenticationFilter extends GenericFilterBean {
         } else if (clientId.equals(appClientApp)) {
             checkTerms(httpRequest, requestMatchersApp, Constants.TERMS.APP_TERMS);
         } else {
-            throw new BolnisiPilotException(BolnisiPilotErrors.ACCOUNT_NOT_TERMS);
+            throw new OriginatePilotException(OriginatePilotErrors.ACCOUNT_NOT_TERMS);
         }
     }
 }

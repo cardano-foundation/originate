@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@ConfigurationProperties(prefix = "cardano-bolnisipilot-api.security")
+@ConfigurationProperties(prefix = "cardano-originatepilot-api.security")
 public class EndpointAuthorizationProperties {
     List<Authorization> endpointAuthorizations;
     Cors cors;

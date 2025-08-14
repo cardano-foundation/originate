@@ -25,7 +25,7 @@ Username: cardano-admin
 Password: Cardano@12345
 ```
 
-> ⚠️ Make sure to select the **BolnisiPilotApplicationrealm** from the dropdown in the top-left corner.
+> ⚠️ Make sure to select the **OriginatePilotApplicationrealm** from the dropdown in the top-left corner.
 
 #### 2\. Configure _frontend\_dashboard_ Client
 
@@ -40,15 +40,15 @@ Valid Post Logout Redirect URIs: http://localhost:3010/*
 Web Origins: http://localhost:3010
 ```
 
-Then scroll down to **Capabilities** make sure the **Standard Flow** and **Direct Access Grants checkboxes are selected.** Scroll down to **Login Settings** check the login-theme should be: bolnisi-keycloak-web. Ensure **Consent Required** and **Display on Consent Screen toggles are off.**
+Then scroll down to **Capabilities** make sure the **Standard Flow** and **Direct Access Grants checkboxes are selected.** Scroll down to **Login Settings** check the login-theme should be: originate-keycloak-web. Ensure **Consent Required** and **Display on Consent Screen toggles are off.**
 
 ### 3\. Update _Secrets Key_ for Client
 
-Go back to **Clients** and now select **manage\_bolnisi\_users.** Then click on **Credentials** and "regenerate" a new client secret. Then copy and paste this value into your **.env** for the following variables:
+Go back to **Clients** and now select **manage\_originate\_users.** Then click on **Credentials** and "regenerate" a new client secret. Then copy and paste this value into your **.env** for the following variables:
 
 `METABUS_KEYCLOAK_CLIENT_SECRET=your-new-secret`
 
-`BOLNISI_KEYCLOAK_API_SECRET=your-new-secret`
+`ORIGINATE_KEYCLOAK_API_SECRET=your-new-secret`
 
 ### 4\. Create an admin user
 
@@ -113,17 +113,17 @@ To create, update, and retrieve specific data by ID, you need to create an NWA t
 
 ### 1\. Generate a Secret Key for NWA
 
-Go back to **Keycloak.** Select the BolnisiRealm, click on **Clients** and now select **nwa\_certificate.** Then click on **Credentials** and regenerate to create a new client secret. Then copy and paste this value for **client\_secret variable** that is in the **body tab -** **Postman Collection or the REST Client** of your preference:
+Go back to **Keycloak.** Select the OriginateRealm, click on **Clients** and now select **nwa\_certificate.** Then click on **Credentials** and regenerate to create a new client secret. Then copy and paste this value for **client\_secret variable** that is in the **body tab -** **Postman Collection or the REST Client** of your preference:
 
 [Postman Collection](https://.postman.co/workspace/My-Workspace~24086f02-d731-4a61-8835-800b42485958/request/17639607-64e2fb06-7076-4baf-a763-82adcb78ce23?action=share&creator=17639607&ctx=documentation&active-environment=17639607-d1ea47b5-e06f-4e73-b3c2-e5df69bd4d99)
 
 ```plain
-URL: http://keycloak:8080/ealms/BolnisiPilotApplication/protocol/openid-connect/token
+URL: http://keycloak:8080/ealms/OriginatePilotApplication/protocol/openid-connect/token
 ```
 
 ## Configure SMTP and Email on Keycloak
 
-In the dropdown where we selected now **BolnisiPilotApplicationrealm** switch to **_Master._** Setup the email for the admin: Go to **_Users,_** click on **_cardano-admin,_** add **_new email_** and check it as **_verified._**
+In the dropdown where we selected now **OriginatePilotApplicationrealm** switch to **_Master._** Setup the email for the admin: Go to **_Users,_** click on **_cardano-admin,_** add **_new email_** and check it as **_verified._**
 
 Now, click on **_Realm Settings_** click on tab **Email** and update the following fields: _From Email, From Display Name, Reply-To Email, Reply-To Display Name_
 
@@ -149,9 +149,9 @@ Update the Theme, Localization, and Security Defenses on the option Realm Settin
 
 **Theme:**
 
-**`Login Theme:`** `bolnisi-keycloak-web`
+**`Login Theme:`** `originate-keycloak-web`
 
-**`Email Theme:`** `bolnisi-keycloak`
+**`Email Theme:`** `originate-keycloak`
 
 **Localization:**
 
@@ -165,40 +165,40 @@ default-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'none'
 
 ## Config variable guide
 
-### bolnisi api section
+### originate api section
 
 | Variable | Description | Default value | Example |
 | ---| ---| ---| --- |
 | SPRING\_PROFILES\_ACTIVE | api active profile | dev |  |
 | DB\_USER\_NAME | api database user name | proofoforiginadmin |  |
-| DB\_USER\_SECRET | api database password | bolnisiDoNotUseInProduction |  |
+| DB\_USER\_SECRET | api database password | originateDoNotUseInProduction |  |
 | API\_DB\_NAME | api database name | cf\_proof\_of\_origin |  |
 | SERVICE\_USER\_NAME | api service user name | proofoforiginservice |  |
-| SERVICE\_USER\_SECRET | api service user secret | bolnisiDoNotUseInProduction |  |
+| SERVICE\_USER\_SECRET | api service user secret | originateDoNotUseInProduction |  |
 | API\_EXPOSED\_PORT | api container docker port | 8080 |  |
 | API\_LOCAL\_BIND\_PORT | api bind to host at port | 8081 |  |
-| BOLNISI\_KEYCLOAK\_API\_SECRET | api secret to call to Bolnisi api | "\*\*\*\*\*\*\*\*\*\*" | "bH57KBQipsX53FCxpLRgK5wdpFsJtZlp" |
+| ORIGINATE\_KEYCLOAK\_API\_SECRET | api secret to call to Originate api | "\*\*\*\*\*\*\*\*\*\*" | "bH57KBQipsX53FCxpLRgK5wdpFsJtZlp" |
 | SPRING\_EXECUTION\_POOL\_CORE\_SIZE |  | 5 |  |
 | SPRING\_EXECUTION\_POOL\_MAX\_SIZE |  | 10 |  |
 | SPRING\_EXECUTION\_THREAD\_NAME\_PREFIX |  | Async- |  |
-| METABUS\_KEYCLOAK\_CLIENT\_SECRET | api secret for Bolnisi to call to Metabus | "\*\*\*\*\*\*\*\*\*\*" | "bH57KBQipsX53FCxpLRgK5wdpFsJtZlp" |
+| METABUS\_KEYCLOAK\_CLIENT\_SECRET | api secret for Originate to call to Metabus | "\*\*\*\*\*\*\*\*\*\*" | "bH57KBQipsX53FCxpLRgK5wdpFsJtZlp" |
 | ENCRYPT\_PASSWORD | encrypt password when winery approve scm data | thisisarandompassword |  |
 | FRONTEND\_LOGIN\_PATH | FE login path | /login |  |
 | FRONTEND\_DOMAIN\_HOST | FE domain host (domain only) | [poo-frontend-dev.sotatek.works](http://poo-frontend-dev.sotatek.works) | localhost |
 | FRONTEND\_DOMAIN\_PUBLIC\_URL | FE domain public url (with http scheme) | [https://poo-frontend-dev.sotatek.works](https://poo-frontend-dev.sotatek.works/) | [https://localhost](https://localhost/) |
-| EMAIL\_USER\_NAME | Email username for sending reset password email | [buik32368@gmail.com](mailto:buik32368@gmail.com) | [cf-bolnisi@mail.test](mailto:cf-bolnisi@mail.test) |
-| EMAIL\_PASSWORD | Email password for sending reset password email | ltprdacdfbnvyprg | cf-bolnisi-mail-password |
-| EMAIL\_FORM | Email from for sending reset password email | [buik32368@gmail.com](mailto:buik32368@gmail.com) | [cf-bolnisi@mail.test](mailto:cf-bolnisi@mail.test) |
-| BOLNISI\_BACKEND\_HOST | Bolnisi api host | [poo-api-dev.sotatek.works](http://poo-api-dev.sotatek.works) | localhost |
-| BOLNISI\_BACKEND\_API | Bolnisi api port | [https://poo-api-dev.sotatek.works](https://poo-api-dev.sotatek.works/) | [https://localhost](https://localhost/) |
+| EMAIL\_USER\_NAME | Email username for sending reset password email | [buik32368@gmail.com](mailto:buik32368@gmail.com) | [cf-originate@mail.test](mailto:cf-originate@mail.test) |
+| EMAIL\_PASSWORD | Email password for sending reset password email | ltprdacdfbnvyprg | cf-originate-mail-password |
+| EMAIL\_FORM | Email from for sending reset password email | [buik32368@gmail.com](mailto:buik32368@gmail.com) | [cf-originate@mail.test](mailto:cf-originate@mail.test) |
+| ORIGINATE\_BACKEND\_HOST | Originate api host | [poo-api-dev.sotatek.works](http://poo-api-dev.sotatek.works) | localhost |
+| ORIGINATE\_BACKEND\_API | Originate api port | [https://poo-api-dev.sotatek.works](https://poo-api-dev.sotatek.works/) | [https://localhost](https://localhost/) |
 | MOBILE\_IOS\_SCANNINGAPP\_DOMAIN | Mobile scanning app domain for IOS | capacitor://localhost |  |
 | MOBILE\_ANDROID\_SCANNINGAPP\_DOMAIN | Mobile scanning app domain for Android | [http://localhost](http://localhost/) |  |
 
-### bolnisi db section
+### originate db section
 
 | Variable | Description | Default value | Example |
 | ---| ---| ---| --- |
-| BOLNISI\_DB\_CONTAINER\_NAME | database container name | db | db |
+| ORIGINATE\_DB\_CONTAINER\_NAME | database container name | db | db |
 | DB\_IMAGE\_NAME | database image name | postgres |  |
 | DB\_IMAGE\_TAG | database image tag | 15.3 | 15.3 |
 | DB\_LOCAL\_BIND\_PORT | database container docker port | 54321 | 54321 |
@@ -213,11 +213,11 @@ default-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'none'
 | STATE\_DB\_LOCAL\_BIND\_PORT | Metabus state storage database container docker port | 54324 | 54324 |
 | STATE\_DB\_EXPOSED\_PORT | Metabus state storage database container bind to host at port | 5432 | 5432 |
 | STATE\_DB\_USER\_NAME | Metabus state storage database user\_name | proofoforiginadmin | proofoforiginadmin |
-| STATE\_DB\_USER\_SECRET | Metabus state storage database user\_secret | bolnisiDoNotUseInProduction | bolnisiDoNotUseInProduction |
+| STATE\_DB\_USER\_SECRET | Metabus state storage database user\_secret | originateDoNotUseInProduction | originateDoNotUseInProduction |
 | STATE\_DB\_NAME | Metabus state storage database name | state\_storage | state\_storage |
 | STATE\_DB\_HOST | Metabus state storage database host | state-storage | state-storage |
 
-### bolnisi web section
+### originate web section
 
 | Variable | Description | Default value | Example |
 | ---| ---| ---| --- |
@@ -330,7 +330,7 @@ default-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'none'
 | KEYCLOAK\_START\_TYPE | Keycloak start type, "start-dev" for dev or "start" for staging/production | start-dev | start-dev |
 | KC\_HOSTNAME | Keycloak hostname (without http scheme) | [poo-keycloak-dev.sotatek.works](http://poo-keycloak-dev.sotatek.works) | [poo-keycloak-dev.sotatek.works](http://poo-keycloak-dev.sotatek.works) |
 | KEYCLOAK\_HOST | Keycloak host (with http scheme) | [https://poo-keycloak-dev.sotatek.works](https://poo-keycloak-dev.sotatek.works/) | [https://localhost:8881](https://localhost:8881/) |
-| KEYCLOAK\_REALM\_NAME | Keycloak realm\_name | BolnisiPilotApplication | BolnisiPilotApplication |
+| KEYCLOAK\_REALM\_NAME | Keycloak realm\_name | OriginatePilotApplication | OriginatePilotApplication |
 | KC\_PROXY | Keycloak proxy | edge |  |
 
 ### kafka section
@@ -398,13 +398,13 @@ default-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'none'
 | RABBITMQ\_USER\_NAME | Rabbitmq user name | guest | guest |
 | RABBITMQ\_PASSWORD | Rabbitmq password | guest | guest |
 | RABBITMQ\_EXCHANGE | Rabbitmq exchange | job |  |
-| RABBITMQ\_ROUTING\_KEY\_BOLNISI | Rabbitmq routing key bolnisi | bolnisi |  |
-| RABBITMQ\_QUEUE\_BOLNISI | Rabbitmq queue bolnisi | bolnisi |  |
-| RABBITMQ\_MESSAGE\_TTL\_BOLNISI | Rabbitmq message ttl bolnisi | 345600000 |  |
-| RABBITMQ\_HAS\_DLQ\_BOLNISI | Rabbitmq has dlq bolnisi | true |  |
-| DEAD\_LETTER\_QUEUE | Dead letter queue | bolnisi-dead-letter-queue |  |
-| DEAD\_LETTER\_EXCHANGE | Dead letter exchange | bolnisi-dead-letter-exchange |  |
-| DEAD\_LETTER\_ROUTING\_KEY | Dead letter routing\_key | bolnisi-dead |  |
+| RABBITMQ\_ROUTING\_KEY\_ORIGINATE | Rabbitmq routing key originate | originate |  |
+| RABBITMQ\_QUEUE\_ORIGINATE | Rabbitmq queue originate | originate |  |
+| RABBITMQ\_MESSAGE\_TTL\_ORIGINATE | Rabbitmq message ttl originate | 345600000 |  |
+| RABBITMQ\_HAS\_DLQ\_ORIGINATE | Rabbitmq has dlq originate | true |  |
+| DEAD\_LETTER\_QUEUE | Dead letter queue | originate-dead-letter-queue |  |
+| DEAD\_LETTER\_EXCHANGE | Dead letter exchange | originate-dead-letter-exchange |  |
+| DEAD\_LETTER\_ROUTING\_KEY | Dead letter routing\_key | originate-dead |  |
 
 ### redis
 

@@ -245,7 +245,7 @@ services:
       - "${KEYCLOAK_START_TYPE}"
       - --import-realm
     volumes:
-      - ./keycloak-setup/imports/bolnisi-realm-export.json:/opt/keycloak/data/import/bolnisi-realm-export.json
+      - ./keycloak-setup/imports/originate-realm-export.json:/opt/keycloak/data/import/originate-realm-export.json
       - ./keycloak-setup/imports/metabus-realm-export.json:/opt/keycloak/data/import/metabus-realm-export.json
       - ./keycloak-setup/themes:/opt/keycloak/themes
     depends_on:
@@ -255,10 +255,10 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.keycloak.rule=Host(`${KC_HOSTNAME:-dev.auth.cf-bolnisi-wine-preprod.originate.company.com}`)"
+      - "traefik.http.routers.keycloak.rule=Host(`${KC_HOSTNAME:-dev.auth.cf-originate-wine-preprod.originate.company.com}`)"
       # HACK: this is a workaround to make letsencrypt work with FQDNs >=64
       - "traefik.http.routers.keycloak.tls.domains[0].main=${INSTANCE_ID_HOSTNAME:-i-0872852d61ec68d6f.originate.company.com}"
-      - "traefik.http.routers.keycloak.tls.domains[0].sans=${KC_HOSTNAME:-dev.auth.cf-bolnisi-wine-preprod.originate.company.com}"
+      - "traefik.http.routers.keycloak.tls.domains[0].sans=${KC_HOSTNAME:-dev.auth.cf-originate-wine-preprod.originate.company.com}"
       - "traefik.http.routers.keycloak.entrypoints=websecure"
       - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
 
@@ -317,10 +317,10 @@ services:
       - metabus-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.offchain.rule=Host(`${METABUS_OFFCHAIN_HOSTNAME:-dev.offchain.cf-bolnisi-wine-preprod.originate.company.com}`)"
+      - "traefik.http.routers.offchain.rule=Host(`${METABUS_OFFCHAIN_HOSTNAME:-dev.offchain.cf-originate-wine-preprod.originate.company.com}`)"
       # HACK: this is a workaround to make letsencrypt work with FQDNs >=64
       - "traefik.http.routers.offchain.tls.domains[0].main=${INSTANCE_ID_HOSTNAME:-i-0872852d61ec68d6f.originate.company.com}"
-      - "traefik.http.routers.offchain.tls.domains[0].sans=${METABUS_OFFCHAIN_HOSTNAME:-dev.offchain.cf-bolnisi-wine-preprod.originate.company.com}"
+      - "traefik.http.routers.offchain.tls.domains[0].sans=${METABUS_OFFCHAIN_HOSTNAME:-dev.offchain.cf-originate-wine-preprod.originate.company.com}"
       - "traefik.http.routers.offchain.entrypoints=websecure"
       - "traefik.http.routers.offchain.tls.certresolver=myresolver"
 
@@ -341,10 +341,10 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.minio.rule=Host(`${METABUS_OFFCHAIN_MINIO_HOST:-dev.minio.cf-bolnisi-wine-preprod.originate.company.com}`)"
+      - "traefik.http.routers.minio.rule=Host(`${METABUS_OFFCHAIN_MINIO_HOST:-dev.minio.cf-originate-wine-preprod.originate.company.com}`)"
       # HACK: this is a workaround to make letsencrypt work with FQDNs >=64
       - "traefik.http.routers.minio.tls.domains[0].main=${INSTANCE_ID_HOSTNAME:-i-0872852d61ec68d6f.originate.company.com}"
-      - "traefik.http.routers.minio.tls.domains[0].sans=${METABUS_OFFCHAIN_MINIO_HOST:-dev.minio.cf-bolnisi-wine-preprod.originate.company.com}"
+      - "traefik.http.routers.minio.tls.domains[0].sans=${METABUS_OFFCHAIN_MINIO_HOST:-dev.minio.cf-originate-wine-preprod.originate.company.com}"
       - "traefik.http.routers.minio.entrypoints=websecure"
       - "traefik.http.routers.minio.tls.certresolver=myresolver"
 
@@ -391,10 +391,10 @@ services:
       SYNC_START_SLOT: "${SYNC_START_SLOT}"
       SYNC_START_HASH: "${SYNC_START_HASH}"
       RABBITMQ_EXCHANGE: "${RABBITMQ_EXCHANGE}"
-      RABBITMQ_ROUTING_KEY_BOLNISI: "${RABBITMQ_ROUTING_KEY_BOLNISI}"
-      RABBITMQ_QUEUE_BOLNISI: "${RABBITMQ_QUEUE_BOLNISI}"
-      RABBITMQ_MESSAGE_TTL_BOLNISI: "${RABBITMQ_MESSAGE_TTL_BOLNISI}"
-      RABBITMQ_HAS_DLQ_BOLNISI: "${RABBITMQ_HAS_DLQ_BOLNISI}"
+      RABBITMQ_ROUTING_KEY_ORIGINATE: "${RABBITMQ_ROUTING_KEY_ORIGINATE}"
+      RABBITMQ_QUEUE_ORIGINATE: "${RABBITMQ_QUEUE_ORIGINATE}"
+      RABBITMQ_MESSAGE_TTL_ORIGINATE: "${RABBITMQ_MESSAGE_TTL_ORIGINATE}"
+      RABBITMQ_HAS_DLQ_ORIGINATE: "${RABBITMQ_HAS_DLQ_ORIGINATE}"
       DEAD_LETTER_QUEUE: "${DEAD_LETTER_QUEUE}"
       DEAD_LETTER_EXCHANGE: "${DEAD_LETTER_EXCHANGE}"
       TX_WATCHER_DELAY_RECONSUME_DURATION: "${TX_WATCHER_DELAY_RECONSUME_DURATION}"

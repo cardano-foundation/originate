@@ -1,7 +1,7 @@
 # cardano-metabus-api
 
 # For develoment
-**Step 1:**: cd to `cf-bolnisi-prototype folder` and run this command to build target jars:
+**Step 1:**: cd to `originate folder` and run this command to build target jars:
 ```
 ./mvnw clean install -DskipTests
 ```

@@ -11,17 +11,17 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class KeyCloakConfig {
-    @Value("${key-cloak-config.bolnisiKeyCloakConfig.url}")
+    @Value("${key-cloak-config.originateKeyCloakConfig.url}")
     private String url;
 
-    @Value("${key-cloak-config.bolnisiKeyCloakConfig.realm}")
+    @Value("${key-cloak-config.originateKeyCloakConfig.realm}")
     private String realm;
 
 
-    @Value("${key-cloak-config.bolnisiKeyCloakConfig.secret}")
+    @Value("${key-cloak-config.originateKeyCloakConfig.secret}")
     private String secret;
 
-    @Value("${key-cloak-config.bolnisiKeyCloakConfig.clientId}")
+    @Value("${key-cloak-config.originateKeyCloakConfig.clientId}")
     private String client;
 
     @Bean
@@ -33,9 +33,9 @@ public class KeyCloakConfig {
                 .clientId(client).build();
     }
 
-    @Bean(name = "BolnisiPilotApplication")
-    public RealmResource configBolnisi(@Autowired Keycloak keycloak) {
-        return keycloak.realm("BolnisiPilotApplication");
+    @Bean(name = "OriginatePilotApplication")
+    public RealmResource configOriginate(@Autowired Keycloak keycloak) {
+        return keycloak.realm("OriginatePilotApplication");
     }
 
 }

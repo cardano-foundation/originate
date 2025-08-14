@@ -2,7 +2,7 @@ package org.cardanofoundation.proofoforigin.api.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.security.properties.EndpointAuthorizationProperties;
 import org.cardanofoundation.proofoforigin.api.utils.SecurityContextHolderUtil;
 import org.junit.jupiter.api.Assertions;
@@ -102,7 +102,7 @@ public class TermsAuthenticationFilterTest {
         when(securityContextHolderUtil.getClientId()).thenReturn(webClientId);
         when(securityContextHolderUtil.getTerms("web_terms")).thenReturn(false);
 
-        Assertions.assertThrows(BolnisiPilotException.class, () -> {
+        Assertions.assertThrows(OriginatePilotException.class, () -> {
             filter.doFilter(req, res, filterChain);
         });
 
@@ -122,7 +122,7 @@ public class TermsAuthenticationFilterTest {
         when(securityContextHolderUtil.getClientId()).thenReturn(appClientApp);
         when(securityContextHolderUtil.getTerms("app_terms")).thenReturn(false);
 
-        Assertions.assertThrows(BolnisiPilotException.class, () -> {
+        Assertions.assertThrows(OriginatePilotException.class, () -> {
             filter.doFilter(req, res, filterChain);
         });
 
@@ -141,7 +141,7 @@ public class TermsAuthenticationFilterTest {
         when(securityContextHolderUtil.getClientId()).thenReturn(appClientApp);
         when(securityContextHolderUtil.hasAuthenticationHeader()).thenReturn(true);
         when(securityContextHolderUtil.getTerms("app_terms")).thenReturn(false);
-        Assertions.assertThrows(BolnisiPilotException.class, () -> {
+        Assertions.assertThrows(OriginatePilotException.class, () -> {
             filter.doFilter(req, res, filterChain);
         });
 
@@ -152,7 +152,7 @@ public class TermsAuthenticationFilterTest {
         req2.setMethod("GET");
         when(securityContextHolderUtil.getClientId()).thenReturn(webClientId);
         when(securityContextHolderUtil.getTerms("web_terms")).thenReturn(false);
-        Assertions.assertThrows(BolnisiPilotException.class, () -> {
+        Assertions.assertThrows(OriginatePilotException.class, () -> {
             filter.doFilter(req2, res, filterChain);
         });
     }
@@ -198,7 +198,7 @@ public class TermsAuthenticationFilterTest {
         MockHttpServletResponse res = new MockHttpServletResponse();
 
         when(securityContextHolderUtil.getClientId()).thenReturn("test");
-        Assertions.assertThrows(BolnisiPilotException.class, () -> {
+        Assertions.assertThrows(OriginatePilotException.class, () -> {
             filter.doFilter(req, res, filterChain);
         });
     }

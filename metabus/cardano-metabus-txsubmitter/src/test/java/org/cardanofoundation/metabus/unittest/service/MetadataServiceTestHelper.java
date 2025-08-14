@@ -9,7 +9,7 @@ public class MetadataServiceTestHelper {
         Map<String, String> data1 = new LinkedHashMap<>();
         data1.put("total_bottle", "1000");
         data1.put("harvest_date", "01/10/2022");
-        data1.put("harvest_location", "bolnisi1");
+        data1.put("harvest_location", "originate1");
         data1.put("laboratory", "data1");
         data1.put("wineName", "data1");
         data1.put("wineType", "data1");
@@ -26,7 +26,7 @@ public class MetadataServiceTestHelper {
         Map<String, String> data2 = new LinkedHashMap<>();
         data2.put("total_bottle", "2000");
         data2.put("harvest_date", "2/10/2022");
-        data2.put("harvest_location", "bolnisi2");
+        data2.put("harvest_location", "originate2");
         data2.put("laboratory", "data2");
         data2.put("wineName", "data2");
         data2.put("wineType", "data2");
@@ -43,7 +43,7 @@ public class MetadataServiceTestHelper {
         Map<String, String> data5 = new LinkedHashMap<>();
         data5.put("total_bottle", "5000");
         data5.put("harvest_date", "5/10/2022");
-        data5.put("harvest_location", "bolnisi5");
+        data5.put("harvest_location", "originate5");
         data5.put("laboratory", "data5");
         data5.put("wineName", "data5");
         data5.put("wineType", "data5");
@@ -60,7 +60,7 @@ public class MetadataServiceTestHelper {
         Map<String, String> data6 = new LinkedHashMap<>();
         data6.put("total_bottle", "6000");
         data6.put("harvest_date", "6/10/2022");
-        data6.put("harvest_location", "bolnisi6");
+        data6.put("harvest_location", "originate6");
         data6.put("laboratory", "data6");
         data6.put("wineName", "data6");
         data6.put("wineType", "data6");
@@ -75,7 +75,7 @@ public class MetadataServiceTestHelper {
 
     String expectMultiGroupOffchainJson() {
         return """
-                {"1234":[{"total_bottle":"1000","harvest_date":"01/10/2022","harvest_location":"bolnisi1","laboratory":"data1","wineName":"data1","wineType":"data1","nominate":"data1","type":"data1","quantity":"data1","bottleVolume":"data1","totalVolume":"data1","pricePerBottle":"data1"},{"total_bottle":"2000","harvest_date":"2/10/2022","harvest_location":"bolnisi2","laboratory":"data2","wineName":"data2","wineType":"data2","nominate":"data2","type":"data2","quantity":"data2","bottleVolume":"data2","totalVolume":"data2","pricePerBottle":"data2"}],"5678":[{"total_bottle":"5000","harvest_date":"5/10/2022","harvest_location":"bolnisi5","laboratory":"data5","wineName":"data5","wineType":"data5","nominate":"data5","type":"data5","quantity":"data5","bottleVolume":"data5","totalVolume":"data5","pricePerBottle":"data5"},{"total_bottle":"6000","harvest_date":"6/10/2022","harvest_location":"bolnisi6","laboratory":"data6","wineName":"data6","wineType":"data6","nominate":"data6","type":"data6","quantity":"data6","bottleVolume":"data6","totalVolume":"data6","pricePerBottle":"data6"}]}""";
+                {"1234":[{"total_bottle":"1000","harvest_date":"01/10/2022","harvest_location":"originate1","laboratory":"data1","wineName":"data1","wineType":"data1","nominate":"data1","type":"data1","quantity":"data1","bottleVolume":"data1","totalVolume":"data1","pricePerBottle":"data1"},{"total_bottle":"2000","harvest_date":"2/10/2022","harvest_location":"originate2","laboratory":"data2","wineName":"data2","wineType":"data2","nominate":"data2","type":"data2","quantity":"data2","bottleVolume":"data2","totalVolume":"data2","pricePerBottle":"data2"}],"5678":[{"total_bottle":"5000","harvest_date":"5/10/2022","harvest_location":"originate5","laboratory":"data5","wineName":"data5","wineType":"data5","nominate":"data5","type":"data5","quantity":"data5","bottleVolume":"data5","totalVolume":"data5","pricePerBottle":"data5"},{"total_bottle":"6000","harvest_date":"6/10/2022","harvest_location":"originate6","laboratory":"data6","wineName":"data6","wineType":"data6","nominate":"data6","type":"data6","quantity":"data6","bottleVolume":"data6","totalVolume":"data6","pricePerBottle":"data6"}]}""";
     }
 
     Map<String, Object> prepareSingleGroupData1() {

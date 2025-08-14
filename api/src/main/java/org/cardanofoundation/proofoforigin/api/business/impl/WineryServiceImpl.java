@@ -14,9 +14,9 @@ import org.cardanofoundation.proofoforigin.api.controllers.dtos.request.WineryUs
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BaseResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.BriefWineryResponse;
 import org.cardanofoundation.proofoforigin.api.controllers.dtos.response.WineryInfoUserResponse;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotError;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotErrors;
-import org.cardanofoundation.proofoforigin.api.exceptions.BolnisiPilotException;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotError;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotErrors;
+import org.cardanofoundation.proofoforigin.api.exceptions.OriginatePilotException;
 import org.cardanofoundation.proofoforigin.api.repository.WineryRepository;
 import org.cardanofoundation.proofoforigin.api.repository.entities.Winery;
 import org.cardanofoundation.proofoforigin.api.utils.SecurityContextHolderUtil;
@@ -57,7 +57,7 @@ public class WineryServiceImpl implements WineryService {
 
     @Override
     public void updateWinery(String wineryId, WineryUpdateBody wineryUpdateBody) {
-        Winery winery = wineryRepository.findByWineryId(wineryId).orElseThrow(() -> new BolnisiPilotException(BolnisiPilotErrors.WINERY_NOT_FOUND));
+        Winery winery = wineryRepository.findByWineryId(wineryId).orElseThrow(() -> new OriginatePilotException(OriginatePilotErrors.WINERY_NOT_FOUND));
         String name = wineryUpdateBody.getName();
         if (name != null) {
             winery.setWineryName(name);
@@ -76,7 +76,7 @@ public class WineryServiceImpl implements WineryService {
         return winery.map(entity -> {
             String base64PKey = entity.getPublicKey();
             return base64PKey == null ? new byte[]{} : Base64.getUrlDecoder().decode(base64PKey);
-        }).orElseThrow(() -> new BolnisiPilotException(BolnisiPilotErrors.NOT_FOUND));
+        }).orElseThrow(() -> new OriginatePilotException(OriginatePilotErrors.NOT_FOUND));
     }
 
     @Override
@@ -95,7 +95,7 @@ public class WineryServiceImpl implements WineryService {
 
     private void validate(KeycloakUserBody keycloakUserBody) {
         if (!emailFormatCorrect(keycloakUserBody.getEmail())) {
-            throw new BolnisiPilotException(new BolnisiPilotError(HttpStatus.BAD_REQUEST.value(), "Invalid email.", HttpStatus.BAD_REQUEST));
+            throw new OriginatePilotException(new OriginatePilotError(HttpStatus.BAD_REQUEST.value(), "Invalid email.", HttpStatus.BAD_REQUEST));
         }
     }
 
@@ -119,7 +119,7 @@ public class WineryServiceImpl implements WineryService {
 
             // Sanity check in case there are bugs in the above logic.
             if (wineryRepository.existsById(nextWineryId)) {
-                throw new BolnisiPilotException(BolnisiPilotErrors.CALCULATED_WINERY_ID_NOT_UNIQUE);
+                throw new OriginatePilotException(OriginatePilotErrors.CALCULATED_WINERY_ID_NOT_UNIQUE);
             }
 
             winery.setWineryId(nextWineryId);
