@@ -470,7 +470,7 @@ public class BatchConsumptionServiceImpl implements BatchConsumptionService {
         final ScheduledBatchesJPA currentScheduledBatch = updateScheduledBatch(scheduledBatch, BatchStatus.PROCESSING,
                 jobType);
         // Find the pending job and create jobs batch
-        final List<JobJPA> pendingJobs = jobRepository.findAllByStateAndType(JobState.PENDING, jobType);
+        final List<JobJPA> pendingJobs = jobRepository.findTop20ByStateAndType(JobState.PENDING, jobType);
 
         final Job[] pendingJobList = pendingJobs.stream().map(element -> JobMapperUtil.toJob(element))
                 .collect(Collectors.toList()).toArray(new Job[pendingJobs.size()]);
@@ -599,7 +599,7 @@ public class BatchConsumptionServiceImpl implements BatchConsumptionService {
             scheduledBatch.setBatchStatus(status);
             scheduledBatch.setConsumedJobTime(Instant.now(Clock.systemUTC()));
         } else if (status.equals(BatchStatus.NONE)) {
-            final List<JobJPA> pendingJobs = jobRepository.findAllByStateAndType(JobState.PENDING,
+            final List<JobJPA> pendingJobs = jobRepository.findTop20ByStateAndType(JobState.PENDING,
                     scheduledBatch.getJobType());
             if (pendingJobs.isEmpty()) {
                 scheduledBatch.setBatchStatus(status);

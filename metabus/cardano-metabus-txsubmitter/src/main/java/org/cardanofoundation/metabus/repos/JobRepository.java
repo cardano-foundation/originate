@@ -21,4 +21,16 @@ public interface JobRepository extends JpaRepository<JobJPA, Long> {
      * @return The list of the jobs
      */
     List<JobJPA> findAllByStateAndType(final JobState state, final String type);
+
+        /**
+     * <p>
+     * Find all the jobs that was not submitted yet and with indicated type
+     * </p>
+     * 
+     * @param state The state of the job
+     * @param type  The type of the job
+     * @return List of jobs with 20-job limit 
+     */
+
+    List<JobJPA> findTop20ByStateAndType(final JobState state, final String type);
 }
