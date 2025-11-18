@@ -717,7 +717,7 @@ public class BatchConsumptionServiceTest {
 
         doReturn(scheduledBatchesJPA).when(serviceImplMock).updateScheduledBatch(scheduledBatchesJPA,
                 BatchStatus.PROCESSING, jobType);
-        doReturn(pendingJobs).when(jobRepository).findAllByStateAndType(JobState.PENDING, jobType);
+        doReturn(pendingJobs).when(jobRepository).findTop20ByStateAndType(JobState.PENDING, jobType);
         doReturn(tx).when(serviceImplMock).createTransaction(eq(address), eq(firstChildKeyPair),
                 any(JobBatch.class),
                 eq(txInList),
@@ -763,7 +763,7 @@ public class BatchConsumptionServiceTest {
 
         doReturn(scheduledBatchesJPA).when(serviceImplMock).updateScheduledBatch(scheduledBatchesJPA,
                 BatchStatus.PROCESSING, jobType);
-        doReturn(pendingJobs).when(jobRepository).findAllByStateAndType(JobState.PENDING, jobType);
+        doReturn(pendingJobs).when(jobRepository).findTop20ByStateAndType(JobState.PENDING, jobType);
         doReturn(JobBatch.builder().jobs(Collections.emptyList()).build()).when(serviceImplMock)
                 .createJobBatch(eq("JOB_TYPE_A"), eq(fakeCurrentJob), any());
 
@@ -798,7 +798,7 @@ public class BatchConsumptionServiceTest {
 
         doReturn(scheduledBatchesJPA).when(serviceImplMock).updateScheduledBatch(scheduledBatchesJPA,
                 BatchStatus.PROCESSING, jobType);
-        doReturn(pendingJobs).when(jobRepository).findAllByStateAndType(JobState.PENDING, jobType);
+        doReturn(pendingJobs).when(jobRepository).findTop20ByStateAndType(JobState.PENDING, jobType);
 
         doReturn(null).when(serviceImplMock).getTheClientWalletInfo(any());
 
@@ -838,7 +838,7 @@ public class BatchConsumptionServiceTest {
 
         doReturn(scheduledBatchesJPA).when(serviceImplMock).updateScheduledBatch(scheduledBatchesJPA,
                 BatchStatus.PROCESSING, jobType);
-        doReturn(pendingJobs).when(jobRepository).findAllByStateAndType(JobState.PENDING, jobType);
+        doReturn(pendingJobs).when(jobRepository).findTop20ByStateAndType(JobState.PENDING, jobType);
         doReturn(clientInfo).when(serviceImplMock).getTheClientWalletInfo(any());
         doReturn(null).when(serviceImplMock).createTransaction(eq(address), eq(firstChildKeyPair),
                 any(JobBatch.class),
@@ -888,7 +888,7 @@ public class BatchConsumptionServiceTest {
 
         doReturn(scheduledBatchesJPA).when(serviceImplMock).updateScheduledBatch(scheduledBatchesJPA,
                 BatchStatus.PROCESSING, jobType);
-        doReturn(pendingJobs).when(jobRepository).findAllByStateAndType(JobState.PENDING, jobType);
+        doReturn(pendingJobs).when(jobRepository).findTop20ByStateAndType(JobState.PENDING, jobType);
 
         doReturn(clientInfo).when(serviceImplMock).getTheClientWalletInfo(any());
         doReturn(tx).when(serviceImplMock).createTransaction(eq(address), eq(firstChildKeyPair),
@@ -960,7 +960,7 @@ public class BatchConsumptionServiceTest {
 
         doReturn(scheduledBatchesJPA).when(serviceImplMock).updateScheduledBatch(scheduledBatchesJPA,
                 BatchStatus.PROCESSING, jobType);
-        doReturn(pendingJobs).when(jobRepository).findAllByStateAndType(JobState.PENDING, jobType);
+        doReturn(pendingJobs).when(jobRepository).findTop20ByStateAndType(JobState.PENDING, jobType);
         doReturn(clientWalletInfo).when(serviceImplMock).getTheClientWalletInfo(any());
         doThrow(CborSerializationException.class).when(serviceImplMock).createTransaction(eq(address),
                 eq(firstChildKeyPair),
@@ -1005,7 +1005,7 @@ public class BatchConsumptionServiceTest {
 
         doReturn(scheduledBatchesJPA).when(serviceImplMock).updateScheduledBatch(scheduledBatchesJPA,
                 BatchStatus.PROCESSING, jobType);
-        doReturn(pendingJobs).when(jobRepository).findAllByStateAndType(JobState.PENDING, jobType);
+        doReturn(pendingJobs).when(jobRepository).findTop20ByStateAndType(JobState.PENDING, jobType);
         doReturn(tx).when(serviceImplMock).createTransaction(eq(address), eq(firstChildKeyPair),
                 any(JobBatch.class),
                 eq(txInList),
@@ -1112,7 +1112,7 @@ public class BatchConsumptionServiceTest {
                 Instant.now().minusMillis(10000000));
 
         doReturn(scheduledBatchesJPA).when(scheduledBatchesRepository).save(scheduledBatchesJPA);
-        doReturn(pendingJobs).when(jobRepository).findAllByStateAndType(JobState.PENDING,
+        doReturn(pendingJobs).when(jobRepository).findTop20ByStateAndType(JobState.PENDING,
                 scheduledBatchesJPA.getJobType());
 
         final ScheduledBatchesJPA sBatchesJPA = serviceImplMock.updateScheduledBatch(scheduledBatchesJPA,
@@ -1140,7 +1140,7 @@ public class BatchConsumptionServiceTest {
                 Instant.now().minusMillis(10000000));
 
         doReturn(scheduledBatchesJPA).when(scheduledBatchesRepository).save(scheduledBatchesJPA);
-        doReturn(Collections.emptyList()).when(jobRepository).findAllByStateAndType(JobState.PENDING,
+        doReturn(Collections.emptyList()).when(jobRepository).findTop20ByStateAndType(JobState.PENDING,
                 scheduledBatchesJPA.getJobType());
 
         final ScheduledBatchesJPA sBatchesJPA = serviceImplMock.updateScheduledBatch(scheduledBatchesJPA,
