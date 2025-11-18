@@ -104,7 +104,7 @@ public class ScmApproveLotServiceImpl implements ScmApproveLotService {
                     data.setProduct(null);
                     signature = signLotData(jwk, objectMapper.writeValueAsString(data));
                     JobResponse jobResponse = metabusCallerService.createJob(data, Unit.MetabusJobType.LOT, signature, winery.getPublicKey(), wineryId);
-                    if (Objects.isNull(jobResponse.getId())) {
+                    if (Objects.isNull(jobResponse.getId()) && Objects.isNull(jobResponse.getTxHash())) {
                         throw new BolnisiPilotException(BolnisiPilotErrors.METABUS_ERROR);
                     }
                     lot.setJobId(jobResponse.getId());
