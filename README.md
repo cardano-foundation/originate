@@ -1,15 +1,15 @@
-# Originate
+# OriginateNavio
 
-**Originate** is an open-source traceability solution developed by the Cardano Foundation to verify product authenticity and certification integrity across complex supply chains.
-Designed for real-world implementation, Originate anchors key events to the Cardano blockchain—enabling tamper-proof records and exposing modular APIs for seamless integration into enterprise and regulatory systems.
-Whether you are a developer building trust-driven applications or an enterprise embedding compliance into operations, Originate provides:
+**OriginateNavio** is an open-source traceability solution developed by the Cardano Foundation to verify product authenticity and certification integrity across complex supply chains.
+Designed for real-world implementation, OriginateNavio anchors key events to the Cardano blockchain—enabling tamper-proof records and exposing modular APIs for seamless integration into enterprise and regulatory systems.
+Whether you are a developer building trust-driven applications or an enterprise embedding compliance into operations, OriginateNavio provides:
 
 * **Digital signatures** ensuring data authenticity and integrity
 * **Structured provenance metadata** for certification and inspection
 * **Immutable records** on the Cardano UTXO ledger
 * **API interfaces** for interoperability with ERP, QA, or traceability systems
 
-Originate is already deployed in production environments and is adaptable across industries—from regulated goods to global exports—supporting transparency, operational alignment, and consumer confidence.
+OriginateNavio is already deployed in production environments and is adaptable across industries—from regulated goods to global exports—supporting transparency, operational alignment, and consumer confidence.
 
 > note: ⚠️ The local development environment currently supports Linux and macOS only — Windows support is coming soon.
 
@@ -51,7 +51,7 @@ Incoming events arrive through a simple REST API. Metabus:
 
 #### Mobile App Module
 
-The Originate Mobile App is built using an **Ionic/Capacitor hybrid stack**, enabling both **installable PWAs** and **native mobile deployment** from a single codebase. 
+The OriginateNavio Mobile App is built using an **Ionic/Capacitor hybrid stack**, enabling both **installable PWAs** and **native mobile deployment** from a single codebase. 
 Designed for field operability and usability at the edge of supply chains, it enables real-time interaction with traceability workflows via QR scanning, and event logging.
 
 ## Dependencies
@@ -69,19 +69,19 @@ Designed for field operability and usability at the edge of supply chains, it en
 ### Step 1: Open WSL or your terminal and navigate to your working folder
 
 ```plain
-cd /mnt/c/Users/originate
+cd /mnt/c/Users/originatenavio
 ```
 
 ### Step 2: Clone the repository using HTTPS (no SSH key needed)
 
 ```plain
-git clone https://github.com/cardano-foundation/originate.git
+git clone https://github.com/cardano-foundation/originatenavio.git
 ```
 
 ### or Clone the repository using SSH
 
 ```plain
-git clone git@github.com:cardano-foundation/originate.git
+git clone git@github.com:cardano-foundation/originatenavio.git
 ```
 
 
@@ -99,7 +99,7 @@ Then build the app:
 
 ### Step 4: Create the .env file
 
-First in the terminal, in the same file path than before: >> /mnt/c/Users/originate/originate-agl-oss
+First in the terminal, in the same file path than before: >> /mnt/c/Users/originatenavio/originatenavio-agl-oss
 
 ```plain
 $ touch .env
@@ -119,7 +119,7 @@ Add the environment file that you need based on the environment that you are wor
 
 > Remember to check the requirements before continuing. You’ll need Docker if you want to proceed this way. Make sure the Docker instance is running.
 
-#### Navigate into **metabus folder**: /mnt/c/Users/originate/originate-agl-oss/metabus
+#### Navigate into **metabus folder**: /mnt/c/Users/originatenavio/originatenavio-agl-oss/metabus
 
 ```plain
 sudo usermod -aG docker $USER
@@ -130,7 +130,7 @@ docker compose --env-file ../.env -f docker-compose-local.yml up -d
 Go back to the main route:
 
 ```plain
->> /mnt/c/Users/originate/originate-agl-oss
+>> /mnt/c/Users/originatenavio/originatenavio-agl-oss
 $ docker compose --env-file .env up -d 
 ```
 
