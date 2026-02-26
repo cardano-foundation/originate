@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-The Cardano Foundation Originate project takes security seriously. We appreciate your efforts in disclosing any potential vulnerabilities responsibly.
+The Cardano Foundation OriginateNavio project takes security seriously. We appreciate your efforts in disclosing any potential vulnerabilities responsibly.
 
 If you have discovered a security vulnerability within this project, please report it to us as soon as possible. We encourage responsible disclosure and kindly ask you to follow the guidelines outlined below.
 
@@ -14,7 +14,7 @@ To ensure that the security vulnerability is properly addressed, we request that
 
 2. **Privately disclose the vulnerability**: Please do not disclose the vulnerability publicly before we have had an opportunity to investigate and address the issue. We appreciate your discretion.
 
-3. **Contact us directly**: Send an email to our team at info@cardanofoundation.org with the subject line: "[Cardano Foundation Originate] Security Vulnerability Report"
+3. **Contact us directly**: Send an email to our team at info@cardanofoundation.org with the subject line: "[Cardano Foundation OriginateNavio] Security Vulnerability Report"
 
 4. **Provide detailed information**: In your report, please include detailed information about the vulnerability, including steps to reproduce it and any potential impact.
 

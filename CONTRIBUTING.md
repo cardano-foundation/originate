@@ -1,6 +1,6 @@
-# Contributing to Originate
+# Contributing to OriginateNavio
 
-Thank you for your interest in contributing to Originate! This document outlines the process for contributing to this open-source supply chain traceability solution.
+Thank you for your interest in contributing to OriginateNavio! This document outlines the process for contributing to this open-source supply chain traceability solution.
 
 ## Table of Contents
 
@@ -158,7 +158,7 @@ Contributors are recognized in:
 
 ## Licensing
 
-By contributing to Originate, you agree that your contributions will be licensed under the Apache License 2.0. All original contributions must be your own work or properly attributed if derived from other sources.
+By contributing to OriginateNavio, you agree that your contributions will be licensed under the Apache License 2.0. All original contributions must be your own work or properly attributed if derived from other sources.
 
 ## Questions?
 
@@ -169,4 +169,4 @@ If you have questions about contributing, please:
 3. Create a new discussion in GitHub Discussions
 4. Contact maintainers directly for urgent matters
 
-Thank you for contributing to Originate and helping build better supply chain transparency!
+Thank you for contributing to OriginateNavio and helping build better supply chain transparency!
